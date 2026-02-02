@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Graph Deep Learning Lab</title>
-    <link>https://graphdeeplearning.github.io/</link>
-      <atom:link href="https://graphdeeplearning.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <description>Graph Deep Learning Lab</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>Xavier Bresson © 2020 · Made with &amp;hearts; by [Chaitanya Joshi](https://chaitjo.github.io/)</copyright><lastBuildDate>Thu, 28 Jun 2018 00:00:00 +0000</lastBuildDate>
+    <title>IMSI Lab</title>
+    <link>https://imsilab.github.io/</link>
+      <atom:link href="https://imsilab.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <description>IMSI Lab</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>[Kyeonghun Kim](https://github.com/khkim1729) © 2026 · Developed by [Kyeonghun Kim](https://github.com/khkim1729) &amp; [Junsu Lim](https://github.com/jsulim)</copyright><lastBuildDate>Thu, 28 Jun 2018 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>https://graphdeeplearning.github.io/images/icon_hu027d87ac1e37f4f802995042c9999554_21044_512x512_fill_lanczos_center_2.png</url>
-      <title>Graph Deep Learning Lab</title>
-      <link>https://graphdeeplearning.github.io/</link>
+      <url>https://imsilab.github.io/images/icon_hu027d87ac1e37f4f802995042c9999554_21044_512x512_fill_lanczos_center_2.png</url>
+      <title>IMSI Lab</title>
+      <link>https://imsilab.github.io/</link>
     </image>
     
     <item>
       <title>Benchmarking Graph Neural Networks</title>
-      <link>https://graphdeeplearning.github.io/post/benchmarking-gnns/</link>
+      <link>https://imsilab.github.io/post/benchmarking-gnns/</link>
       <pubDate>Mon, 15 Jun 2020 03:03:47 +0800</pubDate>
-      <guid>https://graphdeeplearning.github.io/post/benchmarking-gnns/</guid>
+      <guid>https://imsilab.github.io/post/benchmarking-gnns/</guid>
       <description>&lt;p&gt;&lt;em&gt;This blog is based on the paper &lt;a href=&#34;https://arxiv.org/abs/2003.00982&#34;&gt;Benchmarking Graph Neural Networks&lt;/a&gt; which is a joint work with &lt;a href=&#34;https://chaitjo.github.io&#34;&gt;Chaitanya K. Joshi&lt;/a&gt;, &lt;a href=&#34;http://thomaslaurent.lmu.build/homepage.html&#34;&gt;Thomas Laurent&lt;/a&gt;, &lt;a href=&#34;https://mila.quebec/en/person/bengio-yoshua/&#34;&gt;Yoshua Bengio&lt;/a&gt; and &lt;a href=&#34;https://www.ntu.edu.sg/home/xbresson/&#34;&gt;Xavier Bresson&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;&lt;a href=&#34;https://graphdeeplearning.github.io/project/spatial-convnets/&#34;&gt;Graph Neural Networks (GNNs)&lt;/a&gt; are widely used today in diverse applications of &lt;a href=&#34;https://arxiv.org/abs/1609.02907&#34;&gt;social&lt;/a&gt; &lt;a href=&#34;https://arxiv.org/abs/1902.06673&#34;&gt;sciences&lt;/a&gt;, &lt;a href=&#34;https://arxiv.org/abs/1703.06103&#34;&gt;knowledge&lt;/a&gt; &lt;a href=&#34;https://arxiv.org/abs/2005.00545&#34;&gt;graphs&lt;/a&gt;, &lt;a href=&#34;https://arxiv.org/abs/1704.01212&#34;&gt;chemistry&lt;/a&gt;, &lt;a href=&#34;https://arxiv.org/abs/2002.09405&#34;&gt;physics&lt;/a&gt;, &lt;a href=&#34;https://infoscience.epfl.ch/record/229954?ln=en&#34;&gt;neuroscience&lt;/a&gt;, etc., and accordingly there has been a great surge of interest and growth in the number of papers in the literature.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://imsilab.github.io/project/spatial-convnets/&#34;&gt;Graph Neural Networks (GNNs)&lt;/a&gt; are widely used today in diverse applications of &lt;a href=&#34;https://arxiv.org/abs/1609.02907&#34;&gt;social&lt;/a&gt; &lt;a href=&#34;https://arxiv.org/abs/1902.06673&#34;&gt;sciences&lt;/a&gt;, &lt;a href=&#34;https://arxiv.org/abs/1703.06103&#34;&gt;knowledge&lt;/a&gt; &lt;a href=&#34;https://arxiv.org/abs/2005.00545&#34;&gt;graphs&lt;/a&gt;, &lt;a href=&#34;https://arxiv.org/abs/1704.01212&#34;&gt;chemistry&lt;/a&gt;, &lt;a href=&#34;https://arxiv.org/abs/2002.09405&#34;&gt;physics&lt;/a&gt;, &lt;a href=&#34;https://infoscience.epfl.ch/record/229954?ln=en&#34;&gt;neuroscience&lt;/a&gt;, etc., and accordingly there has been a great surge of interest and growth in the number of papers in the literature.&lt;/p&gt;
 &lt;p&gt;However, it has been increasingly difficult to gauge the effectiveness of new models and validate new ideas that generalize universally to larger and complex datasets &lt;strong&gt;in the absence of&lt;/strong&gt; a standard and widely-adopted &lt;strong&gt;benchmark&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;To address&lt;/strong&gt; this paramount concern existing in graph learning research, we develop an open-source, easy-to-use and reproducible &lt;a href=&#34;https://github.com/graphdeeplearning/benchmarking-gnns&#34;&gt;benchmarking framework&lt;/a&gt; with a rigorous experimental protocol that is representative of the categorical advances in GNNs.&lt;/p&gt;
 &lt;div class=&#34;alert alert-note&#34;&gt;
@@ -387,36 +387,36 @@ $$&lt;/p&gt;
     
     <item>
       <title>Learning TSP Requires Rethinking Generalization</title>
-      <link>https://graphdeeplearning.github.io/publication/joshi-2020-learning/</link>
+      <link>https://imsilab.github.io/publication/joshi-2020-learning/</link>
       <pubDate>Fri, 12 Jun 2020 00:00:00 +0000</pubDate>
-      <guid>https://graphdeeplearning.github.io/publication/joshi-2020-learning/</guid>
+      <guid>https://imsilab.github.io/publication/joshi-2020-learning/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Benchmarking Graph Neural Networks</title>
-      <link>https://graphdeeplearning.github.io/project/benchmark/</link>
+      <link>https://imsilab.github.io/project/benchmark/</link>
       <pubDate>Tue, 03 Mar 2020 22:20:35 +0800</pubDate>
-      <guid>https://graphdeeplearning.github.io/project/benchmark/</guid>
+      <guid>https://imsilab.github.io/project/benchmark/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Benchmarking Graph Neural Networks</title>
-      <link>https://graphdeeplearning.github.io/publication/dwivedi-2020-benchmark/</link>
+      <link>https://imsilab.github.io/publication/dwivedi-2020-benchmark/</link>
       <pubDate>Mon, 02 Mar 2020 00:00:00 +0000</pubDate>
-      <guid>https://graphdeeplearning.github.io/publication/dwivedi-2020-benchmark/</guid>
+      <guid>https://imsilab.github.io/publication/dwivedi-2020-benchmark/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Transformers are Graph Neural Networks</title>
-      <link>https://graphdeeplearning.github.io/post/transformers-are-gnns/</link>
+      <link>https://imsilab.github.io/post/transformers-are-gnns/</link>
       <pubDate>Wed, 12 Feb 2020 16:08:39 +0800</pubDate>
-      <guid>https://graphdeeplearning.github.io/post/transformers-are-gnns/</guid>
+      <guid>https://imsilab.github.io/post/transformers-are-gnns/</guid>
       <description>&lt;p&gt;Engineer friends often ask me: Graph Deep Learning sounds great, but are there any big commercial success stories? Is it being deployed in practical applications?&lt;/p&gt;
 &lt;p&gt;Besides the obvious ones&amp;ndash;recommendation systems at &lt;a href=&#34;https://medium.com/pinterest-engineering/pinsage-a-new-graph-convolutional-neural-network-for-web-scale-recommender-systems-88795a107f48&#34;&gt;Pinterest&lt;/a&gt;, &lt;a href=&#34;https://arxiv.org/abs/1902.08730&#34;&gt;Alibaba&lt;/a&gt; and &lt;a href=&#34;https://blog.twitter.com/en_us/topics/company/2019/Twitter-acquires-Fabula-AI.html&#34;&gt;Twitter&lt;/a&gt;&amp;ndash;a slightly nuanced success story is the &lt;a href=&#34;https://arxiv.org/abs/1706.03762&#34;&gt;&lt;strong&gt;Transformer architecture&lt;/strong&gt;&lt;/a&gt;, which has &lt;a href=&#34;https://openai.com/blog/better-language-models/&#34;&gt;taken&lt;/a&gt; &lt;a href=&#34;https://www.blog.google/products/search/search-language-understanding-bert/&#34;&gt;the&lt;/a&gt; &lt;a href=&#34;https://www.microsoft.com/en-us/research/project/large-scale-pretraining-for-response-generation/&#34;&gt;NLP&lt;/a&gt; &lt;a href=&#34;https://ai.facebook.com/blog/roberta-an-optimized-method-for-pretraining-self-supervised-nlp-systems/&#34;&gt;industry&lt;/a&gt; &lt;a href=&#34;https://blog.einstein.ai/introducing-a-conditional-transformer-language-model-for-controllable-generation/&#34;&gt;by&lt;/a&gt; &lt;a href=&#34;https://nv-adlr.github.io/MegatronLM&#34;&gt;storm&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Through this post, I want to establish links between &lt;a href=&#34;https://graphdeeplearning.github.io/project/spatial-convnets/&#34;&gt;Graph Neural Networks (GNNs)&lt;/a&gt; and Transformers.
+&lt;p&gt;Through this post, I want to establish links between &lt;a href=&#34;https://imsilab.github.io/project/spatial-convnets/&#34;&gt;Graph Neural Networks (GNNs)&lt;/a&gt; and Transformers.
 I&amp;rsquo;ll talk about the intuitions behind model architectures in the NLP and GNN communities, make connections using equations and figures, and discuss how we could work together to drive progress.&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s start by talking about the purpose of model architectures&amp;ndash;&lt;em&gt;representation learning&lt;/em&gt;.&lt;/p&gt;
 &lt;hr&gt;
@@ -797,7 +797,7 @@ Here&amp;rsquo;s &lt;a href=&#34;https://ipam.wistia.com/medias/1zgl4lq6nh&#34;&
 Similarly, DeepMind&amp;rsquo;s &lt;a href=&#34;https://arxiv.org/abs/1806.01261&#34;&gt;star-studded position paper&lt;/a&gt; introduces the &lt;em&gt;Graph Networks&lt;/em&gt; framework, unifying all these ideas.
 For a code walkthrough, the DGL team has &lt;a href=&#34;https://docs.dgl.ai/en/latest/tutorials/models/4_old_wines/7_transformer.html&#34;&gt;a nice tutorial&lt;/a&gt; on seq2seq as a graph problem and building Transformers as GNNs.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;In our next post, we&amp;rsquo;ll be doing the reverse: using GNN architectures as Transformers for NLP (based on the Transformers library by &lt;a href=&#34;https://github.com/huggingface/transformers&#34;&gt;🤗 HuggingFace&lt;/a&gt;).&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Finally, we wrote &lt;a href=&#34;https://graphdeeplearning.github.io/publication/xu-2019-multi/&#34;&gt;a recent paper&lt;/a&gt; applying Transformers to sketch graphs. Do check it out!&lt;/p&gt;
+&lt;p&gt;Finally, we wrote &lt;a href=&#34;https://imsilab.github.io/publication/xu-2019-multi/&#34;&gt;a recent paper&lt;/a&gt; applying Transformers to sketch graphs. Do check it out!&lt;/p&gt;
 &lt;hr&gt;
 &lt;h4 id=&#34;updates&#34;&gt;Updates&lt;/h4&gt;
 &lt;p&gt;The post is also available on &lt;a href=&#34;https://medium.com/@chaitjo/transformers-are-graph-neural-networks-bca9f75412aa?source=friends_link&amp;amp;sk=c54de873b2cec3db70166a6cf0b41d3e&#34;&gt;Medium&lt;/a&gt;, and has been translated to &lt;a href=&#34;https://mp.weixin.qq.com/s/DABEcNf1hHahlZFMttiT2g&#34;&gt;Chinese&lt;/a&gt; and &lt;a href=&#34;https://habr.com/ru/post/491576/&#34;&gt;Russian&lt;/a&gt;.
@@ -808,9 +808,9 @@ Do join the discussion on &lt;a href=&#34;https://twitter.com/chaitjo/status/123
     
     <item>
       <title>Free-hand Sketches</title>
-      <link>https://graphdeeplearning.github.io/project/sketches/</link>
+      <link>https://imsilab.github.io/project/sketches/</link>
       <pubDate>Tue, 14 Jan 2020 16:19:27 +0800</pubDate>
-      <guid>https://graphdeeplearning.github.io/project/sketches/</guid>
+      <guid>https://imsilab.github.io/project/sketches/</guid>
       <description>&lt;h2 id=&#34;representation-learning-for-sketches&#34;&gt;Representation Learning for Sketches&lt;/h2&gt;
 &lt;p&gt;Human beings have been creating free-hand sketches, &lt;em&gt;i.e.&lt;/em&gt;, drawings without precise instruments, since &lt;a href=&#34;https://en.wikipedia.org/wiki/Cave_painting&#34;&gt;time immemorial&lt;/a&gt;.
 Due to the popularity of touchscreen interfaces, machine learning using sketches has emerged as an interesting problem with a myriad of applications:
@@ -831,49 +831,49 @@ To exploit these graph structures, we are developing &lt;strong&gt;Graph Neural 
     
     <item>
       <title>Multi-Graph Transformer for Free-Hand Sketch Recognition</title>
-      <link>https://graphdeeplearning.github.io/publication/xu-2019-multi/</link>
+      <link>https://imsilab.github.io/publication/xu-2019-multi/</link>
       <pubDate>Tue, 24 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>https://graphdeeplearning.github.io/publication/xu-2019-multi/</guid>
+      <guid>https://imsilab.github.io/publication/xu-2019-multi/</guid>
       <description></description>
     </item>
     
     <item>
       <title>A Two-Step Graph Convolutional Decoder for Molecule Generation</title>
-      <link>https://graphdeeplearning.github.io/publication/bresson-2019-two/</link>
+      <link>https://imsilab.github.io/publication/bresson-2019-two/</link>
       <pubDate>Sun, 01 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>https://graphdeeplearning.github.io/publication/bresson-2019-two/</guid>
+      <guid>https://imsilab.github.io/publication/bresson-2019-two/</guid>
       <description></description>
     </item>
     
     <item>
       <title>On Learning Paradigms for the Travelling Salesman Problem</title>
-      <link>https://graphdeeplearning.github.io/publication/joshi-2019-learning/</link>
+      <link>https://imsilab.github.io/publication/joshi-2019-learning/</link>
       <pubDate>Sun, 01 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>https://graphdeeplearning.github.io/publication/joshi-2019-learning/</guid>
+      <guid>https://imsilab.github.io/publication/joshi-2019-learning/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Graph Neural Networks for the Travelling Salesman Problem</title>
-      <link>https://graphdeeplearning.github.io/talk/informs-oct2019/</link>
+      <link>https://imsilab.github.io/talk/informs-oct2019/</link>
       <pubDate>Tue, 22 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>https://graphdeeplearning.github.io/talk/informs-oct2019/</guid>
+      <guid>https://imsilab.github.io/talk/informs-oct2019/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Graph Convolutional Neural Networks for Molecule Generation</title>
-      <link>https://graphdeeplearning.github.io/talk/ipam-sept2019/</link>
+      <link>https://imsilab.github.io/talk/ipam-sept2019/</link>
       <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>https://graphdeeplearning.github.io/talk/ipam-sept2019/</guid>
+      <guid>https://imsilab.github.io/talk/ipam-sept2019/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Combinatorial Optimization</title>
-      <link>https://graphdeeplearning.github.io/project/combinatorial-optimization/</link>
+      <link>https://imsilab.github.io/project/combinatorial-optimization/</link>
       <pubDate>Tue, 17 Sep 2019 22:20:35 +0800</pubDate>
-      <guid>https://graphdeeplearning.github.io/project/combinatorial-optimization/</guid>
+      <guid>https://imsilab.github.io/project/combinatorial-optimization/</guid>
       <description>&lt;h2 id=&#34;operations-research-and-combinatorial-problems&#34;&gt;Operations Research and Combinatorial Problems&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Operations_research&#34;&gt;Operations Research (OR)&lt;/a&gt;&lt;/strong&gt; started in the first world war as an initiative to use mathematics and computer science to assist military planners in their decisions.
 Today, combinatorial optimization algorithms developed in the OR community form the backbone of the most important modern industries including transportation, logistics, scheduling, finance and supply chains.&lt;/p&gt;
@@ -917,17 +917,17 @@ We are excited about recent applications of neural combinatorial optimization fo
     
     <item>
       <title>Quantum Chemistry</title>
-      <link>https://graphdeeplearning.github.io/project/chemistry/</link>
+      <link>https://imsilab.github.io/project/chemistry/</link>
       <pubDate>Tue, 17 Sep 2019 22:20:35 +0800</pubDate>
-      <guid>https://graphdeeplearning.github.io/project/chemistry/</guid>
+      <guid>https://imsilab.github.io/project/chemistry/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Spatial Graph ConvNets</title>
-      <link>https://graphdeeplearning.github.io/project/spatial-convnets/</link>
+      <link>https://imsilab.github.io/project/spatial-convnets/</link>
       <pubDate>Tue, 17 Sep 2019 22:20:35 +0800</pubDate>
-      <guid>https://graphdeeplearning.github.io/project/spatial-convnets/</guid>
+      <guid>https://imsilab.github.io/project/spatial-convnets/</guid>
       <description>&lt;h2 id=&#34;non-euclidean-and-graph-structured-data&#34;&gt;Non-Euclidean and Graph-structured Data&lt;/h2&gt;
 &lt;p&gt;Classic deep learning architectures such as &lt;a href=&#34;http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf&#34;&gt;Convolutional Neural Networks (CNNs)&lt;/a&gt; and &lt;a href=&#34;https://www.bioinf.jku.at/publications/older/2604.pdf&#34;&gt;Recurrent Neural Networks (RNNs)&lt;/a&gt; require the input data domain to be regular, such as 2D or 3D Euclidean grids for Computer Vision and 1D lines for Natural Language Processing.&lt;/p&gt;
 &lt;p&gt;However, real-world data beyond images and language tends to an underlying structure that is &lt;strong&gt;non-Euclidean&lt;/strong&gt;.
@@ -967,7 +967,7 @@ The arbitrary choice of the mapping $f$ defines an instantiation of a class of G
 h_{i}^{\ell+1} = \text{ReLU} \Big( U^{\ell} h_{i}^{\ell} + \sum_{j \in \mathcal{N}_i} V^{\ell} h_{j}^{\ell} \Big),
 \end{equation}
 where $U^{\ell}, V^{\ell} \in \mathbb{R}^{d \times d}$ are the learnable parameters.&lt;/p&gt;
-&lt;p&gt;In a &lt;a href=&#34;https://graphdeeplearning.github.io/publication/dwivedi-2020-benchmark/&#34;&gt;recent paper&lt;/a&gt; on benchmarking GNN architectures, we introduced &lt;strong&gt;block diagrams&lt;/strong&gt; to intuitively describe feature update equations such as the one above:&lt;/p&gt;
+&lt;p&gt;In a &lt;a href=&#34;https://imsilab.github.io/publication/dwivedi-2020-benchmark/&#34;&gt;recent paper&lt;/a&gt; on benchmarking GNN architectures, we introduced &lt;strong&gt;block diagrams&lt;/strong&gt; to intuitively describe feature update equations such as the one above:&lt;/p&gt;
 
 
 
@@ -1026,43 +1026,43 @@ $U^{\ell}, V^{\ell}, A^{\ell}, B^{\ell} \in \mathbb{R}^{d \times d}$ are the lea
 &lt;/figure&gt;
 
 &lt;p&gt;Other prominent approaches to introduce anisotropy into GNNs include &lt;a href=&#34;https://arxiv.org/abs/1710.10903&#34;&gt;GAT&lt;/a&gt;, which uses the &lt;a href=&#34;https://arxiv.org/abs/1706.03762&#34;&gt;attention mechanism&lt;/a&gt; from NLP, as well as &lt;a href=&#34;https://arxiv.org/abs/1611.08402&#34;&gt;MoNet&lt;/a&gt;, which relies on gaussian mixture models of graph connectivity.
-&lt;strong&gt;Through &lt;a href=&#34;(https://graphdeeplearning.github.io/publication/dwivedi-2020-benchmark/)&#34;&gt;our benchmark&lt;/a&gt;, we found anisotropic aggregation to be a key property of powerful GNNs.&lt;/strong&gt;&lt;/p&gt;
+&lt;strong&gt;Through &lt;a href=&#34;(https://imsilab.github.io/publication/dwivedi-2020-benchmark/)&#34;&gt;our benchmark&lt;/a&gt;, we found anisotropic aggregation to be a key property of powerful GNNs.&lt;/strong&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Graph Convolutional Neural Networks for Molecule Generation and Travelling Salesman Problem</title>
-      <link>https://graphdeeplearning.github.io/talk/ipam-may2019/</link>
+      <link>https://imsilab.github.io/talk/ipam-may2019/</link>
       <pubDate>Tue, 21 May 2019 00:00:00 +0000</pubDate>
-      <guid>https://graphdeeplearning.github.io/talk/ipam-may2019/</guid>
+      <guid>https://imsilab.github.io/talk/ipam-may2019/</guid>
       <description></description>
     </item>
     
     <item>
       <title>An Efficient Graph Convolutional Network Technique for the Travelling Salesman Problem</title>
-      <link>https://graphdeeplearning.github.io/publication/joshi-2019-efficient/</link>
+      <link>https://imsilab.github.io/publication/joshi-2019-efficient/</link>
       <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
-      <guid>https://graphdeeplearning.github.io/publication/joshi-2019-efficient/</guid>
+      <guid>https://imsilab.github.io/publication/joshi-2019-efficient/</guid>
       <description></description>
     </item>
     
     <item>
       <title>GraphTSNE: A Visualization Technique for Graph-Structured Data</title>
-      <link>https://graphdeeplearning.github.io/publication/leow-2019-graphtsne/</link>
+      <link>https://imsilab.github.io/publication/leow-2019-graphtsne/</link>
       <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
-      <guid>https://graphdeeplearning.github.io/publication/leow-2019-graphtsne/</guid>
+      <guid>https://imsilab.github.io/publication/leow-2019-graphtsne/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Reading Group</title>
-      <link>https://graphdeeplearning.github.io/reading-group/</link>
+      <link>https://imsilab.github.io/reading-group/</link>
       <pubDate>Thu, 28 Jun 2018 00:00:00 +0000</pubDate>
-      <guid>https://graphdeeplearning.github.io/reading-group/</guid>
+      <guid>https://imsilab.github.io/reading-group/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;&amp;quot;Being able to articulate and explain ideas is the true test of having learned something.&amp;rdquo;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Starting 2020, the Graph Deep Learning Lab will host a weekly/bi-weekly paper discussion and reading group.
+&lt;p&gt;Starting 2020, the IMSI Lab will host a weekly/bi-weekly paper discussion and reading group.
 We&amp;rsquo;ll cover the latest and greatest papers from the Graph Neural Networks community as well as general machine learning.
 We plan to keep things simple: talk about the key contributions and results, followed by discussions; no need for beautiful slides or long talks.&lt;/p&gt;
 &lt;p&gt;The primary aim of this reading group is to share ideas, blabber about your favorite papers, and get to know others with common interests.
@@ -1074,7 +1074,7 @@ Its also an opportunity for lab members to keep each other up-to-date and get ea
 &lt;p&gt;&lt;strong&gt;When&lt;/strong&gt;: Weekly/bi-weekly, &lt;a href=&#34;mailto:chaitanya-joshi@ntu.edu.sg?subject=%5BGDL%20Reading%20Group%5D&#34;&gt;join the mailing list&lt;/a&gt;&lt;br&gt;
 &lt;strong&gt;Where&lt;/strong&gt;: MICL Lab Meeting Room, Block N4, N4-B1C-17, SCSE, NTU&lt;br&gt;
 &lt;strong&gt;Duration&lt;/strong&gt;: Usually 30-45 minutes&lt;br&gt;
-&lt;strong&gt;Contact&lt;/strong&gt;: &lt;a href=&#34;https://graphdeeplearning.github.io/authors/chaitanya-joshi/&#34;&gt;Chaitanya Joshi&lt;/a&gt;
+&lt;strong&gt;Contact&lt;/strong&gt;: &lt;a href=&#34;https://imsilab.github.io/authors/chaitanya-joshi/&#34;&gt;Chaitanya Joshi&lt;/a&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;hr&gt;
@@ -1084,33 +1084,33 @@ Its also an opportunity for lab members to keep each other up-to-date and get ea
     
     <item>
       <title>Convolutional Neural Networks on Graphs</title>
-      <link>https://graphdeeplearning.github.io/talk/ipam-feb2018/</link>
+      <link>https://imsilab.github.io/talk/ipam-feb2018/</link>
       <pubDate>Wed, 07 Feb 2018 00:00:00 +0000</pubDate>
-      <guid>https://graphdeeplearning.github.io/talk/ipam-feb2018/</guid>
+      <guid>https://imsilab.github.io/talk/ipam-feb2018/</guid>
       <description></description>
     </item>
     
     <item>
       <title>An Experimental Comparison of Text Classification Techniques</title>
-      <link>https://graphdeeplearning.github.io/publication/lakhotia-2018-experimental/</link>
+      <link>https://imsilab.github.io/publication/lakhotia-2018-experimental/</link>
       <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
-      <guid>https://graphdeeplearning.github.io/publication/lakhotia-2018-experimental/</guid>
+      <guid>https://imsilab.github.io/publication/lakhotia-2018-experimental/</guid>
       <description></description>
     </item>
     
     <item>
       <title>An Experimental Study of Neural Networks for Variable Graphs</title>
-      <link>https://graphdeeplearning.github.io/publication/bresson-2018-experimental/</link>
+      <link>https://imsilab.github.io/publication/bresson-2018-experimental/</link>
       <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
-      <guid>https://graphdeeplearning.github.io/publication/bresson-2018-experimental/</guid>
+      <guid>https://imsilab.github.io/publication/bresson-2018-experimental/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Residual Gated Graph ConvNets</title>
-      <link>https://graphdeeplearning.github.io/publication/bresson-2017-residual/</link>
+      <link>https://imsilab.github.io/publication/bresson-2017-residual/</link>
       <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
-      <guid>https://graphdeeplearning.github.io/publication/bresson-2017-residual/</guid>
+      <guid>https://imsilab.github.io/publication/bresson-2017-residual/</guid>
       <description></description>
     </item>
     
