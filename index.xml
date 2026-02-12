@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>IMSI Lab</title>
+    <title>IMSI Research Group</title>
     <link>https://imsilab.github.io/</link>
       <atom:link href="https://imsilab.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <description>IMSI Lab</description>
+    <description>IMSI Research Group</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>[Kyeonghun Kim](https://github.com/khkim1729) © 2026 · Developed by [Kyeonghun Kim](https://github.com/khkim1729) &amp; [Junsu Lim](https://github.com/jsulim)</copyright><lastBuildDate>Thu, 28 Jun 2018 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://imsilab.github.io/images/icon_hu027d87ac1e37f4f802995042c9999554_21044_512x512_fill_lanczos_center_2.png</url>
-      <title>IMSI Lab</title>
+      <title>IMSI Research Group</title>
       <link>https://imsilab.github.io/</link>
     </image>
     
@@ -1062,7 +1062,7 @@ $U^{\ell}, V^{\ell}, A^{\ell}, B^{\ell} \in \mathbb{R}^{d \times d}$ are the lea
       <description>&lt;blockquote&gt;
 &lt;p&gt;&amp;quot;Being able to articulate and explain ideas is the true test of having learned something.&amp;rdquo;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Starting 2020, the IMSI Lab will host a weekly/bi-weekly paper discussion and reading group.
+&lt;p&gt;Starting 2020, the IMSI Research Group will host a weekly/bi-weekly paper discussion and reading group.
 We&amp;rsquo;ll cover the latest and greatest papers from the Graph Neural Networks community as well as general machine learning.
 We plan to keep things simple: talk about the key contributions and results, followed by discussions; no need for beautiful slides or long talks.&lt;/p&gt;
 &lt;p&gt;The primary aim of this reading group is to share ideas, blabber about your favorite papers, and get to know others with common interests.
@@ -1072,7 +1072,7 @@ Its also an opportunity for lab members to keep each other up-to-date and get ea
   &lt;div&gt;
     &lt;h3 id=&#34;details&#34;&gt;Details&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;When&lt;/strong&gt;: Weekly/bi-weekly, &lt;a href=&#34;mailto:khkim1729@gmail.com?subject=%5BIMSI%20Reading%20Group%5D&#34;&gt;join the mailing list&lt;/a&gt;&lt;br&gt;
-&lt;strong&gt;Where&lt;/strong&gt;: IMSI Lab Meeting Room, Seoul National University&lt;br&gt;
+&lt;strong&gt;Where&lt;/strong&gt;: IMSI Research Group Meeting Room, Seoul National University&lt;br&gt;
 &lt;strong&gt;Duration&lt;/strong&gt;: Usually 30-45 minutes&lt;br&gt;
 &lt;strong&gt;Contact&lt;/strong&gt;: &lt;a href=&#34;https://imsilab.github.io/authors/chaitanya-joshi/&#34;&gt;Chaitanya Joshi&lt;/a&gt;
   &lt;/div&gt;
