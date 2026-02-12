@@ -1,13 +1,8 @@
-
 title: "imsi Research Group"
-
-
 baseurl: "/imsi"
 url: "https://capp.snu.ac.kr"
 
-
-theme: none
-
-
+theme: 
 exclude:
-  - .git/  - CNAME
+  - .git/
+  - .github/
