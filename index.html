@@ -203,6 +203,44 @@
   
   
   <link rel="stylesheet" href="/imsi/css/academic.css">
+  <style>
+    #projects .projects-container {
+      margin-left: -10px;
+      margin-right: -10px;
+    }
+    
+    #projects .projects-container.is-loading {
+      visibility: hidden;
+    }
+
+    #projects .project-card.project-item {
+      margin: 0 10px 24px 10px;
+    }
+
+    #projects .project-card .card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #projects .project-card .card-image img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: #f7f7f7;
+    }
+
+    #projects .project-card .card-text {
+      flex: 1;
+    }
+
+    #projects .project-card .card-text p {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
 
   
 
@@ -736,7 +774,7 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
       
     
 
-    <div class="isotope projects-container js-layout-masonry ">
+    <div class="isotope projects-container js-layout-row is-loading ">
       
 
         
@@ -1079,7 +1117,7 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
 
     
     <div class="article-style">
-      End-to-end training of neural network solvers for combinatorial problems such as the Travelling Salesman Problem is intractable and …
+      End-to-end training of neural network solvers for combinatorial problems such as the Travelling Salesman Problem is intractable and ??
     </div>
     
 
@@ -1202,7 +1240,7 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
 
     
     <div class="article-style">
-      Graph neural networks (GNNs) have become the standard toolkit for analyzing and learning from data on graphs. As the field grows, it …
+      Graph neural networks (GNNs) have become the standard toolkit for analyzing and learning from data on graphs. As the field grows, it ??
     </div>
     
 
@@ -1350,7 +1388,7 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
 
     
     <div class="article-style">
-      Learning meaningful representations of free-hand sketches remains a challenging task given the signal sparsity and the high-level …
+      Learning meaningful representations of free-hand sketches remains a challenging task given the signal sparsity and the high-level ??
     </div>
     
 
@@ -1492,7 +1530,7 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
 
     
     <div class="article-style">
-      We propose a simple auto-encoder framework for molecule generation. The molecular graph is first encoded into a continuous latent …
+      We propose a simple auto-encoder framework for molecule generation. The molecular graph is first encoded into a continuous latent ??
     </div>
     
 
@@ -1623,7 +1661,7 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
 
     
     <div class="article-style">
-      We explore the impact of learning paradigms on training deep neural networks for the Travelling Salesman Problem. We design controlled …
+      We explore the impact of learning paradigms on training deep neural networks for the Travelling Salesman Problem. We design controlled ??
     </div>
     
 
@@ -1859,7 +1897,7 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
 
     
     <div class="article-style">
-      This blog is based on the paper Benchmarking Graph Neural Networks which is a joint work with Chaitanya K. Joshi, Thomas Laurent, …
+      This blog is based on the paper Benchmarking Graph Neural Networks which is a joint work with Chaitanya K. Joshi, Thomas Laurent, ??
     </div>
     
 
@@ -1957,7 +1995,7 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
 
     
     <div class="article-style">
-      Engineer friends often ask me: Graph Deep Learning sounds great, but are there any big commercial success stories? Is it being deployed …
+      Engineer friends often ask me: Graph Deep Learning sounds great, but are there any big commercial success stories? Is it being deployed ??
     </div>
     
 
@@ -2151,7 +2189,7 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
 
     
     <div class="article-style">
-      The most famous NP-hard combinatorial problem today, the Travelling Salesman Problem, is intractable to solve optimally at large scale. …
+      The most famous NP-hard combinatorial problem today, the Travelling Salesman Problem, is intractable to solve optimally at large scale. ??
     </div>
     
 
@@ -2281,7 +2319,7 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
 
     
     <div class="article-style">
-      In this talk, I will discuss a graph convolutional neural network architecture for the molecule generation task. The proposed approach …
+      In this talk, I will discuss a graph convolutional neural network architecture for the molecule generation task. The proposed approach ??
     </div>
     
 
@@ -2411,7 +2449,7 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
 
     
     <div class="article-style">
-      In this talk, I will discuss how to apply graph convolutional neural networks to quantum chemistry and operational research. The same …
+      In this talk, I will discuss how to apply graph convolutional neural networks to quantum chemistry and operational research. The same ??
     </div>
     
 
@@ -3004,6 +3042,151 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
     
     
     <script src="/imsi/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+    <script src="/imsi/js/SheetServices.js"></script>
+    <script>
+      function getRowValue(row, keys) {
+        for (const key of keys) {
+          if (row[key] !== undefined && row[key] !== null && String(row[key]).trim() !== '') {
+            return String(row[key]).trim();
+          }
+        }
+        return '';
+      }
+
+      function escapeHtml(value) {
+        return String(value || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function slugClass(value) {
+        return String(value || '')
+          .trim()
+          .replace(/[^A-Za-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+      }
+
+      function getProjectImageCandidates(projectId) {
+        if (!projectId) return ['/imsi/images/imsi_favicon_192.png'];
+        const encodedId = encodeURIComponent(projectId);
+        return [
+          `/imsi/project/${encodedId}/featured.jpeg`,
+          `/imsi/project/${encodedId}/featured.jpg`,
+          `/imsi/project/${encodedId}/featured.png`,
+          `/imsi/project/${encodedId}/featured.webp`,
+          '/imsi/images/imsi_favicon_192.png'
+        ];
+      }
+
+      function onProjectImageError(img) {
+        const candidates = String(img.getAttribute('data-fallbacks') || '')
+          .split('|')
+          .filter(Boolean);
+        const currentIndex = Number(img.getAttribute('data-fallback-index') || '0');
+        const nextIndex = currentIndex + 1;
+        if (nextIndex < candidates.length) {
+          img.setAttribute('data-fallback-index', String(nextIndex));
+          img.src = candidates[nextIndex];
+          return;
+        }
+        img.onerror = null;
+        img.src = '/imsi/images/imsi_favicon_192.png';
+      }
+
+      function shortenOverview(text, maxLength) {
+        const raw = String(text || '').trim();
+        if (!raw) return '';
+
+        const firstSentence = raw.split(/[.!?]\s/)[0].trim();
+        if (firstSentence && firstSentence.length <= maxLength) {
+          return firstSentence.endsWith('.') ? firstSentence : `${firstSentence}.`;
+        }
+
+        if (raw.length <= maxLength) {
+          return raw;
+        }
+
+        const cut = raw.slice(0, maxLength);
+        const lastSpace = cut.lastIndexOf(' ');
+        return `${(lastSpace > 30 ? cut.slice(0, lastSpace) : cut).trim()}...`;
+      }
+
+      function buildProjectCard(row) {
+        const projectId = getRowValue(row, ['Project_ID', 'Project ID', 'project_id']);
+        const title = getRowValue(row, ['Title', 'title']);
+        const overview = shortenOverview(getRowValue(row, ['Overview', 'overview']), 80);
+        const teamId = getRowValue(row, ['Team_ID', 'Team ID', 'team_id']);
+
+        if (!title) return '';
+
+        const url = projectId ? `/imsi/project/${encodeURIComponent(projectId)}/index.html` : '#';
+        const tags = teamId
+          .split(/[,;|]/)
+          .map(v => slugClass(v))
+          .filter(Boolean)
+          .map(v => `js-id-${v}`)
+          .join(' ');
+        const imageCandidates = getProjectImageCandidates(projectId);
+        const imageSrc = imageCandidates[0];
+        const fallbackList = imageCandidates.join('|');
+
+        return `
+<div class="project-card project-item isotope-item ${tags}">
+  <div class="card">
+    <a href="${escapeHtml(url)}" class="card-image hover-overlay">
+      <img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(title)}" class="img-responsive" data-fallbacks="${escapeHtml(fallbackList)}" data-fallback-index="0" onerror="onProjectImageError(this)">
+    </a>
+    <div class="card-text">
+      <h4><a href="${escapeHtml(url)}">${escapeHtml(title)}</a></h4>
+      <div class="article-style">
+        <p>${escapeHtml(overview)}</p>
+      </div>
+    </div>
+  </div>
+</div>`;
+      }
+
+      async function renderHomeProjectsFromSheet() {
+        const container = document.querySelector('#projects .projects-container');
+        try {
+          if (typeof getProjects !== 'function') return;
+          if (!container) return;
+
+          const projects = await getProjects();
+          if (!Array.isArray(projects) || projects.length === 0) return;
+
+          const cards = projects.map(buildProjectCard).filter(Boolean);
+          if (cards.length === 0) return;
+
+          container.innerHTML = cards.join('');
+
+          if (window.jQuery && typeof window.jQuery.fn.isotope === 'function') {
+            const $container = window.jQuery(container);
+            $container.imagesLoaded(function () {
+              if ($container.data('isotope')) {
+                $container.isotope('reloadItems').isotope();
+              } else {
+                $container.isotope({
+                  itemSelector: '.isotope-item',
+                  layoutMode: 'masonry'
+                });
+              }
+            });
+          }
+        } catch (err) {
+          console.error('Failed to render home projects from sheet:', err);
+        } finally {
+          if (container) {
+            container.classList.remove('is-loading');
+          }
+        }
+      }
+
+      renderHomeProjectsFromSheet();
+    </script>
 
     
 
