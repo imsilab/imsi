@@ -653,8 +653,70 @@
         return raw;
       }
 
+      function buildProjectArchiveItem(row) {
+        const projectId = getProjectRowValue(row, ['Project_ID', 'Project ID', 'project_id']);
+        const title = getProjectRowValue(row, ['Title', 'title']);
+        const overview = summarizeProjectOverview(getProjectRowValue(row, ['Overview', 'overview']));
+        if (!title) return '';
+        const url = projectId ? `/imsi/project/${encodeURIComponent(projectId)}/index.html` : '#';
+        return `
+  <div>
+    <h2><a href="${escapeProjectHtml(url)}">${escapeProjectHtml(title)}</a></h2>
+    <div class="article-style">
+      ${escapeProjectHtml(overview)}
+    </div>
+  </div>`;
+      }
+
+      function renderProjectArchivePage(container, rows, page, perPage) {
+        const totalPages = Math.max(1, Math.ceil(rows.length / perPage));
+        const safePage = Math.min(Math.max(1, page), totalPages);
+        const start = (safePage - 1) * perPage;
+        const pageRows = rows.slice(start, start + perPage);
+        const pageHtml = pageRows.map(buildProjectArchiveItem).filter(Boolean).join('\n');
+
+        container.innerHTML = pageHtml || '<div class="article-style"><p>No projects found.</p></div>';
+
+        let pager = document.getElementById('project-pagination');
+        if (pager) pager.remove();
+
+        pager = document.createElement('nav');
+        pager.id = 'project-pagination';
+        pager.setAttribute('aria-label', 'Project list pagination');
+        pager.style.marginTop = '1.5rem';
+
+        const makePageItem = (label, targetPage, disabled, active) => {
+          const li = document.createElement('li');
+          li.className = `page-item${disabled ? ' disabled' : ''}${active ? ' active' : ''}`;
+          const a = document.createElement('a');
+          a.className = 'page-link';
+          a.href = '#';
+          a.innerHTML = label;
+          if (!disabled) {
+            a.addEventListener('click', (event) => {
+              event.preventDefault();
+              renderProjectArchivePage(container, rows, targetPage, perPage);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+          }
+          li.appendChild(a);
+          return li;
+        };
+
+        const ul = document.createElement('ul');
+        ul.className = 'pagination justify-content-center';
+        ul.appendChild(makePageItem('&laquo;', safePage - 1, safePage === 1, false));
+        for (let p = 1; p <= totalPages; p++) {
+          ul.appendChild(makePageItem(String(p), p, false, p === safePage));
+        }
+        ul.appendChild(makePageItem('&raquo;', safePage + 1, safePage === totalPages, false));
+        pager.appendChild(ul);
+        container.insertAdjacentElement('afterend', pager);
+      }
+
       async function renderProjectArchiveFromSheet() {
         const container = document.getElementById('project-list-dynamic');
+        const perPage = 9;
         try {
           if (!container || typeof getProjects !== 'function') return;
           const projects = await getProjects();
@@ -663,25 +725,7 @@
             return;
           }
 
-          const html = projects
-            .map((row) => {
-              const projectId = getProjectRowValue(row, ['Project_ID', 'Project ID', 'project_id']);
-              const title = getProjectRowValue(row, ['Title', 'title']);
-              const overview = summarizeProjectOverview(getProjectRowValue(row, ['Overview', 'overview']));
-              if (!title) return '';
-              const url = projectId ? `/imsi/project/${encodeURIComponent(projectId)}/index.html` : '#';
-              return `
-  <div>
-    <h2><a href="${escapeProjectHtml(url)}">${escapeProjectHtml(title)}</a></h2>
-    <div class="article-style">
-      ${escapeProjectHtml(overview)}
-    </div>
-  </div>`;
-            })
-            .filter(Boolean)
-            .join('\n');
-
-          container.innerHTML = html || '<div class="article-style"><p>No projects found.</p></div>';
+          renderProjectArchivePage(container, projects, 1, perPage);
         } catch (err) {
           console.error('Failed to load project archive from sheet:', err);
           if (container) {
