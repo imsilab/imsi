@@ -522,59 +522,8 @@
 
 
 
-<div class="universal-wrapper">
-  
-
-  
-  
-  <div>
-    <h2><a href="/imsi/project/benchmark/">Benchmarking Graph Neural Networks</a></h2>
-    <div class="article-style">
-      
-      Identify universal building blocks for robust and scalable GNNs.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/imsi/project/sketches/">Free-hand Sketches</a></h2>
-    <div class="article-style">
-      
-      Representation learning for drawings via graphs with geometric and temporal information.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/imsi/project/combinatorial-optimization/">Combinatorial Optimization</a></h2>
-    <div class="article-style">
-      
-      Scalable deep learning systems for practical NP-Hard combinatorial problems such as the TSP.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/imsi/project/chemistry/">Quantum Chemistry</a></h2>
-    <div class="article-style">
-      
-      Chemical synthesis, structure and property prediction using deep neural networks.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/imsi/project/spatial-convnets/">Spatial Graph ConvNets</a></h2>
-    <div class="article-style">
-      
-      Graph Neural Network architectures for inductive representation learning on arbitrary graphs.
-      
-    </div>
-  </div>
-  
-
-  
-
+<div class="universal-wrapper" id="project-list-dynamic">
+  <div class="article-style"><p>Loading projects...</p></div>
 </div>
 
       
@@ -674,6 +623,75 @@
     
     
     <script src="/imsi/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+    <script src="/imsi/js/SheetServices.js"></script>
+    <script>
+      function getProjectRowValue(row, keys) {
+        for (const key of keys) {
+          if (row[key] !== undefined && row[key] !== null && String(row[key]).trim() !== '') {
+            return String(row[key]).trim();
+          }
+        }
+        return '';
+      }
+
+      function escapeProjectHtml(value) {
+        return String(value || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function summarizeProjectOverview(text) {
+        const raw = String(text || '').trim();
+        if (!raw) return '';
+        const firstSentence = raw.split(/[.!?]\s/)[0].trim();
+        if (firstSentence) {
+          return firstSentence.endsWith('.') ? firstSentence : `${firstSentence}.`;
+        }
+        return raw;
+      }
+
+      async function renderProjectArchiveFromSheet() {
+        const container = document.getElementById('project-list-dynamic');
+        try {
+          if (!container || typeof getProjects !== 'function') return;
+          const projects = await getProjects();
+          if (!Array.isArray(projects) || projects.length === 0) {
+            container.innerHTML = '<div class="article-style"><p>No projects found.</p></div>';
+            return;
+          }
+
+          const html = projects
+            .map((row) => {
+              const projectId = getProjectRowValue(row, ['Project_ID', 'Project ID', 'project_id']);
+              const title = getProjectRowValue(row, ['Title', 'title']);
+              const overview = summarizeProjectOverview(getProjectRowValue(row, ['Overview', 'overview']));
+              if (!title) return '';
+              const url = projectId ? `/imsi/project/${encodeURIComponent(projectId)}/index.html` : '#';
+              return `
+  <div>
+    <h2><a href="${escapeProjectHtml(url)}">${escapeProjectHtml(title)}</a></h2>
+    <div class="article-style">
+      ${escapeProjectHtml(overview)}
+    </div>
+  </div>`;
+            })
+            .filter(Boolean)
+            .join('\n');
+
+          container.innerHTML = html || '<div class="article-style"><p>No projects found.</p></div>';
+        } catch (err) {
+          console.error('Failed to load project archive from sheet:', err);
+          if (container) {
+            container.innerHTML = '<div class="article-style"><p>Failed to load projects.</p></div>';
+          }
+        }
+      }
+
+      renderProjectArchiveFromSheet();
+    </script>
 
     
 
