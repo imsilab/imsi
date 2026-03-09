@@ -3151,6 +3151,7 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
 
       async function renderHomeProjectsFromSheet() {
         const container = document.querySelector('#projects .projects-container');
+        const maxHomeProjects = 6;
         try {
           if (typeof getProjects !== 'function') return;
           if (!container) return;
@@ -3158,10 +3159,21 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
           const projects = await getProjects();
           if (!Array.isArray(projects) || projects.length === 0) return;
 
-          const cards = projects.map(buildProjectCard).filter(Boolean);
-          if (cards.length === 0) return;
+          const allCards = projects.map(buildProjectCard).filter(Boolean);
+          if (allCards.length === 0) return;
 
-          container.innerHTML = cards.join('');
+          const visibleCards = allCards.slice(0, maxHomeProjects);
+          container.innerHTML = visibleCards.join('');
+
+          const existingSeeAll = document.getElementById('projects-see-all-link');
+          if (existingSeeAll) {
+            existingSeeAll.remove();
+          }
+          const seeAll = document.createElement('div');
+          seeAll.id = 'projects-see-all-link';
+          seeAll.className = 'see-all';
+          seeAll.innerHTML = '<a href="/imsi/project/">See all projects <i class="fas fa-angle-right"></i></a>';
+          container.insertAdjacentElement('afterend', seeAll);
 
           if (window.jQuery && typeof window.jQuery.fn.isotope === 'function') {
             const $container = window.jQuery(container);
