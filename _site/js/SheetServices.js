@@ -11,23 +11,43 @@ async function fetchSheetData(sheetName) {
         const text = await response.text();
         const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
 
-        const rows = json.table.rows;
-        if (!rows || rows.length === 0) return [];
+        const table = json.table || {};
+        const cols = table.cols || [];
+        const rows = table.rows || [];
+        if (rows.length === 0) return [];
 
-        // Use the first row as headers (Labels)
-        const headers = rows[0].c.map(cell => cell?.v || '');
+        // Prefer gviz column labels. Fallback to first-row headers only when labels are absent.
+        let headers = cols.map((col, index) => {
+            const label = String(col?.label || '').trim();
+            return label || `Column_${index}`;
+        });
+        let dataRows = rows;
 
-        // Process data from the second row onwards
-        return rows.slice(1).map(row => {
-            const item = {};
-            row.c.forEach((cell, index) => {
-                const label = headers[index] || `Column_${index}`;
-                item[label] = cell?.v || '';
+        const hasNamedHeaders = headers.some(h => !/^Column_\d+$/.test(h));
+        if (!hasNamedHeaders) {
+            const firstRowCells = rows[0]?.c || [];
+            headers = firstRowCells.map((cell, index) => {
+                const label = String(cell?.v || '').trim();
+                return label || `Column_${index}`;
             });
+            dataRows = rows.slice(1);
+        }
+
+        return dataRows.map(row => {
+            const item = {};
+            const cells = row?.c || [];
+            const maxLen = Math.max(headers.length, cells.length);
+
+            for (let index = 0; index < maxLen; index += 1) {
+                const label = headers[index] || `Column_${index}`;
+                const value = cells[index]?.v || '';
+                item[label] = value;
+                item[`Column_${index}`] = value;
+            }
             return item;
         });
     } catch (e) {
-        console.error(`${sheetName} 데이터 로드 실패:`, e);
+        console.error(`${sheetName} data load failed:`, e);
         return [];
     }
 }
@@ -43,4 +63,4 @@ async function getPublications() {
 
 async function getProjects() {
     return await fetchSheetData('WEB_Projects');
-}
+}

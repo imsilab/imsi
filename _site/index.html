@@ -234,11 +234,17 @@
       flex: 1;
     }
 
-    #projects .project-card .card-text p {
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+    
+
+    #publications .col-12.col-lg-8.publications-loading .media.stream-item {
+      display: none;
+    }
+
+    #publications .publications-thumb img {
+      width: 96px;
+      max-width: 96px;
+      height: 96px;
+      object-fit: cover;
     }
   </style>
 
@@ -3113,7 +3119,120 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
         const lastSpace = cut.lastIndexOf(' ');
         return `${(lastSpace > 30 ? cut.slice(0, lastSpace) : cut).trim()}...`;
       }
+      function isExternalUrl(url) {
+        return /^https?:\/\//i.test(String(url || '').trim());
+      }
 
+      function parseYear(value) {
+        const num = Number(String(value || '').trim());
+        return Number.isFinite(num) ? num : null;
+      }
+
+      function getPublicationImageCandidates(pubId) {
+        if (!pubId) return ['/imsi/images/imsi_favicon_192.png'];
+        const encodedId = encodeURIComponent(pubId);
+        return [
+          `/imsi/publication/${encodedId}/featured.jpeg`,
+          `/imsi/publication/${encodedId}/featured.jpg`,
+          `/imsi/publication/${encodedId}/featured.png`,
+          `/imsi/publication/${encodedId}/featured.webp`,
+          '/imsi/images/imsi_favicon_192.png'
+        ];
+      }
+
+      function onPublicationImageError(img) {
+        const candidates = String(img.getAttribute('data-fallbacks') || '')
+          .split('|')
+          .filter(Boolean);
+        const currentIndex = Number(img.getAttribute('data-fallback-index') || '0');
+        const nextIndex = currentIndex + 1;
+        if (nextIndex < candidates.length) {
+          img.setAttribute('data-fallback-index', String(nextIndex));
+          img.src = candidates[nextIndex];
+          return;
+        }
+        img.onerror = null;
+        img.src = '/imsi/images/imsi_favicon_192.png';
+      }
+
+      function buildHomePublicationItem(row) {
+        const pubId = getRowValue(row, ['Pub_ID', 'Pub ID', 'pub_id', 'Column_0']);
+        const year = getRowValue(row, ['Year', 'year', 'Column_1']);
+        const title = getRowValue(row, ['Title', 'title', 'Column_2']);
+        const venueName = getRowValue(row, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']);
+        const authors = getRowValue(row, ['Authors', 'authors', 'Column_4']);
+
+        if (!title) return '';
+
+        const detailUrl = pubId ? `/imsi/publication/${encodeURIComponent(pubId)}/index.html` : '';
+        const imageCandidates = getPublicationImageCandidates(pubId);
+        const imageSrc = imageCandidates[0];
+        const fallbackList = imageCandidates.join('|');
+        const meta = [authors, venueName, year].filter(Boolean).join(' | ');
+        const titleHtml = detailUrl
+          ? `<a href="${escapeHtml(detailUrl)}">${escapeHtml(title)}</a>`
+          : `${escapeHtml(title)}`;
+        const imageHtml = detailUrl
+          ? `<a href="${escapeHtml(detailUrl)}"><img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(title)}" data-fallbacks="${escapeHtml(fallbackList)}" data-fallback-index="0" onerror="onPublicationImageError(this)"></a>`
+          : `<img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(title)}" data-fallbacks="${escapeHtml(fallbackList)}" data-fallback-index="0" onerror="onPublicationImageError(this)">`;
+
+        return `
+<div class="media stream-item">
+  <div class="media-body">
+    <h3 class="article-title mb-0 mt-0">
+      ${titleHtml}
+    </h3>
+    <div class="stream-meta article-metadata">
+      <div>${escapeHtml(meta)}</div>
+    </div>
+  </div>
+  <div class="ml-3 publications-thumb">
+    ${imageHtml}
+  </div>
+</div>`;
+      }
+
+            async function renderHomePublicationsFromSheet() {
+        const sectionBody = document.querySelector('#publications .col-12.col-lg-8');
+        try {
+          if (typeof getPublications !== 'function') return;
+          if (!sectionBody) return;
+
+          sectionBody.classList.add('publications-loading');
+          const oldDynamic = document.getElementById('publications-dynamic-list');
+          if (oldDynamic) oldDynamic.remove();
+          sectionBody.querySelectorAll('.media.stream-item').forEach((el) => el.remove());
+
+          const publications = await getPublications();
+          if (!Array.isArray(publications) || publications.length === 0) return;
+
+          const sorted = [...publications].sort((a, b) => {
+            const ay = parseYear(getRowValue(a, ['Year', 'year'])) ?? -Infinity;
+            const by = parseYear(getRowValue(b, ['Year', 'year'])) ?? -Infinity;
+            return by - ay;
+          });
+          const visible = sorted.slice(0, 5);
+          const html = visible.map(buildHomePublicationItem).filter(Boolean).join('\n');
+          if (!html) return;
+
+          const list = document.createElement('div');
+          list.id = 'publications-dynamic-list';
+          list.innerHTML = html;
+
+          const seeAll = sectionBody.querySelector('.see-all');
+          if (seeAll) {
+            seeAll.insertAdjacentElement('beforebegin', list);
+          } else {
+            sectionBody.appendChild(list);
+          }
+        } catch (err) {
+          console.error('Failed to render home publications from sheet:', err);
+        } finally {
+          if (sectionBody) {
+            sectionBody.classList.remove('publications-loading');
+          }
+        }
+      }
       function buildProjectCard(row) {
         const projectId = getRowValue(row, ['Project_ID', 'Project ID', 'project_id']);
         const title = getRowValue(row, ['Title', 'title']);
@@ -3197,6 +3316,7 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
         }
       }
 
+      renderHomePublicationsFromSheet();
       renderHomeProjectsFromSheet();
     </script>
 
@@ -3259,3 +3379,10 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
 
 </body>
 </html>
+
+
+
+
+
+
+
