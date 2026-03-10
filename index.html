@@ -3010,9 +3010,14 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
         return Number.isFinite(num) ? num : null;
       }
 
+      function normalizePublicationId(pubId) {
+        return String(pubId || '').trim().replace(/_/g, '-');
+      }
+
       function getPublicationImageCandidates(pubId) {
-        if (!pubId) return ['/imsi/images/imsi_favicon_192.png'];
-        const encodedId = encodeURIComponent(pubId);
+        const normalizedId = normalizePublicationId(pubId);
+        if (!normalizedId) return ['/imsi/images/imsi_favicon_192.png'];
+        const encodedId = encodeURIComponent(normalizedId);
         return [
           `/imsi/publication/${encodedId}/featured.jpeg`,
           `/imsi/publication/${encodedId}/featured.jpg`,
@@ -3046,7 +3051,8 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
 
         if (!title) return '';
 
-        const detailUrl = pubId ? `/imsi/publication/${encodeURIComponent(pubId)}/index.html` : '';
+        const normalizedPubId = normalizePublicationId(pubId);
+        const detailUrl = normalizedPubId ? `/imsi/publication/${encodeURIComponent(normalizedPubId)}/index.html` : '';
         const imageCandidates = getPublicationImageCandidates(pubId);
         const imageSrc = imageCandidates[0];
         const fallbackList = imageCandidates.join('|');

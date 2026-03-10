@@ -516,6 +516,10 @@
           return Number.isFinite(n) ? n : null;
         }
 
+        function normalizePublicationId(pubId) {
+          return String(pubId || '').trim().replace(/_/g, '-');
+        }
+
         async function renderLatestPublications() {
           const list = document.getElementById('latest-publications');
           if (!list || typeof getPublications !== 'function') return;
@@ -537,7 +541,8 @@
               const title = getPubValue(row, ['Title', 'title', 'Column_2']);
               if (!title) return '';
               const pubId = getPubValue(row, ['Pub_ID', 'Pub ID', 'pub_id', 'Column_0']);
-              const url = pubId ? `/imsi/publication/${encodeURIComponent(pubId)}/index.html` : '';
+              const normalizedPubId = normalizePublicationId(pubId);
+              const url = normalizedPubId ? `/imsi/publication/${encodeURIComponent(normalizedPubId)}/index.html` : '';
               const label = escapePubHtml(title);
               return url ? `<li><a href="${escapePubHtml(url)}">${label}</a></li>` : `<li>${label}</li>`;
             }).filter(Boolean).join('');

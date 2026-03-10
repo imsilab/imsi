@@ -1659,6 +1659,10 @@
         return Number.isFinite(n) ? n : null;
       }
 
+      function normalizePublicationId(pubId) {
+        return String(pubId || '').trim().replace(/_/g, '-');
+      }
+
       function buildPublicationListItem(row) {
         const pubId = getPubValue(row, ['Pub_ID', 'Pub ID', 'pub_id', 'Column_0']);
         const year = getPubValue(row, ['Year', 'year', 'Column_1']);
@@ -1666,7 +1670,8 @@
         const authors = formatPublicationAuthors(getPubValue(row, ['Authors', 'authors', 'Column_4']));
         if (!title) return '';
 
-        const url = pubId ? `/imsi/publication/${encodeURIComponent(pubId)}/index.html` : '';
+        const normalizedPubId = normalizePublicationId(pubId);
+        const url = normalizedPubId ? `/imsi/publication/${encodeURIComponent(normalizedPubId)}/index.html` : '';
         const titleHtml = url
           ? `<a href="${escapePubHtml(url)}">${escapePubHtml(title)}</a>`
           : `${escapePubHtml(title)}`;
