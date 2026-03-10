@@ -203,6 +203,11 @@
   
   
   <link rel="stylesheet" href="/imsi/css/academic.css">
+  <style>
+    #publication-dynamic-root + .row {
+      display: none;
+    }
+  </style>
 
   
 
@@ -516,6 +521,9 @@
 
 
 <div class="universal-wrapper">
+  <div id="publication-dynamic-root">
+    <div class="article-style"><p>Loading publications...</p></div>
+  </div>
   <div class="row">
     <div class="col-lg-12">
 
@@ -1732,6 +1740,219 @@
     
     
     <script src="/imsi/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+    <script src="/imsi/js/SheetServices.js"></script>
+    <script>
+      function getPubValue(row, keys) {
+        for (const key of keys) {
+          if (row[key] !== undefined && row[key] !== null && String(row[key]).trim() !== '') {
+            return String(row[key]).trim();
+          }
+        }
+        return '';
+      }
+
+      function escapePubHtml(value) {
+        return String(value || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function formatPublicationAuthors(rawAuthors) {
+        const raw = String(rawAuthors || '').trim();
+        if (!raw) return '';
+        const authors = raw.split(',').map(v => v.trim()).filter(Boolean);
+        if (authors.length <= 5) return raw;
+        const firstAuthor = authors[0];
+        const surname = firstAuthor.split(/\s+/).filter(Boolean).pop() || firstAuthor;
+        return `${surname} et al.`;
+      }
+
+      function toYearNumber(value) {
+        const n = Number(String(value || '').trim());
+        return Number.isFinite(n) ? n : null;
+      }
+
+      function buildPublicationListItem(row) {
+        const pubId = getPubValue(row, ['Pub_ID', 'Pub ID', 'pub_id', 'Column_0']);
+        const year = getPubValue(row, ['Year', 'year', 'Column_1']);
+        const title = getPubValue(row, ['Title', 'title', 'Column_2']);
+        const authors = formatPublicationAuthors(getPubValue(row, ['Authors', 'authors', 'Column_4']));
+        if (!title) return '';
+
+        const url = pubId ? `/imsi/publication/${encodeURIComponent(pubId)}/index.html` : '';
+        const titleHtml = url
+          ? `<a href="${escapePubHtml(url)}">${escapePubHtml(title)}</a>`
+          : `${escapePubHtml(title)}`;
+        const authorHtml = authors
+          ? `<span class="article-metadata li-cite-author">${escapePubHtml(authors)}</span> `
+          : '';
+        const yearHtml = year ? `(${escapePubHtml(year)}). ` : '';
+
+        return `
+<div class="pub-list-item" style="margin-bottom: 1rem">
+  <i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
+  ${authorHtml}${yearHtml}${titleHtml}.
+</div>`;
+      }
+
+      function renderPublicationPagination(container, totalPages, currentPage, onSelect) {
+        let pager = document.getElementById('publication-pagination');
+        if (pager) pager.remove();
+
+        pager = document.createElement('nav');
+        pager.id = 'publication-pagination';
+        pager.setAttribute('aria-label', 'Publication list pagination');
+        pager.style.marginTop = '1.25rem';
+
+        const ul = document.createElement('ul');
+        ul.className = 'pagination justify-content-center';
+
+        const addPage = (label, target, disabled, active) => {
+          const li = document.createElement('li');
+          li.className = `page-item${disabled ? ' disabled' : ''}${active ? ' active' : ''}`;
+          const a = document.createElement('a');
+          a.className = 'page-link';
+          a.href = '#';
+          a.innerHTML = label;
+          if (!disabled) {
+            a.addEventListener('click', (e) => {
+              e.preventDefault();
+              onSelect(target);
+            });
+          }
+          li.appendChild(a);
+          ul.appendChild(li);
+        };
+
+        addPage('&laquo;', currentPage - 1, currentPage === 1, false);
+        for (let p = 1; p <= totalPages; p += 1) {
+          addPage(String(p), p, false, p === currentPage);
+        }
+        addPage('&raquo;', currentPage + 1, currentPage === totalPages, false);
+
+        pager.appendChild(ul);
+        container.insertAdjacentElement('afterend', pager);
+      }
+
+      async function renderPublicationArchiveFromSheet() {
+        const root = document.getElementById('publication-dynamic-root');
+        if (!root || typeof getPublications !== 'function') return;
+
+        try {
+          // Remove legacy static publication/filter block to avoid duplicate search/filter UI.
+          const legacyRow = root.nextElementSibling;
+          if (legacyRow && legacyRow.classList && legacyRow.classList.contains('row')) {
+            legacyRow.remove();
+          }
+
+          const rows = await getPublications();
+          if (!Array.isArray(rows) || rows.length === 0) {
+            root.innerHTML = '<div class="article-style"><p>No publications found.</p></div>';
+            return;
+          }
+
+          const sorted = [...rows].sort((a, b) => {
+            const ay = toYearNumber(getPubValue(a, ['Year', 'year', 'Column_1'])) ?? 0;
+            const by = toYearNumber(getPubValue(b, ['Year', 'year', 'Column_1'])) ?? 0;
+            if (ay !== by) return ay - by; // Ascending year order
+            const at = getPubValue(a, ['Title', 'title', 'Column_2']).toLowerCase();
+            const bt = getPubValue(b, ['Title', 'title', 'Column_2']).toLowerCase();
+            return at.localeCompare(bt);
+          });
+
+          const state = {
+            all: sorted,
+            year: 'all',
+            query: '',
+            page: 1,
+            perPage: 9
+          };
+
+          const years = [...new Set(sorted
+            .map(r => getPubValue(r, ['Year', 'year', 'Column_1']))
+            .filter(Boolean))]
+            .sort((a, b) => (toYearNumber(a) ?? 0) - (toYearNumber(b) ?? 0));
+
+          root.innerHTML = `
+<div class="form-row mb-4">
+  <div class="col-auto">
+    <input id="pub-search-dynamic" type="search" class="filter-search" placeholder="Search..." autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+  </div>
+  <div class="col-auto">
+    <select id="pub-type-filter-dynamic" class="pub-filters pubtype-select form-control form-control-sm">
+      <option value="all">Type (All)</option>
+    </select>
+  </div>
+  <div class="col-auto">
+    <select id="pub-year-filter-dynamic" class="pub-filters form-control form-control-sm">
+      <option value="all">Year (All)</option>
+      ${years.map(y => `<option value="${escapePubHtml(y)}">${escapePubHtml(y)}</option>`).join('')}
+    </select>
+  </div>
+</div>
+<div id="publication-dynamic-list"></div>`;
+
+          const listEl = document.getElementById('publication-dynamic-list');
+          const searchInput = document.getElementById('pub-search-dynamic');
+          const typeSelect = document.getElementById('pub-type-filter-dynamic');
+          const yearSelect = document.getElementById('pub-year-filter-dynamic');
+
+          const render = () => {
+            const byYear = state.year === 'all'
+              ? state.all
+              : state.all.filter(r => getPubValue(r, ['Year', 'year', 'Column_1']) === state.year);
+            const query = state.query.toLowerCase();
+            const filtered = !query
+              ? byYear
+              : byYear.filter((r) => {
+                const title = getPubValue(r, ['Title', 'title', 'Column_2']).toLowerCase();
+                const authors = getPubValue(r, ['Authors', 'authors', 'Column_4']).toLowerCase();
+                return title.includes(query) || authors.includes(query);
+              });
+
+            const totalPages = Math.max(1, Math.ceil(filtered.length / state.perPage));
+            state.page = Math.min(Math.max(1, state.page), totalPages);
+            const start = (state.page - 1) * state.perPage;
+            const slice = filtered.slice(start, start + state.perPage);
+            const html = slice.map(buildPublicationListItem).filter(Boolean).join('\n');
+            listEl.innerHTML = html || '<div class="article-style"><p>No publications found for this year.</p></div>';
+
+            renderPublicationPagination(root, totalPages, state.page, (nextPage) => {
+              state.page = nextPage;
+              render();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+          };
+
+          searchInput.addEventListener('input', () => {
+            state.query = searchInput.value || '';
+            state.page = 1;
+            render();
+          });
+
+          typeSelect.addEventListener('change', () => {
+            state.page = 1;
+            render();
+          });
+
+          yearSelect.addEventListener('change', () => {
+            state.year = yearSelect.value;
+            state.page = 1;
+            render();
+          });
+
+          render();
+        } catch (err) {
+          console.error('Failed to render publication archive from sheet:', err);
+          root.innerHTML = '<div class="article-style"><p>Failed to load publications.</p></div>';
+        }
+      }
+
+      renderPublicationArchiveFromSheet();
+    </script>
 
     
 
