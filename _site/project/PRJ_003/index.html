@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en-us">
 
 <head>
@@ -76,7 +76,7 @@
 <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
   <div class="container">
     <div class="d-none d-lg-inline-flex">
-      <a class="navbar-brand" href="/imsi/">IMSI Research Group</a>
+      <a class="navbar-brand" href="/imsi/">IMSI Lab</a>
     </div>
 
     <button type="button" class="navbar-toggler" data-toggle="collapse"
@@ -85,7 +85,7 @@
     </button>
 
     <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
-      <a class="navbar-brand" href="/imsi/">IMSI Research Group</a>
+      <a class="navbar-brand" href="/imsi/">IMSI Lab</a>
     </div>
 
     <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
@@ -128,12 +128,14 @@
     <h1>3D Medical Vision-Language Enhancement</h1>
 
 <div class="article-metadata">
-      <div>
-        <span>Team MULTIMODAL</span>
-      </div>
-    </div>
+  <div>
+    <span>Team MULTIMODAL</span>
+  </div>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/imsi/categories/models/">Models</a></span>
+</div>
 
-    <div class="btn-links">
+<div class="btn-links">
       <a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="paper.pdf" target="_blank" rel="noopener">PDF</a>
     </div>
   </div>
@@ -145,8 +147,10 @@
   </div>
 
   <div class="article-container">
-    <div class="article-style">
-      <p>Project overview coming soon.</p>
+            <div class="article-style">
+      <p>Interpreting volumetric CT with vision-language models (VLMs) demands alignment of long-range spatial-temporal evidence with radiology text under tight memory budgets. In this setting, Med3DVLM, a 3D vision encoder coupled to a 7B decoder, reports 79.95 percent closed-ended accuracy and 36.76 METEOR on M3D.</p>
+      <p>Yet contemporary VLM attention often diffuses, lighting up many non-diagnostic regions instead of truly salient ones. We propose slice-wise visual-instruction prompting: on every axial slice of the 3D volume, a sub-voxel thin, colored contour traces the anatomy referenced by the question, turning the image itself into a focus cue.</p>
+      <p>On RadGenome-ChestCT and PMC-VQA, Qwen variants (0.5B/1.5B/3B) with these prompts perform on par with a prompt-free Qwen-7B while cutting GPU memory. Moreover, prompt-guided fine-tuning further lifts closed-ended accuracy and improves open-ended VQA on BLEU-4, ROUGE-L, and METEOR.</p>
     </div>
 
     <div class="article-tags">
@@ -203,8 +207,8 @@
 
 <div class="container">
   <footer class="site-footer">
-    <p class="powered-by">
-      IMSI Research Group © 2026 · Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a> (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
+        <p class="powered-by">
+      IMSI Research Group &copy; 2026 &middot; Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a> (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
       <span class="float-right" aria-hidden="true">
         <a href="#" class="back-to-top">
           <span class="button_icon">
@@ -243,6 +247,9 @@
 
 </body>
 </html>
+
+
+
 
 
 

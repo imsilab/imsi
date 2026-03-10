@@ -3109,12 +3109,35 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
           }
         } catch (err) {
           console.error('Failed to render home publications from sheet:', err);
-        } finally {
+      } finally {
           if (sectionBody) {
             sectionBody.classList.remove('publications-loading');
           }
         }
       }
+      const projectCategoryMap = {
+        PRJ_001: 'Models',
+        PRJ_003: 'Models',
+        PRJ_004: 'Applications',
+        PRJ_002: 'Applications',
+        PRJ_005: 'Applications'
+      };
+
+      function getProjectCategoryTag(projectId, title) {
+        const key = String(projectId || '').trim();
+        if (projectCategoryMap[key]) {
+          return projectCategoryMap[key];
+        }
+        const name = String(title || '').toLowerCase();
+        if (name.includes('vision-language') || name.includes('medic-ad') || name.includes('medical vlm')) {
+          return 'Models';
+        }
+        if (name.includes('3d-lldm') || name.includes('ceus') || name.includes('neonet')) {
+          return 'Applications';
+        }
+        return '';
+      }
+
       function buildProjectCard(row) {
         const projectId = getRowValue(row, ['Project_ID', 'Project ID', 'project_id']);
         const title = getRowValue(row, ['Title', 'title']);
@@ -3124,12 +3147,15 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
         if (!title) return '';
 
         const url = projectId ? `/imsi/project/${encodeURIComponent(projectId)}/index.html` : '#';
-        const tags = teamId
+        const category = getProjectCategoryTag(projectId, title);
+        const categoryTag = category ? `js-id-${slugClass(category)}` : '';
+        const teamTags = teamId
           .split(/[,;|]/)
           .map(v => slugClass(v))
           .filter(Boolean)
           .map(v => `js-id-${v}`)
           .join(' ');
+        const tags = [categoryTag, teamTags].filter(Boolean).join(' ');
         const imageCandidates = getProjectImageCandidates(projectId);
         const imageSrc = imageCandidates[0];
         const fallbackList = imageCandidates.join('|');

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en-us">
 
 <head>
@@ -76,7 +76,7 @@
 <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
   <div class="container">
     <div class="d-none d-lg-inline-flex">
-      <a class="navbar-brand" href="/imsi/">IMSI Research Group</a>
+      <a class="navbar-brand" href="/imsi/">IMSI Lab</a>
     </div>
 
     <button type="button" class="navbar-toggler" data-toggle="collapse"
@@ -85,7 +85,7 @@
     </button>
 
     <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
-      <a class="navbar-brand" href="/imsi/">IMSI Research Group</a>
+      <a class="navbar-brand" href="/imsi/">IMSI Lab</a>
     </div>
 
     <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
@@ -128,12 +128,14 @@
 
 
     <div class="article-metadata">
-      <div>
-        <span>Team CEUS</span>
-      </div>
-    </div>
+  <div>
+    <span>Team CEUS</span>
+  </div>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/imsi/categories/applications/">Applications</a></span>
+</div>
 
-    <div class="btn-links">
+<div class="btn-links">
       <a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="paper.pdf" target="_blank" rel="noopener">PDF</a>
     </div>
   </div>
@@ -145,8 +147,10 @@
   </div>
 
   <div class="article-container">
-    <div class="article-style">
-      <p>Project overview coming soon.</p>
+            <div class="article-style">
+      <p>Clinical contrast-enhanced ultrasound (CEUS) data are often acquired at irregular temporal intervals, making automated analysis difficult. This challenge is especially pronounced in liver CEUS due to respiratory motion and variations in acquisition settings, which can degrade image consistency.</p>
+      <p>We investigated ten different padding strategies to handle temporal irregularity, evaluating their effects on classification performance using two deep learning architectures: a 3D convolutional neural network (3D-CNN) and a convolutional recurrent neural network (CNN-LSTM), under five-fold cross-validation. The 3D-CNN achieved the highest F1 score (0.97) when using phase-level pre-padding with adjacent frames, while the CNN-LSTM performed best (F1 score: 0.90) with blank-frame pre-padding.</p>
+      <p>Statistical analysis using the Friedman test revealed that the choice of padding strategy significantly affected model performance in both architectures (p &lt; 0.01). These findings highlight that, despite the inherent temporal irregularity in liver CEUS, high classification accuracy can still be achieved when appropriate preprocessing techniques are applied.</p>
     </div>
 
     <div class="article-tags">
@@ -194,8 +198,8 @@
 
 <div class="container">
   <footer class="site-footer">
-    <p class="powered-by">
-      IMSI Research Group © 2026 · Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a> (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
+        <p class="powered-by">
+      IMSI Research Group &copy; 2026 &middot; Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a> (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
       <span class="float-right" aria-hidden="true">
         <a href="#" class="back-to-top">
           <span class="button_icon">
@@ -234,6 +238,9 @@
 
 </body>
 </html>
+
+
+
 
 
 
