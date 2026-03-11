@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en-us">
 
 <head>
@@ -34,19 +34,130 @@
 
   <title>Medical VLM with Global Anomaly Detection (MEDIC-AD) | IMSI Research Group</title>
         <style>
+    .article-project .article-style {
+      padding: 1.2rem 1.3rem;
+      border: 1px solid #e6eaf2;
+      border-radius: 14px;
+      background: #ffffff;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+    }
+    .article-project .article-style h3 {
+      margin-bottom: 0.75rem;
+      font-size: 1.15rem;
+      color: #0f1e3a;
+    }
     .article-project .featured-image-wrapper {
       margin-left: auto;
       margin-right: auto;
-      max-width: 720px;
+      max-width: 780px;
       width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #e4eaf7;
+      box-shadow: 0 14px 32px rgba(14, 35, 91, 0.1);
+      background: linear-gradient(160deg, #eef4ff 0%, #f9fbff 100%);
     }
     .article-project .featured-image {
       display: block;
       width: 100%;
       height: auto;
-      max-height: 70vh;
+      max-height: 72vh;
       object-fit: contain;
-      background: #f5f5f5;
+      background: transparent;
+    }
+    .project-insights {
+      margin-top: 2.1rem;
+      border: 1px solid #dce6fb;
+      border-radius: 16px;
+      background: linear-gradient(145deg, #f7faff 0%, #eef4ff 100%);
+      box-shadow: 0 14px 38px rgba(37, 72, 153, 0.12);
+      padding: 1.15rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-insights::before {
+      content: "";
+      position: absolute;
+      right: -48px;
+      top: -52px;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, rgba(31, 82, 207, 0.24) 0%, rgba(31, 82, 207, 0) 68%);
+      pointer-events: none;
+    }
+    .project-insights .overview-card {
+      position: relative;
+      z-index: 1;
+      border: 1px solid #d7e2f8;
+      border-radius: 12px;
+      background: #ffffff;
+      padding: 0.95rem 1rem;
+    }
+    .project-insights .overview-label {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.76rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #2a5fc9;
+      margin-bottom: 0.42rem;
+      font-weight: 700;
+    }
+    .project-insights #project-overview {
+      margin: 0;
+      line-height: 1.67;
+      color: #243244;
+    }
+    .project-insights .insight-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.95rem;
+      margin-top: 0.95rem;
+      position: relative;
+      z-index: 1;
+    }
+    .project-insights .insight-card {
+      border: 1px solid #d8e3f8;
+      border-radius: 12px;
+      background: #ffffff;
+      padding: 0.9rem 0.95rem 0.95rem;
+    }
+    .project-insights .insight-card h3 {
+      margin: 0 0 0.65rem;
+      font-size: 0.98rem;
+      color: #173263;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .project-insights .insight-list {
+      list-style: none;
+      margin: 0;
+      padding-left: 0;
+    }
+    .project-insights .insight-list li {
+      margin-bottom: 0.5rem;
+      line-height: 1.56;
+      color: #2f3c4e;
+    }
+    .project-insights .insight-list li:last-child {
+      margin-bottom: 0;
+    }
+    .project-insights .insight-placeholder {
+      color: #6d7786;
+      font-style: italic;
+    }
+    @media (max-width: 768px) {
+      .article-project .article-style {
+        padding: 1rem;
+      }
+      .project-insights {
+        padding: 1rem;
+      }
+      .project-insights .insight-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style></head>
 
@@ -148,11 +259,33 @@
 
   <div class="article-container">
             <div class="article-style">
+      <h3>Abstract</h3>
       <p>Lesion detection, symptom tracking, and visual explainability are central to real-world medical image analysis, yet current medical vision-language models (VLMs) still lack mechanisms that translate their broad knowledge into clinically actionable outputs.</p>
       <p>To bridge this gap, we present MEDIC-AD, a clinically oriented VLM that strengthens these capabilities through a stage-wise framework. First, learnable anomaly-aware tokens ($\langle Ano \rangle$) encourage the model to focus on abnormal regions and build more discriminative lesion-centered representations. Second, inter-image difference tokens ($\langle Diff \rangle$) explicitly encode temporal changes between studies, allowing the model to distinguish worsening, improvement, and stability in disease burden.</p>
       <p>Finally, a dedicated explainability stage trains the model to generate heatmaps that highlight lesion-related regions, offering clear visual evidence that is consistent with the model's reasoning. Through this staged design, MEDIC-AD steadily boosts performance across anomaly detection, symptom tracking, and anomaly segmentation, achieving state-of-the-art results compared with both closed-source and medical-specialized baselines.</p>
       <p>Evaluations on real longitudinal clinical data collected from hospital workflows further show that MEDIC-AD delivers stable predictions and clinically faithful explanations in practical patient-monitoring and decision-support workflows.</p>
     </div>
+
+    <section class="project-insights" aria-label="Project Summary">
+      <div class="overview-card">
+        <span class="overview-label">Overview</span>
+        <p id="project-overview">Synchronizing overview from sheet...</p>
+      </div>
+      <div class="insight-grid">
+        <div class="insight-card">
+          <h3>Key Achievements</h3>
+          <ul class="insight-list" id="project-achievements">
+            <li class="insight-placeholder">Synchronizing achievements from sheet...</li>
+          </ul>
+        </div>
+        <div class="insight-card">
+          <h3>Milestones</h3>
+          <ul class="insight-list" id="project-milestones">
+            <li class="insight-placeholder">Synchronizing milestones from sheet...</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
     <div class="article-tags">
       <a class="badge badge-light" href="/imsi/tags/deep-learning">Deep Learning</a>
@@ -197,6 +330,88 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 <script src="/imsi/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+<script src="/imsi/js/SheetServices.js"></script>
+<script>
+  (function () {
+    function escapeHtml(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function normalizeProjectId(value) {
+      return String(value || '')
+        .trim()
+        .toUpperCase()
+        .replace(/_/g, '-');
+    }
+
+    function getValue(row, keys) {
+      for (const key of keys) {
+        if (row[key] !== undefined && row[key] !== null && String(row[key]).trim() !== '') {
+          return String(row[key]).trim();
+        }
+      }
+      return '';
+    }
+
+    function splitListText(value) {
+      const raw = String(value || '').trim();
+      if (!raw) return [];
+      return raw
+        .replace(/\u2022/g, ';')
+        .split(/\r?\n|[;|]/g)
+        .map((item) => item.replace(/^[-*]\s*/, '').trim())
+        .filter(Boolean);
+    }
+
+    function renderList(id, items, fallbackText) {
+      const element = document.getElementById(id);
+      if (!element) return;
+      if (!items.length) {
+        element.innerHTML = `<li class="insight-placeholder">${escapeHtml(fallbackText)}</li>`;
+        return;
+      }
+      element.innerHTML = items
+        .map((item) => `<li>${escapeHtml(item)}</li>`)
+        .join('');
+    }
+
+    async function syncProjectSummary() {
+      if (typeof getProjects !== 'function') return;
+      const rows = await getProjects();
+      if (!Array.isArray(rows) || rows.length === 0) return;
+
+      const row = rows.find((item) => {
+        const projectId = getValue(item, ['Project_ID', 'Project ID', 'project_id', 'Column_0']);
+        return normalizeProjectId(projectId) === 'PRJ-001';
+      });
+
+      if (!row) return;
+
+      const overview = getValue(row, ['Overview', 'overview', 'Column_4']);
+      const achievements = getValue(row, ['Achievements', 'achievements', 'Column_5']);
+      const milestones = getValue(row, ['Milestones', 'milestones', 'Column_6']);
+
+      const overviewElement = document.getElementById('project-overview');
+      if (overviewElement) {
+        overviewElement.textContent = overview || 'Overview will be added soon.';
+      }
+
+      renderList('project-achievements', splitListText(achievements), 'Achievements will be added soon.');
+      renderList('project-milestones', splitListText(milestones), 'Milestones will be added soon.');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      syncProjectSummary().catch(function (error) {
+        console.error('Failed to sync PRJ-001 project summary:', error);
+      });
+    });
+  })();
+</script>
 
 <div class="container">
   <footer class="site-footer">

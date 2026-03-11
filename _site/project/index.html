@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en-us">
 
 <head>
@@ -520,6 +520,10 @@
           .replace(/'/g, '&#39;');
       }
 
+      function normalizeProjectArchiveId(projectId) {
+        return String(projectId || '').trim().replace(/_/g, '-');
+      }
+
       function summarizeProjectOverview(text) {
         const raw = String(text || '').trim();
         if (!raw) return '';
@@ -533,9 +537,10 @@
       function buildProjectArchiveItem(row) {
         const projectId = getProjectRowValue(row, ['Project_ID', 'Project ID', 'project_id']);
         const title = getProjectRowValue(row, ['Title', 'title']);
-        const overview = summarizeProjectOverview(getProjectRowValue(row, ['Overview', 'overview']));
+        const overview = summarizeProjectOverview(getProjectRowValue(row, ['Overview', 'overview', 'Column_4']));
         if (!title) return '';
-        const url = projectId ? `/imsi/project/${encodeURIComponent(projectId)}/index.html` : '#';
+        const normalizedProjectId = normalizeProjectArchiveId(projectId);
+        const url = normalizedProjectId ? `/imsi/project/${encodeURIComponent(normalizedProjectId)}/index.html` : '#';
         return `
   <div>
     <h2><a href="${escapeProjectHtml(url)}">${escapeProjectHtml(title)}</a></h2>
@@ -670,5 +675,7 @@
 
 </body>
 </html>
+
+
 
 
