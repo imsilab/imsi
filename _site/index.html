@@ -2957,9 +2957,14 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
           .replace(/^-+|-+$/g, '');
       }
 
+      function normalizeProjectId(projectId) {
+        return String(projectId || '').trim().replace(/_/g, '-');
+      }
+
       function getProjectImageCandidates(projectId) {
-        if (!projectId) return ['/imsi/images/imsi_favicon_192.png'];
-        const encodedId = encodeURIComponent(projectId);
+        const normalizedId = normalizeProjectId(projectId);
+        if (!normalizedId) return ['/imsi/images/imsi_favicon_192.png'];
+        const encodedId = encodeURIComponent(normalizedId);
         return [
           `/imsi/project/${encodedId}/featured.jpeg`,
           `/imsi/project/${encodedId}/featured.jpg`,
@@ -3197,15 +3202,15 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
         }
       }
       const projectCategoryMap = {
-        PRJ_001: 'Models',
-        PRJ_003: 'Models',
-        PRJ_004: 'Applications',
-        PRJ_002: 'Applications',
-        PRJ_005: 'Applications'
+        'PRJ-001': 'Models',
+        'PRJ-003': 'Models',
+        'PRJ-004': 'Applications',
+        'PRJ-002': 'Applications',
+        'PRJ-005': 'Applications'
       };
 
       function getProjectCategoryTag(projectId, title) {
-        const key = String(projectId || '').trim();
+        const key = normalizeProjectId(projectId);
         if (projectCategoryMap[key]) {
           return projectCategoryMap[key];
         }
@@ -3222,12 +3227,13 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
       function buildProjectCard(row) {
         const projectId = getRowValue(row, ['Project_ID', 'Project ID', 'project_id']);
         const title = getRowValue(row, ['Title', 'title']);
-        const overview = shortenOverview(getRowValue(row, ['Overview', 'overview']), 80);
+        const overview = shortenOverview(getRowValue(row, ['Overview', 'overview', 'Column_4']), 80);
         const teamId = getRowValue(row, ['Team_ID', 'Team ID', 'team_id']);
 
         if (!title) return '';
 
-        const url = projectId ? `/imsi/project/${encodeURIComponent(projectId)}/index.html` : '#';
+        const normalizedProjectId = normalizeProjectId(projectId);
+        const url = normalizedProjectId ? `/imsi/project/${encodeURIComponent(normalizedProjectId)}/index.html` : '#';
         const category = getProjectCategoryTag(projectId, title);
         const categoryTag = category ? `js-id-${slugClass(category)}` : '';
         const teamTags = teamId
@@ -3368,6 +3374,7 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
 
 </body>
 </html>
+
 
 
 
