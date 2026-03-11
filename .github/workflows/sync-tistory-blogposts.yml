@@ -24,7 +24,7 @@ jobs:
       - name: Fetch latest Tistory posts
         env:
           TISTORY_RSS_URL: https://lambdacourse.tistory.com/rss
-          MAX_ITEMS: "3"
+          MAX_ITEMS: "6"
           OUTPUT_PATH: data/tistory-blogposts.json
         run: python .github/scripts/sync_tistory_blogposts.py
 

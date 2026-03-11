@@ -203,6 +203,16 @@
   
   
   <link rel="stylesheet" href="/imsi/css/academic.css">
+  <style>
+    #post-list-dynamic .article-style p {
+      margin-bottom: 0;
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
 
   
 
@@ -213,14 +223,14 @@
 
 
   
-  <link rel="alternate" href="/imsi/post/index.xml" type="application/rss+xml" title="IMSI Research Group">
+  <link rel="alternate" href="/imsi/post/index.xml" type="application/rss+xml" title="IMSI Lab">
   
 
   <link rel="manifest" href="/imsi/index.webmanifest">
-  <link rel="icon" type="image/png" href="/imsi/images/icon_hu027d87ac1e37f4f802995042c9999554_21044_32x32_fill_lanczos_center_2.png">
-  <link rel="apple-touch-icon" type="image/png" href="/imsi/images/icon_hu027d87ac1e37f4f802995042c9999554_21044_192x192_fill_lanczos_center_2.png">
+  <link rel="icon" type="image/png" href="/imsi/images/imsi_favicon_32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/imsi/images/imsi_favicon_192.png">
 
-  <link rel="canonical" href="https://graphdeeplearning.github.io/post/">
+  <link rel="canonical" href="https://imsilab.github.io/post/">
 
   
   
@@ -236,11 +246,11 @@
   <meta property="twitter:site" content="@xbresson">
   <meta property="twitter:creator" content="@xbresson">
   
-  <meta property="og:site_name" content="IMSI Research Group">
-  <meta property="og:url" content="https://graphdeeplearning.github.io/post/">
-  <meta property="og:title" content="Research Blog | IMSI Research Group">
-  <meta property="og:description" content="The IMSI Research Group, headed by Dr. Xavier Bresson, investigates fundamental techniques in Graph Deep Learning, a new framework that combines graph theory and deep neural networks to tackle complex data domains in physical science, natural language processing, computer vision, and combinatorial optimization."><meta property="og:image" content="https://graphdeeplearning.github.io/images/icon_hu027d87ac1e37f4f802995042c9999554_21044_512x512_fill_lanczos_center_2.png">
-  <meta property="twitter:image" content="https://graphdeeplearning.github.io/images/icon_hu027d87ac1e37f4f802995042c9999554_21044_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
+  <meta property="og:site_name" content="IMSI Lab">
+  <meta property="og:url" content="https://imsilab.github.io/post/">
+  <meta property="og:title" content="Blog | IMSI Lab">
+  <meta property="og:description" content="The IMSI Research Group, headed by Dr. Xavier Bresson, investigates fundamental techniques in Graph Deep Learning, a new framework that combines graph theory and deep neural networks to tackle complex data domains in physical science, natural language processing, computer vision, and combinatorial optimization."><meta property="og:image" content="https://imsilab.github.io/images/imsi_favicon_512.png">
+  <meta property="twitter:image" content="https://imsilab.github.io/images/imsi_favicon_512.png"><meta property="og:locale" content="en-us">
   
     <meta property="og:updated_time" content="2020-06-15T03:03:47&#43;08:00">
   
@@ -259,7 +269,7 @@
 
 
 
-  <title>Research Blog | IMSI Research Group</title>
+  <title>Blog | IMSI Lab</title>
 
 </head>
 
@@ -305,7 +315,7 @@
     
     
     <div class="d-none d-lg-inline-flex">
-      <a class="navbar-brand" href="/imsi/">IMSI Research Group</a>
+      <a class="navbar-brand" href="/imsi/">IMSI Lab</a>
     </div>
     
 
@@ -318,7 +328,7 @@
 
     
     <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
-      <a class="navbar-brand" href="/imsi/">IMSI Research Group</a>
+      <a class="navbar-brand" href="/imsi/">IMSI Lab</a>
     </div>
     
 
@@ -511,7 +521,7 @@
       <h1>Blog</h1>
       <p>Research updates, insights, and technical articles from IMSI Research Group</p>
     </div>
-    <div class="col-12 col-lg-8">
+    <div class="col-12 col-lg-8" id="post-list-dynamic">
 
   
 
@@ -800,6 +810,66 @@ Through this post, I want to establish links between Graph Neural Networks (GNNs
     
     
     <script src="/imsi/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+    <script>
+      function escapePostHtml(value) {
+        return String(value || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function formatPostDate(value) {
+        const raw = String(value || '').trim();
+        if (!raw) return '';
+        const date = new Date(raw);
+        if (Number.isNaN(date.getTime())) return raw;
+        return date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+      }
+
+      function buildTistoryPostCard(item) {
+        const title = String(item?.title || '').trim();
+        const link = String(item?.link || '').trim();
+        const excerpt = String(item?.excerpt || '').trim();
+        const dateText = formatPostDate(item?.iso_date || item?.pub_date || '');
+        if (!title || !link) return '';
+
+        return `
+<div class="card-simple">
+  <div class="article-metadata">
+    ${dateText ? `<span class="article-date">${escapePostHtml(dateText)}</span>` : ''}
+  </div>
+  <h3 class="article-title mb-1 mt-3">
+    <a href="${escapePostHtml(link)}" target="_blank" rel="noopener">${escapePostHtml(title)}</a>
+  </h3>
+  ${excerpt ? `<div class="article-style"><p>${escapePostHtml(excerpt)}</p></div>` : ''}
+</div>`;
+      }
+
+      async function renderPostArchiveFromTistory() {
+        const container = document.getElementById('post-list-dynamic');
+        if (!container) return;
+        try {
+          const response = await fetch('/imsi/data/tistory-blogposts.json', { cache: 'no-store' });
+          if (!response.ok) return;
+          const payload = await response.json();
+          const posts = Array.isArray(payload?.items) ? payload.items : [];
+          if (posts.length === 0) return;
+          const html = posts.map(buildTistoryPostCard).filter(Boolean).join('\n');
+          if (!html) return;
+          container.innerHTML = html;
+        } catch (err) {
+          console.error('Failed to render blog archive from Tistory JSON:', err);
+        }
+      }
+
+      renderPostArchiveFromTistory();
+    </script>
 
     
 
@@ -859,4 +929,5 @@ Through this post, I want to establish links between Graph Neural Networks (GNNs
 
 </body>
 </html>
+
 
