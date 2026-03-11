@@ -3042,27 +3042,95 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
         img.src = '/imsi/images/imsi_favicon_192.png';
       }
 
+      function escapeBibValue(value) {
+        return String(value || '')
+          .replace(/\\/g, '\\\\')
+          .replace(/{/g, '\\{')
+          .replace(/}/g, '\\}')
+          .replace(/\r?\n/g, ' ')
+          .trim();
+      }
+
+      function buildPublicationBibText(title, authors, year) {
+        return [
+          '@article{',
+          `  title={${escapeBibValue(title)}},`,
+          `  author={${escapeBibValue(authors)}},`,
+          `  year={${escapeBibValue(year)}}`,
+          '}',
+          ''
+        ].join('\n');
+      }
+
+      let homePublicationCiteBlobUrl = null;
+
+      function openHomePublicationCiteModal(title, authors, year) {
+        if (!window.jQuery) return;
+        const $ = window.jQuery;
+        const $modal = $('#modal');
+        const $code = $modal.find('.modal-body code');
+        const $download = $modal.find('.js-download-cite');
+
+        const citeText = buildPublicationBibText(title, authors, year);
+        $code.text(citeText);
+        $('#modal-error').text('');
+
+        if (homePublicationCiteBlobUrl) {
+          URL.revokeObjectURL(homePublicationCiteBlobUrl);
+          homePublicationCiteBlobUrl = null;
+        }
+
+        homePublicationCiteBlobUrl = URL.createObjectURL(
+          new Blob([citeText], { type: 'text/plain;charset=utf-8' })
+        );
+        $download.attr('href', homePublicationCiteBlobUrl);
+        $download.attr('download', 'cite.bib');
+
+        $modal.modal('show');
+      }
+
+      function bindHomePublicationCiteButtons(root) {
+        if (!root || !window.jQuery) return;
+        const $ = window.jQuery;
+        $(root).find('.js-home-cite-modal').off('click').on('click', function (event) {
+          event.preventDefault();
+          const button = event.currentTarget;
+          openHomePublicationCiteModal(
+            button.getAttribute('data-title') || '',
+            button.getAttribute('data-authors') || '',
+            button.getAttribute('data-year') || ''
+          );
+        });
+      }
+
       function buildHomePublicationItem(row) {
         const pubId = getRowValue(row, ['Pub_ID', 'Pub ID', 'pub_id', 'Column_0']);
         const year = getRowValue(row, ['Year', 'year', 'Column_1']);
         const title = getRowValue(row, ['Title', 'title', 'Column_2']);
         const venueName = getRowValue(row, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']);
         const authors = getRowValue(row, ['Authors', 'authors', 'Column_4']);
+        const paperLink = getRowValue(row, ['Paper_Link', 'Paper Link', 'paper_link', 'Column_5']);
 
         if (!title) return '';
 
         const normalizedPubId = normalizePublicationId(pubId);
         const detailUrl = normalizedPubId ? `/imsi/publication/${encodeURIComponent(normalizedPubId)}/index.html` : '';
+        const localPdfUrl = normalizedPubId ? `/imsi/publication/${encodeURIComponent(normalizedPubId)}/paper.pdf` : '';
+        const pdfUrl = String(paperLink || localPdfUrl || '').trim();
         const imageCandidates = getPublicationImageCandidates(pubId);
         const imageSrc = imageCandidates[0];
         const fallbackList = imageCandidates.join('|');
-        const meta = [authors, venueName, year].filter(Boolean).join(' | ');
+        const secondaryMeta = [venueName, year].filter(Boolean).join(' | ');
         const titleHtml = detailUrl
           ? `<a href="${escapeHtml(detailUrl)}">${escapeHtml(title)}</a>`
           : `${escapeHtml(title)}`;
         const imageHtml = detailUrl
           ? `<a href="${escapeHtml(detailUrl)}"><img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(title)}" data-fallbacks="${escapeHtml(fallbackList)}" data-fallback-index="0" onerror="onPublicationImageError(this)"></a>`
           : `<img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(title)}" data-fallbacks="${escapeHtml(fallbackList)}" data-fallback-index="0" onerror="onPublicationImageError(this)">`;
+        const pdfButtonHtml = pdfUrl
+          ? `<a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="${escapeHtml(pdfUrl)}" target="_blank" rel="noopener">PDF</a>`
+          : '';
+        const citeButtonHtml = `<button type="button" class="btn btn-outline-primary my-1 mr-1 btn-sm js-home-cite-modal" data-title="${escapeHtml(title)}" data-authors="${escapeHtml(authors)}" data-year="${escapeHtml(year)}">Cite</button>`;
 
         return `
 <div class="media stream-item">
@@ -3071,7 +3139,12 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
       ${titleHtml}
     </h3>
     <div class="stream-meta article-metadata">
-      <div>${escapeHtml(meta)}</div>
+      <div>${escapeHtml(authors)}</div>
+      ${secondaryMeta ? `<div>${escapeHtml(secondaryMeta)}</div>` : ''}
+    </div>
+    <div class="btn-links">
+      ${pdfButtonHtml}
+      ${citeButtonHtml}
     </div>
   </div>
   <div class="ml-3 publications-thumb">
@@ -3113,6 +3186,8 @@ We investigate <strong>Intelligent Multimedia Signal Processing and Intelligence
           } else {
             sectionBody.appendChild(list);
           }
+
+          bindHomePublicationCiteButtons(list);
         } catch (err) {
           console.error('Failed to render home publications from sheet:', err);
       } finally {

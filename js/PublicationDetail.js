@@ -1,4 +1,53 @@
 (function () {
+  let citeBlobUrl = null;
+
+  function escapeBibValue(value) {
+    return String(value || '')
+      .replace(/\\/g, '\\\\')
+      .replace(/{/g, '\\{')
+      .replace(/}/g, '\\}')
+      .replace(/\r?\n/g, ' ')
+      .trim();
+  }
+
+  function buildSimpleBib({ title, authors, year }) {
+    return [
+      '@article{',
+      `  title={${escapeBibValue(title)}},`,
+      `  author={${escapeBibValue(authors)}},`,
+      `  year={${escapeBibValue(year)}}`,
+      '}',
+      ''
+    ].join('\n');
+  }
+
+  function attachCitationModal(citeText) {
+    const modal = document.getElementById('modal');
+    if (!modal || typeof window.jQuery === 'undefined') return;
+
+    const $ = window.jQuery;
+    const $modal = $(modal);
+    const $code = $modal.find('.modal-body code');
+    const $download = $modal.find('.js-download-cite');
+    const $trigger = $('.js-cite-modal');
+
+    $code.text(citeText);
+
+    if (citeBlobUrl) {
+      URL.revokeObjectURL(citeBlobUrl);
+      citeBlobUrl = null;
+    }
+    citeBlobUrl = URL.createObjectURL(new Blob([citeText], { type: 'text/plain;charset=utf-8' }));
+
+    $download.attr('href', citeBlobUrl);
+    $download.attr('download', 'cite.bib');
+
+    $trigger.off('click').on('click', function (event) {
+      event.preventDefault();
+      $modal.modal('show');
+    });
+  }
+
   function ensureSkeletonStyles() {
     if (document.getElementById('pub-sheet-skeleton-style')) return;
     const style = document.createElement('style');
@@ -254,6 +303,8 @@
           setHtmlById('pub-venue', `<em>${escapeHtml(venueName)}</em>`);
         }
       }
+
+      attachCitationModal(buildSimpleBib({ title, authors, year }));
     } finally {
       hideSkeleton(article, skeleton);
     }
