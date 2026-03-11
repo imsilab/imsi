@@ -2,264 +2,701 @@
 <html lang="en-us">
 
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="generator" content="Source Themes Academic 4.7.0">
-
   <meta name="author" content="IMSI Research Group">
-
-  <meta name="description" content="IMSI Research Group alumni and former members who have contributed to our research">
-
+  <meta name="description" content="IMSI Research Group Teams — all members organized by team">
   <link rel="alternate" hreflang="en-us" href="https://imsilab.github.io/alumni/">
-
   <meta name="theme-color" content="#2962ff">
-
   <script src="/imsi/js/mathjax-config.js"></script>
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" crossorigin="anonymous" async></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
-
   <link rel="stylesheet" href="/imsi/css/academic.css">
-
   <link rel="manifest" href="/imsi/index.webmanifest">
   <link rel="icon" type="image/png" href="/imsi/images/imsi_favicon_32.png">
   <link rel="apple-touch-icon" type="image/png" href="/imsi/images/imsi_favicon_192.png">
-
   <link rel="canonical" href="https://imsilab.github.io/alumni/">
-
   <meta property="twitter:card" content="summary">
-
   <meta property="og:site_name" content="IMSI Research Group">
   <meta property="og:url" content="https://imsilab.github.io/alumni/">
-  <meta property="og:title" content="Alumni | IMSI Research Group">
-  <meta property="og:description" content="IMSI Research Group alumni and former members who have contributed to our research">
+  <meta property="og:title" content="Teams | IMSI Research Group">
+  <meta property="og:description" content="IMSI Research Group Teams — all members organized by team">
+  <title>Teams | IMSI Research Group</title>
 
-  <title>Alumni | IMSI Research Group</title>
+  <style>
+    /* ── Page ── */
+    .teams-page { padding: 3rem 0 4rem; }
+    .teams-header { margin-bottom: 2rem; }
+    .teams-header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .teams-header p  { color: #666; margin: 0; }
 
+    /* ── Loading / error ── */
+    #teams-loading { color: #777; font-style: italic; padding: 2rem 0; }
+    #teams-error   { color: #c0392b; padding: 1rem 0; }
+
+    /* ── TABS ── */
+    .tab-row {
+      display: flex;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-bottom: 1.8rem;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    .tab-btn {
+      padding: 0.55rem 1.4rem;
+      border: none;
+      background: transparent;
+      color: #555;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tab-btn:hover  { color: #2962ff; }
+    .tab-btn.active { color: #2962ff; border-bottom-color: #2962ff; }
+
+    /* ── Teams sub-toggle ── */
+    .sub-toggle { display: flex; gap: 0.4rem; margin-bottom: 1.6rem; }
+    .sub-btn {
+      padding: 0.38rem 0.9rem;
+      border: 2px solid #2962ff;
+      background: transparent;
+      color: #2962ff;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.82rem;
+      transition: all 0.2s;
+    }
+    .sub-btn.active { background: #2962ff; color: #fff; }
+
+    /* ── People-widget style (matches main index.html) ── */
+    .people-widget-section { margin-bottom: 0.5rem; }
+    .people-section-header {
+      width: 100%;
+      margin-bottom: 1rem;
+      margin-top: 2rem;
+    }
+    .people-section-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    .people-row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+    }
+    .people-person {
+      text-align: center;
+      padding: 0.8rem 1rem 1.2rem;
+    }
+    .people-person img.portrait,
+    .people-person .portrait-init {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto;
+    }
+    .people-person .portrait-init {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 55px;
+      font-weight: bold;
+      color: white;
+      background: #2962ff;
+    }
+    .people-person .portrait-title { margin-top: 0.6rem; }
+    .people-person .portrait-title h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 0.2rem;
+    }
+    .people-person .portrait-title h2 a { color: inherit; text-decoration: none; }
+    .people-person .portrait-title h2 a:hover { color: #2962ff; }
+    .people-person .portrait-title h3 {
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: #666;
+      margin: 0;
+    }
+
+    /* ── Teams tab: Thumbnail grid (small) ── */
+    .team-section { margin-bottom: 3rem; }
+    .team-section-title {
+      font-size: 1.25rem; font-weight: 700;
+      border-left: 4px solid #2962ff; padding-left: 0.7rem; margin-bottom: 1.2rem;
+    }
+    .team-count { font-size: 0.88rem; font-weight: 400; color: #777; margin-left: 6px; }
+    .members-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .member-card {
+      width: 120px; text-align: center; border-radius: 12px;
+      padding: 0.9rem 0.4rem; background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      text-decoration: none !important; color: inherit;
+      transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: block;
+    }
+    .member-card:hover { transform: translateY(-4px); box-shadow: 0 6px 18px rgba(41,98,255,0.18); }
+    .member-card img, .member-card .avatar-ph {
+      width: 72px; height: 72px; border-radius: 50%; object-fit: cover;
+      margin: 0 auto 0.5rem; display: block; border: 2px solid #e8eaf6; background: #eee;
+    }
+    .member-card .avatar-ph {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; color: #aaa;
+    }
+    .member-card .m-name  { font-size: 0.8rem; font-weight: 600; line-height: 1.3; }
+    .member-card .m-dept  { font-size: 0.68rem; color: #888; margin-top: 2px; }
+
+    /* ── ORG CHART ── */
+    .org-wrapper { overflow-x: auto; padding: 1.5rem 0; }
+    .org-tree { display: flex; flex-direction: column; align-items: center; }
+    .org-root-node { display: flex; flex-direction: column; align-items: center; }
+    .org-root-circle {
+      width: 100px; height: 100px; border-radius: 50%;
+      background: #2962ff; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; font-weight: 700; text-align: center; padding: 8px;
+      box-shadow: 0 4px 16px rgba(41,98,255,0.35); line-height: 1.3;
+    }
+    .org-vline { width: 2px; background: #b0bec5; }
+    .org-vline-root { height: 32px; } .org-vline-team { height: 24px; } .org-vline-member { height: 14px; }
+    .org-cols-wrap { display: flex; align-items: flex-start; position: relative; }
+    .org-hline { height: 2px; background: #b0bec5; position: absolute; top: 0; }
+    .org-team-col { display: flex; flex-direction: column; align-items: center; padding: 0 12px; }
+    .org-team-circle {
+      width: 84px; height: 84px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.67rem; font-weight: 700; text-align: center; padding: 6px; line-height: 1.3;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    }
+    .org-members-col { display: flex; flex-direction: column; align-items: center; }
+    .org-member-wrap { display: flex; flex-direction: column; align-items: center; }
+    .org-member-bubble {
+      width: 62px; height: 62px; border-radius: 50%; overflow: hidden;
+      border: 2px solid #e0e0e0; background: #eeeeee;
+      cursor: pointer; position: relative; transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .org-member-bubble:hover { transform: scale(1.1); box-shadow: 0 4px 14px rgba(41,98,255,0.25); }
+    .org-member-bubble img { width: 100%; height: 100%; object-fit: cover; }
+    .org-member-bubble .avatar-ph {
+      width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; color: #aaa;
+    }
+    .org-member-tip {
+      position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%);
+      background: #333; color: #fff; padding: 3px 7px; border-radius: 5px;
+      font-size: 0.62rem; white-space: nowrap; pointer-events: none;
+      opacity: 0; transition: opacity 0.15s; z-index: 100;
+    }
+    .org-member-bubble:hover .org-member-tip { opacity: 1; }
+    .org-member-name { font-size: 0.6rem; text-align: center; max-width: 72px; font-weight: 600; margin-top: 3px; line-height: 1.2; }
+    .org-member-role { font-size: 0.55rem; color: #999; text-align: center; max-width: 72px; margin-bottom: 4px; }
+
+    .tc-0{background:#3f51b5;color:#fff} .tc-1{background:#00897b;color:#fff}
+    .tc-2{background:#e53935;color:#fff} .tc-3{background:#f4511e;color:#fff}
+    .tc-4{background:#8e24aa;color:#fff} .tc-5{background:#00acc1;color:#fff}
+    .tc-6{background:#7cb342;color:#fff} .tc-7{background:#fb8c00;color:#fff}
+    .tc-8{background:#6d4c41;color:#fff} .tc-9{background:#546e7a;color:#fff}
+  </style>
 </head>
 
-<body id="top" data-spy="scroll" data-offset="70" data-target="#navbar-main" >
+<body id="top" data-spy="scroll" data-offset="70" data-target="#navbar-main">
 
   <aside class="search-results" id="search">
-  <div class="container">
-    <section class="search-header">
-
-      <div class="row no-gutters justify-content-between mb-3">
-        <div class="col-6">
-          <h1>Search</h1>
+    <div class="container">
+      <section class="search-header">
+        <div class="row no-gutters justify-content-between mb-3">
+          <div class="col-6"><h1>Search</h1></div>
+          <div class="col-6 col-search-close">
+            <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+          </div>
         </div>
-        <div class="col-6 col-search-close">
-          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        <div id="search-box">
+          <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+                 autocomplete="off" autocorrect="off" spellcheck="false" type="search">
         </div>
-      </div>
-
-      <div id="search-box">
-        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
-        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
-      </div>
-
-    </section>
-    <section class="section-search-results">
-
-      <div id="search-hits">
-      </div>
-
-    </section>
-  </div>
-</aside>
-
-<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
-  <div class="container">
-
-    <div class="d-none d-lg-inline-flex">
-      <a class="navbar-brand" href="/imsi/">IMSI Research Group</a>
+      </section>
+      <section class="section-search-results"><div id="search-hits"></div></section>
     </div>
+  </aside>
 
-    <button type="button" class="navbar-toggler" data-toggle="collapse"
-            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-    <span><i class="fas fa-bars"></i></span>
-    </button>
-
-    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
-      <a class="navbar-brand" href="/imsi/">IMSI Research Group</a>
-    </div>
-
-    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
-
-      <ul class="navbar-nav d-md-inline-flex">
-
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container">
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/imsi/">IMSI Research Group</a>
+      </div>
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/imsi/">IMSI Research Group</a>
+      </div>
+      <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+        <ul class="navbar-nav d-md-inline-flex">
+          <li class="nav-item"><a class="nav-link" href="/imsi/#hero"><span>Home</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/publication"><span>Publications</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/post/"><span>Blog</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/images/"><span>Images</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/#people"><span>People</span></a></li>
+          <li class="nav-item"><a class="nav-link active" href="/imsi/alumni/"><span>Teams</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/#contact"><span>Contact</span></a></li>
+        </ul>
+      </div>
+      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
         <li class="nav-item">
-          <a class="nav-link " href="/imsi/#hero"><span>Home</span></a>
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
         </li>
-
-        <li class="nav-item">
-          <a class="nav-link " href="/imsi/publication"><span>Publications</span></a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link " href="/imsi/post/"><span>Blog</span></a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link " href="/imsi/images/"><span>Images</span></a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link " href="/imsi/#people"><span>People</span></a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link active" href="/imsi/alumni/"><span>Alumni</span></a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link " href="/imsi/#contact"><span>Contact</span></a>
-        </li>
-
       </ul>
     </div>
+  </nav>
 
-    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
-      <li class="nav-item">
-        <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
-      </li>
-    </ul>
+  <!-- ════ MAIN ════ -->
+  <div class="container teams-page">
+
+    <div class="teams-header">
+      <h1>Teams</h1>
+      <p>All IMSI Research Group members, organized by role or research team</p>
+    </div>
+
+    <!-- Primary tabs: Members | Teams -->
+    <div class="tab-row">
+      <button id="tab-members" class="tab-btn active" onclick="switchTab('members')">Members</button>
+      <button id="tab-teams" class="tab-btn" onclick="switchTab('teams')">Teams</button>
+    </div>
+
+    <p id="teams-loading"><i class="fas fa-spinner fa-spin"></i> Loading members from spreadsheet...</p>
+    <p id="teams-error" style="display:none;color:#c0392b;">Failed to load team data.</p>
+
+    <!-- ── MEMBERS TAB (People-widget style) ── -->
+    <div id="panel-members" style="display:none;">
+      <div id="members-people-view"></div>
+    </div>
+
+    <!-- ── TEAMS TAB ── -->
+    <div id="panel-teams" style="display:none;">
+      <div id="teams-people-view"></div>
+    </div>
 
   </div>
-</nav>
 
-<div class="universal-wrapper">
-  <div class="row">
-    <div class="col-12 col-lg-4 section-heading">
-      <h1>Alumni</h1>
-      <p>Former members who have contributed to IMSI Research Group's research and continue to make impact in their fields</p>
-    </div>
-    <div class="col-12 col-lg-8">
-
-      <!-- Alumni Section -->
-      <div class="row mb-5">
-        <div class="col-12">
-          <h2>Alumni</h2>
-          <p>Former researchers and students who have moved on to exciting opportunities</p>
-
-          <div class="row">
-            <div class="col-lg-6 mb-4">
-              <div class="card">
-                <div class="card-body text-center">
-                  <img src="/imsi/authors/alumni/jaehyeok-bae/avatar.png" alt="Jaehyeok Bae"
-                       class="portrait mb-3" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%;">
-                  <h5><a href="/imsi/authors/alumni/jaehyeok-bae/">Jaehyeok Bae</a></h5>
-                  <p class="text-muted">Former Research Assistant</p>
-                  <p class="small">Now pursuing advanced research in machine learning</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-6 mb-4">
-              <div class="card">
-                <div class="card-body text-center">
-                  <img src="/imsi/authors/alumni/seoyoung-ju/avatar.png" alt="Seoyoung Ju"
-                       class="portrait mb-3" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%;">
-                  <h5><a href="/imsi/authors/alumni/seoyoung-ju/">Seoyoung Ju</a></h5>
-                  <p class="text-muted">Former Research Assistant</p>
-                  <p class="small">Continuing research in computer vision and AI</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Undergraduate Research Internship Section -->
-      <div class="row">
-        <div class="col-12">
-          <h2>Undergraduate Research Internship</h2>
-          <p>Undergraduate students who completed research internships and gained valuable research experience</p>
-
-          <div class="row">
-            <!-- This will be populated with undergraduate intern profiles -->
-            <div class="col-12">
-              <p class="text-center text-muted">
-                <i class="fas fa-users fa-3x mb-3"></i><br>
-                Coming Soon: Profiles of our undergraduate research interns who have completed their programs
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
+  <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/python.min.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
-
   <script>const code_highlighting = true;</script>
-
   <script>
     const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
     const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
-    const content_type = {
-      'post': "Posts",
-      'project': "Projects",
-      'publication' : "Publications",
-      'talk' : "Talks"
-      };
+    const content_type = {'post':"Posts",'project':"Projects",'publication':"Publications",'talk':"Talks"};
   </script>
-
   <script id="search-hit-fuse-template" type="text/x-template">
     <div class="search-hit" id="summary-{{key}}">
-    <div class="search-hit-content">
-      <div class="search-hit-name">
-        <a href="{{relpermalink}}">{{title}}</a>
-        <div class="article-metadata search-hit-type">{{type}}</div>
-        <p class="search-hit-description">{{snippet}}</p>
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
       </div>
     </div>
-    </div>
   </script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
-
   <script src="/imsi/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+  <script src="/imsi/js/SheetServices.js"></script>
+
+  <script>
+    /* ── CONFIG ── */
+    const TEAM_COL = 'Team';
+
+    const CATEGORY_ORDER = [
+      'Professor',
+      'Investigators','Principal Investigator',
+      'Research Assistants','Researcher',
+      'Student Researchers','Student',
+      'Undergraduate Interns','Intern',
+      'Aider','Alumni','InActive','ETC',
+      'Advisor',
+      'Visitors','Visitor',
+    ];
+
+    /* ── Known profile photos (only confirmed avatar.png files) ── */
+    const PHOTO_OVERRIDES = {
+      'jaehyeok-bae':  '/imsi/authors/alumni/jaehyeok-bae/avatar.png',
+      'seoyoung-ju':   '/imsi/authors/alumni/seoyoung-ju/avatar.png',
+      'hyukjae-lee':   '/imsi/authors/investigators/hyukjae-lee/avatar.png',
+      'nam-joon-kim':  '/imsi/authors/investigators/nam-joon-kim/avatar.png',
+      'kyeonghun-kim': '/imsi/authors/research_assistants/kyeonghun-kim/avatar.png',
+      'youngung-han':  '/imsi/authors/research_assistants/youngung-han/avatar.png',
+      'minkyung-cha':  '/imsi/authors/student_researchers/minkyung-cha/avatar.png',
+      'sooyong-kim':   '/imsi/authors/student_researchers/sooyong-kim/avatar.png',
+      'jooyoung-bae':  '/imsi/authors/undergraduate_interns/jooyoung-bae/avatar.png',
+      'junbeom-lee':   '/imsi/authors/undergraduate_interns/junbeom-lee/avatar.png',
+      'junsu-lim':     '/imsi/authors/visitors/junsu-lim/avatar.png',
+      'ginny-nvidia':  '/imsi/authors/advisors/ginny-nvidia/avatar.png',
+      'jeff-nvidia':   '/imsi/authors/advisors/jeff-nvidia/avatar.png',
+    };
+
+    function getPhoto(p, profileUrl) {
+      if (p.PhotoUrl && p.PhotoUrl.trim()) return p.PhotoUrl.trim();
+      if (profileUrl) {
+        const slug = profileUrl.replace(/\/$/, '').split('/').pop();
+        if (PHOTO_OVERRIDES[slug]) return PHOTO_OVERRIDES[slug];
+      }
+      return null;
+    }
+
+    /* mkPortrait: initials circle as base, photo overlaid on top */
+    function mkPortrait(initial, photoSrc, altText) {
+      const base = `position:relative;width:150px;height:150px;border-radius:50%;background:#2962ff;` +
+                   `display:flex;align-items:center;justify-content:center;` +
+                   `font-size:55px;font-weight:bold;color:white;overflow:hidden;`;
+      const overlay = photoSrc
+        ? `<img src="${photoSrc}" alt="${altText}" ` +
+          `style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:50%;" ` +
+          `onerror="this.remove()">`
+        : '';
+      return `<div style="${base}">${initial}${overlay}</div>`;
+    }
+
+
+    /* ── Helpers ── */
+    // Category → folder name mapping
+    const CAT_FOLDER = {
+      'Investigators':          'investigators',
+      'Principal Investigator': 'investigators',
+      'Research Assistants':    'research_assistants',
+      'Researcher':             'research_assistants',
+      'Student Researchers':    'student_researchers',
+      'Student':                'student_researchers',
+      'Undergraduate Interns':  'undergraduate_interns',
+      'Intern':                 'undergraduate_interns',
+      'Visitors':               'visitors',
+      'Visitor':                'visitors',
+      'Alumni':                 'alumni',
+      'Advisor':                'advisors',
+    };
+
+    function toSlug(name) {
+      return name.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-');
+    }
+
+    function profileUrl(p) {
+      if (p.ProfileUrl && p.ProfileUrl.trim()) return p.ProfileUrl.trim();
+      // Auto-generate from Category + Name_EN_FULL
+      const catFolder = CAT_FOLDER[(p.Category || '').trim()];
+      const name = (p.Name_EN_FULL || '').trim();
+      if (catFolder && name) {
+        return `/imsi/authors/${catFolder}/${toSlug(name)}/`;
+      }
+      return null;
+    }
+
+    function groupBy(people, keyFn, orderHint) {
+      const map = {};
+      people.forEach(p => {
+        const k = keyFn(p) || '(Unknown)';
+        if (!map[k]) map[k] = [];
+        map[k].push(p);
+      });
+      const result = {};
+      (orderHint || []).forEach(k => { if (map[k]) { result[k] = map[k]; delete map[k]; } });
+      Object.keys(map).sort().forEach(k => { result[k] = map[k]; });
+      return result;
+    }
+
+    /* ── MEMBERS: People-widget style renderer ── */
+    function renderMembersPeopleStyle(groups, containerId) {
+      const el = document.getElementById(containerId);
+      const keys = Object.keys(groups);
+      if (!keys.length) { el.innerHTML = '<p class="text-muted">No members found.</p>'; return; }
+
+      el.innerHTML = keys.map(label => {
+        const members = groups[label];
+        const personCards = members.map(p => {
+          const url = profileUrl(p);
+          const name = p.Name_EN_FULL || p.Name_KR || 'Unknown';
+          const role = p.Dept_EN || p.Org_EN || p.Category || '';
+
+          const initials = name.charAt(0).toUpperCase();
+          const photoSrc = getPhoto(p, url);
+          const imgEl = mkPortrait(initials, photoSrc, name);
+
+          const inner = `
+            ${url ? `<a href="${url}">${imgEl}</a>` : imgEl}
+            <div class="portrait-title">
+              <h2>${url ? `<a href="${url}">${name}</a>` : name}</h2>
+              <h3>${role}</h3>
+            </div>`;
+
+          return `<div class="col-12 col-sm-auto people-person">${inner}</div>`;
+        }).join('');
+
+        return `
+          <div class="col-md-12" style="margin-top:1.5rem;">
+            <h2 class="mb-4">${label} <span style="font-size:0.85rem;font-weight:400;color:#888;">(${members.length})</span></h2>
+          </div>
+          ${personCards}
+          ${/undergraduate.intern/i.test(label) || label === 'Undergraduate Interns' || label === 'Intern' ? `
+          <div class="col-12" style="margin-top:0.5rem;margin-bottom:1rem;">
+            <div style="background:#f0f4ff;border-left:4px solid #2962ff;border-radius:6px;padding:0.75rem 1.1rem;font-size:0.85rem;color:#3a3a5c;">
+              <strong>Undergraduate Research Internship — Eligibility Criteria</strong><br>
+              3+ months of participation &amp; at least 1 co-authorship
+            </div>
+          </div>` : ''}`;
+      }).join('');
+    }
+
+    /* ── TEAMS: Thumbnail grid renderer ── */
+    function renderTeamsGrid(groups, containerId) {
+      const el = document.getElementById(containerId);
+      const keys = Object.keys(groups);
+      if (!keys.length) { el.innerHTML = '<p class="text-muted">No team data found.</p>'; return; }
+
+      el.innerHTML = keys.map(label => {
+        const members = groups[label];
+        const cards = members.map(p => {
+          const url = profileUrl(p);
+          const name = p.Name_EN_FULL || p.Name_KR || 'Unknown';
+          const dept = p.Dept_EN || p.Org_EN || '';
+          const imgEl = p.PhotoUrl && p.PhotoUrl.trim()
+            ? `<img src="${p.PhotoUrl}" alt="${name}"
+                onerror="this.outerHTML='<div class=\\'avatar-ph\\'><i class=\\'fas fa-user\\'></i></div>'">`
+            : `<div class="avatar-ph"><i class="fas fa-user"></i></div>`;
+          const inner = `${imgEl}<div class="m-name">${name}</div><div class="m-dept">${dept}</div>`;
+          return url
+            ? `<a class="member-card" href="${url}">${inner}</a>`
+            : `<div class="member-card">${inner}</div>`;
+        }).join('');
+        return `<div class="team-section">
+          <div class="team-section-title">${label}<span class="team-count">(${members.length})</span></div>
+          <div class="members-grid">${cards}</div>
+        </div>`;
+      }).join('');
+    }
+
+    /* ── TEAMS: Org chart renderer ── */
+    function renderTeamsTree(groups, rootId) {
+      const root = document.getElementById(rootId);
+      const teams = Object.keys(groups);
+      if (!teams.length) { root.innerHTML = '<p class="text-muted">No data.</p>'; return; }
+
+      let html = `<div class="org-root-node">
+        <div class="org-root-circle">IMSI<br>Research<br>Group</div>
+        <div class="org-vline org-vline-root"></div>
+      </div>
+      <div class="org-cols-wrap" id="${rootId}-cols">`;
+
+      teams.forEach((team, ti) => {
+        const color = TEAM_COLORS[ti % TEAM_COLORS.length];
+        const memberNodes = groups[team].map(p => {
+          const name = p.Name_EN_FULL || p.Name_KR || 'Unknown';
+          const url = profileUrl(p);
+          const click = url ? `onclick="location.href='${url}'"` : '';
+          const imgInner = p.PhotoUrl && p.PhotoUrl.trim()
+            ? `<img src="${p.PhotoUrl}" alt="${name}"
+                onerror="this.outerHTML='<div class=\\'avatar-ph\\'><i class=\\'fas fa-user\\'></i></div>'">`
+            : `<div class="avatar-ph"><i class="fas fa-user"></i></div>`;
+          return `<div class="org-member-wrap">
+            <div class="org-vline org-vline-member"></div>
+            <div class="org-member-bubble" ${click}>
+              ${imgInner}
+              <span class="org-member-tip">${name}</span>
+            </div>
+            <div class="org-member-name">${name}</div>
+            <div class="org-member-role">${p.Category || ''}</div>
+          </div>`;
+        }).join('');
+
+        html += `<div class="org-team-col">
+          <div class="org-vline org-vline-team"></div>
+          <div class="org-team-circle ${color}">${team.replace(/\s/g,'<br>')}</div>
+          <div class="org-vline org-vline-team"></div>
+          <div class="org-members-col">${memberNodes}</div>
+        </div>`;
+      });
+      html += '</div>';
+      root.innerHTML = html;
+
+      requestAnimationFrame(() => {
+        const wrap = document.getElementById(`${rootId}-cols`);
+        if (!wrap) return;
+        const cols = wrap.querySelectorAll('.org-team-col');
+        if (cols.length < 2) return;
+        const wRect = wrap.getBoundingClientRect();
+        const f = cols[0].getBoundingClientRect();
+        const l = cols[cols.length-1].getBoundingClientRect();
+        const bar = document.createElement('div');
+        bar.className = 'org-hline';
+        bar.style.left  = (f.left - wRect.left + f.width/2) + 'px';
+        bar.style.width = (l.left - f.left) + 'px';
+        wrap.style.position = 'relative';
+        wrap.insertBefore(bar, wrap.firstChild);
+      });
+    }
+
+    /* ── Tab toggle ── */
+    function switchTab(tab) {
+      document.getElementById('panel-members').style.display = tab === 'members' ? 'block' : 'none';
+      document.getElementById('panel-teams'  ).style.display = tab === 'teams'   ? 'block' : 'none';
+      document.getElementById('tab-members').classList.toggle('active', tab === 'members');
+      document.getElementById('tab-teams'  ).classList.toggle('active', tab === 'teams');
+    }
+
+    /* ── Teams: People-widget style renderer (sorted by Team_Role) ── */
+    function renderTeamsPeopleStyle(groups, containerId) {
+      const el = document.getElementById(containerId);
+      const keys = Object.keys(groups);
+      if (!keys.length) {
+        el.innerHTML = '<div class="col-12"><p class="text-muted">No team data found.</p></div>';
+        return;
+      }
+      const roleOrder = { 'Leader': 0, 'SubLeader': 1, 'Member': 2 };
+      el.innerHTML = keys.map(teamId => {
+        const members = [...groups[teamId]].sort((a, b) =>
+          (roleOrder[a._teamRole] ?? 9) - (roleOrder[b._teamRole] ?? 9)
+        );
+        const personCards = members.map(p => {
+          const url  = profileUrl(p);
+          const name = p.Name_EN_FULL || p.Name_KR || 'Unknown';
+          const role = p._teamRole || p.Category || '';
+          const period = p._period || '';
+          const init2 = name.charAt(0).toUpperCase();
+          const photoSrc2 = getPhoto(p, url);
+          const imgEl = mkPortrait(init2, photoSrc2, name);
+          const inner = `${url ? `<a href="${url}">${imgEl}</a>` : imgEl}
+            <div class="portrait-title">
+              <h2>${url ? `<a href="${url}">${name}</a>` : name}</h2>
+              <h3>${role}</h3>
+              ${period ? `<p style="font-size:0.78rem;color:#888;margin:2px 0 0;">${period}</p>` : ''}
+            </div>`;
+          return `<div class="col-12 col-sm-auto people-person">${inner}</div>`;
+        }).join('');
+        return `
+           <div class="col-md-12" style="margin-top:1.5rem;">
+             <h2 class="mb-4">${teamId.replace(/^T_/,'')} <span style="font-size:0.85rem;font-weight:400;color:#888;">(${members.length})</span></h2>
+           </div>
+          ${personCards}`;
+      }).join('');
+    }
+
+    /* ── Main ── */
+    async function loadTeams() {
+      try {
+        const [people, personTeamRows] = await Promise.all([
+          getPeople(),
+          fetchSheetData('WEB_PersonTeam')
+        ]);
+        document.getElementById('teams-loading').style.display = 'none';
+        if (!people || !people.length) {
+          document.getElementById('teams-error').style.display = 'block';
+          return;
+        }
+
+        /* Build Person_ID lookup */
+        const sampleP = people[0];
+        const idKey = ['Person_ID','PersonID','ID','id','person_id'].find(k => k in sampleP) || Object.keys(sampleP)[0];
+        const peopleById = {};
+        people.forEach(p => { const pid = (p[idKey]||'').trim(); if (pid) peopleById[pid] = p; });
+
+        /* MEMBERS tab */
+        const memberGroups = groupBy(people, p => (p.Category||'').trim()||'ETC', CATEGORY_ORDER);
+        const membersEl = document.getElementById('members-people-view');
+        membersEl.innerHTML = '<div class="row justify-content-center people-widget" id="members-people-row"></div>';
+        renderMembersPeopleStyle(memberGroups, 'members-people-row');
+
+        /* Inject Nam-Joon Kim at top of Principal Investigators if not already in spreadsheet */
+        const piRow = document.getElementById('members-people-row');
+        const namJoonInData = people.some(p => (p.Name_EN_FULL||p.Name_KR||'').toLowerCase().includes('nam'));
+        if (!namJoonInData && piRow) {
+          const piCard = mkPortrait('K', '/imsi/authors/investigators/nam-joon-kim/avatar.png', 'Nam-Joon Kim');
+          const piHtml = `
+            <div class="col-md-12" id="pi-header-inject" style="margin-top:1rem;">
+              <h2 class="mb-4">Principal Investigators <span style="font-size:0.85rem;font-weight:400;color:#888;">(2)</span></h2>
+            </div>
+            <div class="col-12 col-sm-auto people-person">
+              <a href="/imsi/authors/investigators/hyukjae-lee/">${mkPortrait('L','/imsi/authors/investigators/hyukjae-lee/avatar.png','Hyukjae Lee')}</a>
+              <div class="portrait-title"><h2><a href="/imsi/authors/investigators/hyukjae-lee/">Hyukjae Lee</a></h2><h3>Principal Investigator</h3></div>
+            </div>
+            <div class="col-12 col-sm-auto people-person">
+              <a href="/imsi/authors/investigators/nam-joon-kim/">${piCard}</a>
+              <div class="portrait-title"><h2><a href="/imsi/authors/investigators/nam-joon-kim/">Nam-Joon Kim</a></h2><h3>Principal Investigator</h3></div>
+            </div>`;
+          piRow.insertAdjacentHTML('afterbegin', piHtml);
+        }
+
+        /* TEAMS tab: join WEB_PersonTeam */
+        const teamGroups = {};
+        if (personTeamRows && personTeamRows.length) {
+          personTeamRows.forEach(row => {
+            const pid    = (row['Person_ID'] || row['PersonID'] || '').trim();
+            const teamId = (row['Team_ID']   || row['TeamID']   || '').trim();
+            const role   = (row['Team_Role'] || '').trim();
+            const period = (row['활동기간']  || row['Active_Period'] || row['Period'] || row['period'] || '').trim();
+            if (!teamId) return;
+            const person = peopleById[pid];
+            if (!person) return;
+            if (!teamGroups[teamId]) teamGroups[teamId] = [];
+            teamGroups[teamId].push({ ...person, _teamRole: role, _period: period });
+          });
+        }
+        const sortedTeamGroups = {};
+        Object.keys(teamGroups).sort().forEach(k => { sortedTeamGroups[k] = teamGroups[k]; });
+
+        const teamsEl = document.getElementById('teams-people-view');
+        teamsEl.innerHTML = '<div class="row justify-content-center people-widget" id="teams-people-row"></div>';
+        renderTeamsPeopleStyle(sortedTeamGroups, 'teams-people-row');
+
+        switchTab('members');
+        console.log('ID key:', idKey, '| Teams:', Object.keys(sortedTeamGroups).join(', '));
+
+      } catch (err) {
+        console.error('Teams load error:', err);
+        document.getElementById('teams-loading').style.display = 'none';
+        document.getElementById('teams-error').style.display = 'block';
+      }
+    }
+
+    loadTeams();
+  </script>
 
   <div class="container">
     <footer class="site-footer">
-  <p class="powered-by">
-    <a href="https://github.com/khkim1729">Kyeonghun Kim</a> © 2026 · Developed by <a href="https://github.com/khkim1729">Kyeonghun Kim</a> & <a href="https://github.com/jsulim">Junsu Lim</a> · Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a> (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
-    <span class="float-right" aria-hidden="true">
-      <a href="#" class="back-to-top">
-        <span class="button_icon">
-          <i class="fas fa-chevron-up fa-2x"></i>
+      <p class="powered-by">
+        <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &copy; 2026 &middot;
+        Developed by <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &
+        <a href="https://github.com/jsulim">Junsu Lim</a> &middot;
+        Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>
+        (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
+        <span class="float-right" aria-hidden="true">
+          <a href="#" class="back-to-top"><span class="button_icon"><i class="fas fa-chevron-up fa-2x"></i></span></a>
         </span>
-      </a>
-    </span>
-  </p>
-</footer>
+      </p>
+    </footer>
   </div>
 
 </body>
