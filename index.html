@@ -274,6 +274,24 @@
       height: 96px;
       object-fit: cover;
     }
+
+    #posts .stream-meta.article-metadata {
+      margin-top: 0.45rem;
+    }
+
+    #posts .article-style {
+      margin-top: 0.45rem;
+    }
+
+    #posts .article-style p {
+      margin-bottom: 0;
+      line-height: 1.5;
+      color: rgba(0, 0, 0, 0.62);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
   </style>
 
   
@@ -3294,6 +3312,73 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
 </div>`;
       }
 
+      function formatBlogDate(value) {
+        const raw = String(value || '').trim();
+        if (!raw) return '';
+        const date = new Date(raw);
+        if (Number.isNaN(date.getTime())) return raw;
+        return date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+      }
+
+      function buildHomeBlogpostItem(item) {
+        const title = String(item?.title || '').trim();
+        const link = String(item?.link || '').trim();
+        const dateText = formatBlogDate(item?.iso_date || item?.pub_date || '');
+        const excerpt = String(item?.excerpt || '').trim();
+        if (!title || !link) return '';
+
+        return `
+<div class="media stream-item">
+  <div class="media-body">
+    <h3 class="article-title mb-0 mt-0">
+      <a href="${escapeHtml(link)}" target="_blank" rel="noopener">${escapeHtml(title)}</a>
+    </h3>
+    ${excerpt ? `<div class="article-style"><p>${escapeHtml(excerpt)}</p></div>` : ''}
+    ${dateText ? `<div class="stream-meta article-metadata"><div><span class="article-date">${escapeHtml(dateText)}</span></div></div>` : ''}
+  </div>
+</div>`;
+      }
+
+      async function renderHomeBlogpostsFromJson() {
+        const sectionBody = document.querySelector('#posts .col-12.col-lg-8');
+        if (!sectionBody) return;
+
+        try {
+          const response = await fetch('/imsi/data/tistory-blogposts.json', { cache: 'no-store' });
+          if (!response.ok) return;
+
+          const payload = await response.json();
+          const posts = Array.isArray(payload?.items) ? payload.items.slice(0, 3) : [];
+          if (posts.length === 0) return;
+
+          const html = posts.map(buildHomeBlogpostItem).filter(Boolean).join('\n');
+          if (!html) return;
+
+          sectionBody.querySelectorAll('.media.stream-item').forEach((el) => el.remove());
+          const oldDynamic = document.getElementById('home-blogposts-dynamic-list');
+          if (oldDynamic) oldDynamic.remove();
+          const oldSeeAll = document.getElementById('blogposts-see-all-link');
+          if (oldSeeAll) oldSeeAll.remove();
+
+          const list = document.createElement('div');
+          list.id = 'home-blogposts-dynamic-list';
+          list.innerHTML = html;
+          sectionBody.appendChild(list);
+
+          const seeAll = document.createElement('div');
+          seeAll.id = 'blogposts-see-all-link';
+          seeAll.className = 'see-all';
+          seeAll.innerHTML = '<a href="https://lambdacourse.tistory.com/" target="_blank" rel="noopener">Explore More Blogposts <i class="fas fa-angle-right"></i></a>';
+          sectionBody.appendChild(seeAll);
+        } catch (err) {
+          console.error('Failed to render home blogposts from Tistory JSON:', err);
+        }
+      }
+
             async function renderHomePublicationsFromSheet() {
         const sectionBody = document.querySelector('#publications .col-12.col-lg-8');
         try {
@@ -3444,6 +3529,7 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
         }
       }
 
+      renderHomeBlogpostsFromJson();
       renderHomePublicationsFromSheet();
       renderHomeProjectsFromSheet();
     </script>

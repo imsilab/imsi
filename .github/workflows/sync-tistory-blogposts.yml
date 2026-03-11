@@ -1,0 +1,42 @@
+name: Sync Tistory Blogposts
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/10 * * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch latest Tistory posts
+        env:
+          TISTORY_RSS_URL: https://lambdacourse.tistory.com/rss
+          MAX_ITEMS: "3"
+          OUTPUT_PATH: data/tistory-blogposts.json
+        run: python .github/scripts/sync_tistory_blogposts.py
+
+      - name: Commit and push when changed
+        run: |
+          if git diff --quiet -- data/tistory-blogposts.json; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/tistory-blogposts.json
+          git commit -m "chore: sync recent Tistory blogposts"
+          git push
