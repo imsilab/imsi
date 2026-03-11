@@ -303,7 +303,7 @@
     
     
     <div class="d-none d-lg-inline-flex">
-      <a class="navbar-brand" href="/imsi/">IMSI Research Group</a>
+      <a class="navbar-brand" href="/imsi/">IMSI Lab</a>
     </div>
     
 
@@ -316,7 +316,7 @@
 
     
     <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
-      <a class="navbar-brand" href="/imsi/">IMSI Research Group</a>
+      <a class="navbar-brand" href="/imsi/">IMSI Lab</a>
     </div>
     
 
@@ -325,147 +325,28 @@
     <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
 
       
-      <ul class="navbar-nav d-md-inline-flex">
-        
-
-        
-
-        
-        
-        
-          
-        
-
-        
-        
-        
-        
-        
-        
-          
-          
-          
-            
-          
-          
-        
-
+            <ul class="navbar-nav d-md-inline-flex">
         <li class="nav-item">
           <a class="nav-link " href="/imsi/#hero"><span>Home</span></a>
         </li>
-
-        
-        
-
-        
-
-        
-        
-        
-          
-        
-
-        
-        
-        
-        
-        
-        
-
         <li class="nav-item">
           <a class="nav-link " href="/imsi/publication"><span>Publications</span></a>
         </li>
-
-        
-        
-
-        
-
-        
-        
-        
-          
-        
-
-        
-        
-        
-        
-        
-        
-
         <li class="nav-item">
           <a class="nav-link " href="/imsi/post/"><span>Blog</span></a>
         </li>
-
         <li class="nav-item">
           <a class="nav-link " href="/imsi/images/"><span>Images</span></a>
         </li>
-
         <li class="nav-item">
           <a class="nav-link " href="/imsi/#people"><span>People</span></a>
         </li>
-
+        <li class="nav-item">
+          <a class="nav-link " href="/imsi/alumni/"><span>Alumni</span></a>
+        </li>
         <li class="nav-item">
           <a class="nav-link " href="/imsi/#contact"><span>Contact</span></a>
         </li>
-
-          
-        
-
-        
-        
-        
-        
-        
-        
-          
-          
-          
-            
-          
-          
-        
-
-        <li class="nav-item">
-          <a class="nav-link " href="/imsi/#people"><span>People</span></a>
-        </li>
-
-        
-        
-
-        
-
-        
-        
-        
-          
-        
-
-        
-        
-        
-        
-        
-        
-          
-          
-          
-            
-          
-          
-        
-
-        <li class="nav-item">
-          <a class="nav-link " href="/imsi/#contact"><span>Contact</span></a>
-        </li>
-
-        
-        
-
-      
-
-        
       </ul>
     </div>
 
@@ -505,28 +386,8 @@
   
   
   <h2>Latest</h2>
-  <ul>
-    
-      <li><a href="/imsi/post/benchmarking-gnns/">Benchmarking Graph Neural Networks</a></li>
-    
-      <li><a href="/imsi/publication/joshi-2020-learning/">Learning TSP Requires Rethinking Generalization</a></li>
-    
-      <li><a href="/imsi/project/benchmark/">Benchmarking Graph Neural Networks</a></li>
-    
-      <li><a href="/imsi/publication/dwivedi-2020-benchmark/">Benchmarking Graph Neural Networks</a></li>
-    
-      <li><a href="/imsi/post/transformers-are-gnns/">Transformers are Graph Neural Networks</a></li>
-    
-      <li><a href="/imsi/project/sketches/">Free-hand Sketches</a></li>
-    
-      <li><a href="/imsi/publication/xu-2019-multi/">Multi-Graph Transformer for Free-Hand Sketch Recognition</a></li>
-    
-      <li><a href="/imsi/publication/bresson-2019-two/">A Two-Step Graph Convolutional Decoder for Molecule Generation</a></li>
-    
-      <li><a href="/imsi/publication/joshi-2019-learning/">On Learning Paradigms for the Travelling Salesman Problem</a></li>
-    
-      <li><a href="/imsi/talk/informs-oct2019/">Graph Neural Networks for the Travelling Salesman Problem</a></li>
-    
+  <ul id="latest-publications">
+    <li>Loading latest publications...</li>
   </ul>
   
 
@@ -629,6 +490,74 @@
     
     
     <script src="/imsi/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+    <script src="/imsi/js/SheetServices.js"></script>
+    <script>
+      (function() {
+        function getPubValue(row, keys) {
+          for (const key of keys) {
+            if (row[key] !== undefined && row[key] !== null && String(row[key]).trim() !== '') {
+              return String(row[key]).trim();
+            }
+          }
+          return '';
+        }
+
+        function escapePubHtml(value) {
+          return String(value || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+        }
+
+        function toYearNumber(value) {
+          const n = Number(String(value || '').trim());
+          return Number.isFinite(n) ? n : null;
+        }
+
+        function normalizePublicationId(pubId) {
+          return String(pubId || '').trim().replace(/_/g, '-');
+        }
+
+        async function renderLatestPublications() {
+          const list = document.getElementById('latest-publications');
+          if (!list || typeof getPublications !== 'function') return;
+          try {
+            const rows = await getPublications();
+            if (!Array.isArray(rows) || rows.length === 0) return;
+
+            const sorted = [...rows].sort((a, b) => {
+              const ay = toYearNumber(getPubValue(a, ['Year', 'year', 'Column_1'])) ?? -Infinity;
+              const by = toYearNumber(getPubValue(b, ['Year', 'year', 'Column_1'])) ?? -Infinity;
+              if (ay !== by) return by - ay;
+              const at = getPubValue(a, ['Title', 'title', 'Column_2']).toLowerCase();
+              const bt = getPubValue(b, ['Title', 'title', 'Column_2']).toLowerCase();
+              return at.localeCompare(bt);
+            });
+
+            const visible = sorted.slice(0, 10);
+            const html = visible.map((row) => {
+              const title = getPubValue(row, ['Title', 'title', 'Column_2']);
+              if (!title) return '';
+              const pubId = getPubValue(row, ['Pub_ID', 'Pub ID', 'pub_id', 'Column_0']);
+              const normalizedPubId = normalizePublicationId(pubId);
+              const url = normalizedPubId ? `/imsi/publication/${encodeURIComponent(normalizedPubId)}/index.html` : '';
+              const label = escapePubHtml(title);
+              return url ? `<li><a href="${escapePubHtml(url)}">${label}</a></li>` : `<li>${label}</li>`;
+            }).filter(Boolean).join('');
+
+            if (html) {
+              list.innerHTML = html;
+            }
+          } catch (err) {
+            console.error('Failed to render latest publications on 404:', err);
+          }
+        }
+
+        document.addEventListener('DOMContentLoaded', renderLatestPublications);
+      })();
+    </script>
 
     
 
@@ -643,23 +572,16 @@
     <footer class="site-footer">
   
 
-  <p class="powered-by">
-    Xavier Bresson © 2020 · Made with ♥ by <a href="https://chaitjo.github.io/">Chaitanya Joshi</a> &middot; 
-
-    Powered by the
-    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
-    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
-
-    
-    <span class="float-right" aria-hidden="true">
-      <a href="#" class="back-to-top">
-        <span class="button_icon">
-          <i class="fas fa-chevron-up fa-2x"></i>
-        </span>
-      </a>
-    </span>
-    
-  </p>
+      <p class="powered-by">
+      IMSI Research Group &copy; 2026 &middot; Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a> (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
+      <span class="float-right" aria-hidden="true">
+        <a href="#" class="back-to-top">
+          <span class="button_icon">
+            <i class="fas fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+    </p>
 </footer>
 
   </div>
@@ -693,3 +615,5 @@
 
 </body>
 </html>
+
+

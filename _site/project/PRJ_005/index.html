@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.7.0">
+
+  <meta name="author" content="IMSI Research Group">
+  <meta name="description" content="Project overview coming soon.">
+
+  <meta name="theme-color" content="#2962ff">
+  <script src="/imsi/js/mathjax-config.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  <link rel="stylesheet" href="/imsi/css/academic.css">
+
+  <link rel="manifest" href="/imsi/index.webmanifest">
+  <link rel="icon" type="image/png" href="/imsi/images/imsi_favicon_32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/imsi/images/imsi_favicon_192.png">
+
+  <title>NeoNet: Automated PNI Detection Framework | IMSI Research Group</title>
+          <style>
+    .article-project .featured-image-wrapper {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 720px;
+      width: 100%;
+    }
+    .article-project .featured-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 70vh;
+      object-fit: contain;
+      background: #f5f5f5;
+    }
+    .article-project .author-card .network-icon .big-icon { font-size: 1.2rem; }
+    .article-project .author-card .network-icon li { margin-right: 6px; }
+  </style>
+    <style>
+    .article-project .featured-image-wrapper {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 720px;
+      width: 100%;
+    }
+    .article-project .featured-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 70vh;
+      object-fit: contain;
+      background: #f5f5f5;
+    }
+    .article-project .author-card .network-icon .big-icon { font-size: 1.2rem; }
+    .article-project .author-card .network-icon li { margin-right: 6px; }
+  </style>
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      <div id="search-box">
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+      </div>
+    </section>
+    <section class="section-search-results">
+      <div id="search-hits"></div>
+    </section>
+  </div>
+</aside>
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/imsi/">IMSI Lab</a>
+    </div>
+
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/imsi/">IMSI Lab</a>
+    </div>
+
+    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+      <ul class="navbar-nav d-md-inline-flex">
+        <li class="nav-item">
+          <a class="nav-link " href="/imsi/#hero"><span>Home</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="/imsi/publication"><span>Publications</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="/imsi/post/"><span>Blog</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="/imsi/images/"><span>Images</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="/imsi/#people"><span>People</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="/imsi/alumni/"><span>Alumni</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="/imsi/#contact"><span>Contact</span></a>
+        </li>
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<article class="article article-project">
+  <div class="article-container pt-3">
+    <h1>NeoNet: Automated PNI Detection Framework</h1>
+
+
+    <div class="article-metadata">
+  <div>
+    <span>Team PNI</span>
+  </div>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/imsi/categories/applications/">Applications</a></span>
+</div>
+
+<div class="btn-links">
+      <a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="paper.pdf" target="_blank" rel="noopener">PDF</a>
+      <a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="poster.pdf" target="_blank" rel="noopener">POSTER</a>
+      <a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="https://www.youtube.com/watch?v=fS68PsaWn4M" target="_blank" rel="noopener">VIDEO</a>
+    </div>
+  </div>
+
+  <div class="article-header article-container featured-image-wrapper mt-4 mb-4">
+    <div style="position: relative">
+      <img src="featured.jpg" alt="" class="featured-image">
+    </div>
+  </div>
+
+  <div class="article-container">
+            <div class="article-style">
+      <p>Minimizing invasive diagnostic procedures is a central goal in medical imaging. Perineural invasion (PNI), a critical prognostic factor where tumors infiltrate nerves, remains difficult to confirm noninvasively, as its features are often imperceptible in conventional MRI. PNI research is severely hampered by data scarcity.</p>
+      <p>Our study utilized a dataset collected over a decade at Samsung Medical Center (SMC), initially comprising 306 patients. After rigorous quality control, the final cohort included 128 T1-weighted hepatobiliary phase MRI scans, exhibiting significant class imbalance (44 PNI-positive/84 PNI-negative). To address these challenges, we present NeoNet, the first integrated end-to-end 3D deep learning framework for PNI prediction in cholangiocarcinoma that avoids reliance on radiomics or handcrafted features.</p>
+      <p>NeoNet integrates three modules: (1) NeoSeg, utilizing a Tumor-Localized ROI Crop (TLCR) algorithm; (2) NeoGen, a 3D latent diffusion model (LDM) with ControlNet, conditioned on anatomical masks to generate synthetic image patches and balance the dataset to a 1:1 ratio; and (3) NeoCls, the final prediction module. For NeoCls, we developed the PNI-Attention Network (PattenNet), which uses the frozen LDM encoder and specialized 3D Dual Attention Blocks (DAB) designed to detect subtle intensity variations and spatial patterns indicative of PNI.</p>
+      <p>In rigorous five-fold cross-validation, NeoNet outperformed baseline 3D models. By leveraging synthetic data for balanced training, PattenNet achieved the highest performance with a maximum AUC of 0.7903.</p>
+    </div>
+
+    <div class="article-tags">
+      <a class="badge badge-light" href="/imsi/tags/deep-learning">Deep Learning</a>
+      <a class="badge badge-light" href="/imsi/tags/medical-imaging">Medical Imaging</a>
+      <a class="badge badge-light" href="/imsi/tags/computer-vision">Computer Vision</a>
+      <a class="badge badge-light" href="/imsi/tags/3d-analysis">3D Analysis</a>
+      <a class="badge badge-light" href="/imsi/tags/generative-model">Generative Model</a>
+    </div>
+
+  <div class="media author-card content-widget-hr">
+    <img class="portrait mr-3" src="/imsi/authors/research_assistants/youngung-han/avatar.png" alt="Avatar">
+    <div class="media-body">
+      <h5 class="card-title"><a href="/imsi/authors/research_assistants/youngung-han/">Youngung Han</a></h5>
+      <h6 class="card-subtitle">Research Assistant</h6>
+      <p class="card-text">Youngung Han is currently pursuing the Ph.D. degree with the Department of Computer Science and Engineering, Seoul National University, Seoul, Republic of Korea. He is a Research Assistant at the Intelligent Medical Systems and Imaging (IMSI) Laboratory, where his research focuses on developing advanced deep learning architectures for medical image analysis. His research interests lie in advanced deep learning architectures for 3D medical image analysis.</p>
+<ul class="network-icon" aria-hidden="true">
+        <li>
+          <a href="mailto:youngunghan@snu.ac.kr" >
+            <i class="fas fa-envelope big-icon"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/youngunghan" target="_blank" rel="noopener">
+            <i class="fab fa-github big-icon"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.linkedin.com/in/youngunghan/" target="_blank" rel="noopener">
+            <i class="fab fa-linkedin big-icon"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/youngunghan" target="_blank" rel="noopener">
+            <i class="fab fa-twitter big-icon"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://youngunghan.medium.com" target="_blank" rel="noopener">
+            <i class="fab fa-medium big-icon"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://scholar.google.com/citations?user=youngunghan" target="_blank" rel="noopener">
+            <i class="ai ai-google-scholar big-icon"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://youngunghan.github.io" target="_blank" rel="noopener">
+            <i class="fas fa-globe big-icon"></i>
+          </a>
+        </li>
+      </ul></div>
+  </div>
+
+  </div>
+</article>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/python.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+
+<script>const code_highlighting = true;</script>
+<script>
+  const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+  const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+  const content_type = { 'post': "Posts", 'project': "Projects", 'publication' : "Publications", 'talk' : "Talks" };
+</script>
+<script id="search-hit-fuse-template" type="text/x-template">
+  <div class="search-hit" id="summary-{{key}}">
+  <div class="search-hit-content">
+    <div class="search-hit-name">
+      <a href="{{relpermalink}}">{{title}}</a>
+      <div class="article-metadata search-hit-type">{{type}}</div>
+      <p class="search-hit-description">{{snippet}}</p>
+    </div>
+  </div>
+  </div>
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+<script src="/imsi/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+
+<div class="container">
+  <footer class="site-footer">
+        <p class="powered-by">
+      IMSI Research Group &copy; 2026 &middot; Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a> (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
+      <span class="float-right" aria-hidden="true">
+        <a href="#" class="back-to-top">
+          <span class="button_icon">
+            <i class="fas fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+    </p>
+  </footer>
+</div>
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
