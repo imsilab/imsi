@@ -272,6 +272,7 @@
       const title = getValue(row, ['Title', 'title', 'Column_2']);
       const year = getValue(row, ['Year', 'year', 'Column_1']);
       const authors = getValue(row, ['Authors', 'authors', 'Column_4']);
+      const paperLink = getValue(row, ['Paper_Link', 'Paper Link', 'paper_link', 'Column_5']);
       const venueName = getValue(row, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']);
       const venueLink = getValue(row, ['Venue_Link', 'Venue Link', 'venue_link', 'Column_6']);
       const notes = getValue(row, ['Notes', 'notes', 'Column_7']);
@@ -287,6 +288,13 @@
 
       if (year) {
         setTextById('pub-year', year);
+      }
+
+      const pdfLinkElement = document.getElementById('pub-pdf-link');
+      if (pdfLinkElement && paperLink) {
+        pdfLinkElement.setAttribute('href', paperLink);
+        pdfLinkElement.setAttribute('target', '_blank');
+        pdfLinkElement.setAttribute('rel', 'noopener');
       }
 
       if (notes) {

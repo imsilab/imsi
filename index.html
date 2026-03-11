@@ -3308,12 +3308,9 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
           const publications = await getPublications();
           if (!Array.isArray(publications) || publications.length === 0) return;
 
-          const sorted = [...publications].sort((a, b) => {
-            const ay = parseYear(getRowValue(a, ['Year', 'year'])) ?? -Infinity;
-            const by = parseYear(getRowValue(b, ['Year', 'year'])) ?? -Infinity;
-            return by - ay;
-          });
-          const visible = sorted.slice(0, 5);
+          // Treat the latest spreadsheet row as the most recent publication.
+          const ordered = [...publications].reverse();
+          const visible = ordered.slice(0, 5);
           const html = visible.map(buildHomePublicationItem).filter(Boolean).join('\n');
           if (!html) return;
 
