@@ -878,12 +878,12 @@ Stacking several GNN layers enables the model to propagate each node&rsquo;s fea
 <blockquote>
 <p>Take the example of this emoji social network: The node features produced by the GNN can be used for predictive tasks such as identifying the most influential members or proposing potential connections.</p>
 </blockquote>
-<p>In their most basic form, GNNs update the hidden features $h$ of node $i$ (for example, 😆) at layer $\ell$ via a non-linear transformation of the node&rsquo;s own features $h_i^{\ell}$ added to the aggregation of features $h_j^{\ell}$ from each neighbouring node $j \in \mathcal{N}(i)$:</p>
+<p>In their most basic form, GNNs update the hidden features $h$ of node $i$ (for example, ?쁿) at layer $\ell$ via a non-linear transformation of the node&rsquo;s own features $h_i^{\ell}$ added to the aggregation of features $h_j^{\ell}$ from each neighbouring node $j \in \mathcal{N}(i)$:</p>
 <p>$$
 h_{i}^{\ell+1} =  \sigma \Big( U^{\ell} h_{i}^{\ell} + \sum_{j \in \mathcal{N}(i)} \left( V^{\ell} h_{j}^{\ell} \right)  \Big),
 $$</p>
 <p>where $U^{\ell}, V^{\ell}$ are learnable weight matrices of the GNN layer and $\sigma$ is a non-linearity such as ReLU.
-In the example, $\mathcal{N}$(😆) $=$ { 😘, 😎, 😜, 🤩 }.</p>
+In the example, $\mathcal{N}$(?쁿) $=$ { ?삓, ?삇, ?삙, ?ㄹ }.</p>
 <p>The summation over the neighbourhood nodes $j \in \mathcal{N}(i)$ can be replaced by other input size-invariant <strong>aggregation functions</strong> such as simple mean/max or something more powerful, such as a weighted sum via an <a href="https://petar-v.com/GAT/"><strong>attention mechanism</strong></a>.</p>
 <p>Does that sound familiar?</p>
 <p>Maybe a pipeline will help make the connection:</p>
@@ -1083,7 +1083,7 @@ This could simply be because the models are so huge and the NLP tasks studied ar
 Here&rsquo;s <a href="https://ipam.wistia.com/medias/1zgl4lq6nh">an excellent talk</a> by Arthur Szlam on the history and connection between Attention/Memory Networks, GNNs and Transformers.
 Similarly, DeepMind&rsquo;s <a href="https://arxiv.org/abs/1806.01261">star-studded position paper</a> introduces the <em>Graph Networks</em> framework, unifying all these ideas.
 For a code walkthrough, the DGL team has <a href="https://docs.dgl.ai/en/latest/tutorials/models/4_old_wines/7_transformer.html">a nice tutorial</a> on seq2seq as a graph problem and building Transformers as GNNs.</p>
-<p><strong>In our next post, we&rsquo;ll be doing the reverse: using GNN architectures as Transformers for NLP (based on the Transformers library by <a href="https://github.com/huggingface/transformers">🤗 HuggingFace</a>).</strong></p>
+<p><strong>In our next post, we&rsquo;ll be doing the reverse: using GNN architectures as Transformers for NLP (based on the Transformers library by <a href="https://github.com/huggingface/transformers">?쨽 HuggingFace</a>).</strong></p>
 <p>Finally, we wrote <a href="https://graphdeeplearning.github.io/publication/xu-2019-multi/">a recent paper</a> applying Transformers to sketch graphs. Do check it out!</p>
 <hr>
 <h4 id="updates">Updates</h4>
@@ -1416,13 +1416,8 @@ Do join the discussion on <a href="https://twitter.com/chaitjo/status/1233220586
   
 
   <p class="powered-by">
-    Xavier Bresson © 2020 · Made with ♥ by <a href="https://chaitjo.github.io/">Chaitanya Joshi</a> &middot; 
+    <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &copy; 2026 &middot; Developed by <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &amp; <a href="https://github.com/jsulim">Junsu Lim</a> &middot; Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a> (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
 
-    Powered by the
-    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
-    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
-
-    
     <span class="float-right" aria-hidden="true">
       <a href="#" class="back-to-top">
         <span class="button_icon">
@@ -1430,7 +1425,7 @@ Do join the discussion on <a href="https://twitter.com/chaitjo/status/1233220586
         </span>
       </a>
     </span>
-    
+
   </p>
 </footer>
 
@@ -1465,3 +1460,4 @@ Do join the discussion on <a href="https://twitter.com/chaitjo/status/1233220586
 
 </body>
 </html>
+
