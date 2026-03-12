@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en-us">
 
 <head>
@@ -31,7 +31,7 @@
   <meta name="description" content="The IMSI Research Lab, headed by Dr. Xavier Bresson, investigates fundamental techniques in Graph Deep Learning, a new framework that combines graph theory and deep neural networks to tackle complex data domains in physical science, natural language processing, computer vision, and combinatorial optimization.">
 
   
-  <link rel="alternate" hreflang="en-us" href="https://graphdeeplearning.github.io/publication/">
+  <link rel="alternate" hreflang="en-us" href="https://imsilab.github.io/publication/">
 
   
 
@@ -222,10 +222,10 @@
   
 
   <link rel="manifest" href="/imsi/index.webmanifest">
-  <link rel="icon" type="image/png" href="/imsi/images/icon_hu027d87ac1e37f4f802995042c9999554_21044_32x32_fill_lanczos_center_2.png">
-  <link rel="apple-touch-icon" type="image/png" href="/imsi/images/icon_hu027d87ac1e37f4f802995042c9999554_21044_192x192_fill_lanczos_center_2.png">
+  <link rel="icon" type="image/png" href="/imsi/images/imsi_favicon_32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/imsi/images/imsi_favicon_192.png">
 
-  <link rel="canonical" href="https://graphdeeplearning.github.io/publication/">
+  <link rel="canonical" href="https://imsilab.github.io/publication/">
 
   
   
@@ -1746,7 +1746,7 @@
           const sorted = [...rows].sort((a, b) => {
             const ay = toYearNumber(getPubValue(a, ['Year', 'year', 'Column_1'])) ?? 0;
             const by = toYearNumber(getPubValue(b, ['Year', 'year', 'Column_1'])) ?? 0;
-            if (ay !== by) return ay - by; // Ascending year order
+            if (ay !== by) return by - ay; // Descending year order
             const at = getPubValue(a, ['Title', 'title', 'Column_2']).toLowerCase();
             const bt = getPubValue(b, ['Title', 'title', 'Column_2']).toLowerCase();
             return at.localeCompare(bt);
@@ -1763,7 +1763,7 @@
           const years = [...new Set(sorted
             .map(r => getPubValue(r, ['Year', 'year', 'Column_1']))
             .filter(Boolean))]
-            .sort((a, b) => (toYearNumber(a) ?? 0) - (toYearNumber(b) ?? 0));
+            .sort((a, b) => (toYearNumber(b) ?? 0) - (toYearNumber(a) ?? 0));
 
           root.innerHTML = `
 <div class="form-row mb-4">
@@ -1899,5 +1899,8 @@
 
 </body>
 </html>
+
+
+
 
 

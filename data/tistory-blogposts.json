@@ -1,0 +1,50 @@
+{
+  "source": "tistory_rss",
+  "rss_url": "https://lambdacourse.tistory.com/rss",
+  "updated_at": "2026-03-12T04:57:10.546666Z",
+  "count": 6,
+  "items": [
+    {
+      "title": "[정율의] SRDiff",
+      "link": "https://lambdacourse.tistory.com/32",
+      "pub_date": "Sat, 7 Mar 2026 10:13:15 +0900",
+      "iso_date": "2026-03-07T01:13:15Z",
+      "excerpt": "[2104.14951] SRDiff: Single Image Super-Resolution with Diffusion Probabilistic Models SRDiff: Single Image Super-Resolution with Diffusion Probabilistic Models Haoying Li, Yifan Yang, Meng Chang, Huajun Feng, Zhihai Xu, Qi Li, Yueting..."
+    },
+    {
+      "title": "[이준범] Variational Inference with Normalizing Flows",
+      "link": "https://lambdacourse.tistory.com/31",
+      "pub_date": "Sat, 7 Mar 2026 10:05:00 +0900",
+      "iso_date": "2026-03-07T01:05:00Z",
+      "excerpt": "저자 : Danilo Jimenez Rezende (Google DeepMind), Shakir Mohamed (Google DeepMind) 학회 : ICML 발표연도 : 2015 https://arxiv.org/pdf/1505.05770 1. Introduction Background Variational Inference의 핵심 : 추론 과정을 최적화 문제로 전환하여 대규모 데이터셋에서도 널리 쓰임. →..."
+    },
+    {
+      "title": "[정안나] Masked Autoencoders Are Scalable Vision Learners",
+      "link": "https://lambdacourse.tistory.com/30",
+      "pub_date": "Sat, 7 Mar 2026 08:48:54 +0900",
+      "iso_date": "2026-03-06T23:48:54Z",
+      "excerpt": "Basic Information Conference: CVPR 2022 Authors: Kaiming He, et al. (Facebook AI Research) Link: https://arxiv.org/abs/2111.06377 Masked Autoencoders Are Scalable Vision Learners This paper shows that masked autoencoders (MAE) are scalable..."
+    },
+    {
+      "title": "[이수민] ControlNet",
+      "link": "https://lambdacourse.tistory.com/29",
+      "pub_date": "Sat, 7 Mar 2026 03:55:55 +0900",
+      "iso_date": "2026-03-06T18:55:55Z",
+      "excerpt": "https://arxiv.org/abs/2302.05543 1. Abstact & Introduction ControlNet - Larged, Pretrained Text-to-Image Diffusion 모델에 미세한 공간적 제어 (Spatial Conditioning Control)를 추가하는 Neural Network 아키텍쳐 - 필요성: 기존 Text-to-Image 모델들은 복잡한 레이아웃, 포즈, 모양, 형태 등..."
+    },
+    {
+      "title": "[김원혁] Knowledge Transfer via Distillation",
+      "link": "https://lambdacourse.tistory.com/28",
+      "pub_date": "Fri, 6 Mar 2026 15:34:11 +0900",
+      "iso_date": "2026-03-06T06:34:11Z",
+      "excerpt": "제목: Knowledge Transfer via Distillation of Activation Boundaries Formed by Hidden Neurons URL: https://arxiv.org/abs/1811.03233 학회: AAAI 2019 Abstract 뉴런의 활성화 경계, activation boundary는 해당 뉴런이 활성화되었는지 비활성화되었는지를 결정하는 seperating hyperplane을..."
+    },
+    {
+      "title": "[김민주] Finding Tiny Faces",
+      "link": "https://lambdacourse.tistory.com/27",
+      "pub_date": "Sat, 28 Feb 2026 14:03:03 +0900",
+      "iso_date": "2026-02-28T05:03:03Z",
+      "excerpt": "Finding Tiny Faces 저자: Peiyun Hu, Deva Ramanan (카네기 멜론 대학교, CMU) 게재/발표: CVPR 2017 https://arxiv.org/pdf/1612.04402 0. Abstract 문제 의식: 아주 작은 객체를 알아내는 것은 어려움. 기존의 scale 불변적 접근(하나의 모델로 다 찾기)은 아주 작은 물체에는 통하지 않음. 따라서 본 논문에는 다음과 같은 세가지의 해결책을..."
+    }
+  ]
+}

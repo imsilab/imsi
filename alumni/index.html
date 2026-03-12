@@ -33,17 +33,17 @@
   <title>Teams | IMSI Research Lab</title>
 
   <style>
-    /* ── Page ── */
+    /* ?? Page ?? */
     .teams-page { padding: 3rem 0 4rem; }
     .teams-header { margin-bottom: 2rem; }
     .teams-header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.4rem; }
     .teams-header p  { color: #666; margin: 0; }
 
-    /* ── Loading / error ── */
+    /* ?? Loading / error ?? */
     #teams-loading { color: #777; font-style: italic; padding: 2rem 0; }
     #teams-error   { color: #c0392b; padding: 1rem 0; }
 
-    /* ── TABS ── */
+    /* ?? TABS ?? */
     .tab-row {
       display: flex;
       justify-content: center;
@@ -66,7 +66,7 @@
     .tab-btn:hover  { color: #2962ff; }
     .tab-btn.active { color: #2962ff; border-bottom-color: #2962ff; }
 
-    /* ── Teams sub-toggle ── */
+    /* ?? Teams sub-toggle ?? */
     .sub-toggle { display: flex; gap: 0.4rem; margin-bottom: 1.6rem; }
     .sub-btn {
       padding: 0.38rem 0.9rem;
@@ -81,7 +81,7 @@
     }
     .sub-btn.active { background: #2962ff; color: #fff; }
 
-    /* ── People-widget style (matches main index.html) ── */
+    /* ?? People-widget style (matches main index.html) ?? */
     .people-widget-section { margin-bottom: 0.5rem; }
     .people-section-header {
       width: 100%;
@@ -137,7 +137,7 @@
       margin: 0;
     }
 
-    /* ── Teams tab: Thumbnail grid (small) ── */
+    /* ?? Teams tab: Thumbnail grid (small) ?? */
     .team-section { margin-bottom: 3rem; }
     .team-section-title {
       font-size: 1.25rem; font-weight: 700;
@@ -164,7 +164,7 @@
     .member-card .m-name  { font-size: 0.8rem; font-weight: 600; line-height: 1.3; }
     .member-card .m-dept  { font-size: 0.68rem; color: #888; margin-top: 2px; }
 
-    /* ── ORG CHART ── */
+    /* ?? ORG CHART ?? */
     .org-wrapper { overflow-x: auto; padding: 1.5rem 0; }
     .org-tree { display: flex; flex-direction: column; align-items: center; }
     .org-root-node { display: flex; flex-direction: column; align-items: center; }
@@ -268,7 +268,7 @@
     </div>
   </nav>
 
-  <!-- ════ MAIN ════ -->
+  <!-- ?먥븧?먥븧 MAIN ?먥븧?먥븧 -->
   <div class="container teams-page">
 
     <div class="teams-header">
@@ -358,7 +358,7 @@
   <script src="/imsi/js/SheetServices.js"></script>
 
   <script>
-    /* ── CONFIG ── */
+    /* ?? CONFIG ?? */
     const TEAM_COL = 'Team';
 
     const CATEGORY_ORDER = [
@@ -372,7 +372,7 @@
       'Visitors','Visitor',
     ];
 
-    /* ── Known profile photos (only confirmed avatar.png files) ── */
+    /* ?? Known profile photos (only confirmed avatar.png files) ?? */
     const PHOTO_OVERRIDES = {
       'jaehyeok-bae':  '/imsi/authors/alumni/jaehyeok-bae/avatar.png',
       'seoyoung-ju':   '/imsi/authors/alumni/seoyoung-ju/avatar.png',
@@ -417,8 +417,8 @@
     }
 
 
-    /* ── Helpers ── */
-    // Category → folder name mapping
+    /* ?? Helpers ?? */
+    // Category ??folder name mapping
     const CAT_FOLDER = {
       'Investigators':          'investigators',
       'Principal Investigator': 'investigators',
@@ -465,7 +465,7 @@
       return result;
     }
 
-    /* ── MEMBERS: People-widget style renderer ── */
+    /* ?? MEMBERS: People-widget style renderer ?? */
     function renderMembersPeopleStyle(groups, containerId) {
       const el = document.getElementById(containerId);
       const keys = Object.keys(groups);
@@ -500,14 +500,14 @@
           ${/undergraduate.intern/i.test(label) || label === 'Undergraduate Interns' || label === 'Intern' ? `
           <div class="col-12" style="margin-top:0.5rem;margin-bottom:1rem;">
             <div style="background:#f0f4ff;border-left:4px solid #2962ff;border-radius:6px;padding:0.75rem 1.1rem;font-size:0.85rem;color:#3a3a5c;">
-              <strong>Undergraduate Research Internship — Eligibility Criteria</strong><br>
+              <strong>Undergraduate Research Internship ??Eligibility Criteria</strong><br>
               3+ months of participation &amp; at least 1 co-authorship
             </div>
           </div>` : ''}`;
       }).join('');
     }
 
-    /* ── TEAMS: Thumbnail grid renderer ── */
+    /* ?? TEAMS: Thumbnail grid renderer ?? */
     function renderTeamsGrid(groups, containerId) {
       const el = document.getElementById(containerId);
       const keys = Object.keys(groups);
@@ -535,7 +535,7 @@
       }).join('');
     }
 
-    /* ── TEAMS: Org chart renderer ── */
+    /* ?? TEAMS: Org chart renderer ?? */
     function renderTeamsTree(groups, rootId) {
       const root = document.getElementById(rootId);
       const teams = Object.keys(groups);
@@ -595,7 +595,7 @@
       });
     }
 
-    /* ── Tab toggle ── */
+    /* ?? Tab toggle ?? */
     function switchTab(tab) {
       document.getElementById('panel-teams' ).style.display = tab === 'teams'  ? 'block' : 'none';
       document.getElementById('panel-alumni').style.display = tab === 'alumni' ? 'block' : 'none';
@@ -603,7 +603,7 @@
       document.getElementById('tab-alumni').classList.toggle('active', tab === 'alumni');
     }
 
-    /* ── Teams: People-widget style renderer (sorted by Team_Role) ── */
+    /* ?? Teams: People-widget style renderer (sorted by Team_Role) ?? */
     function renderTeamsPeopleStyle(groups, containerId) {
       const el = document.getElementById(containerId);
       const keys = Object.keys(groups);
@@ -640,7 +640,7 @@
       }).join('');
     }
 
-    /* ── Main ── */
+    /* ?? Main ?? */
     async function loadTeams() {
       try {
         const [people, personTeamRows] = await Promise.all([
@@ -673,7 +673,7 @@
             const pid    = (row['Person_ID'] || row['PersonID'] || '').trim();
             const teamId = (row['Team_ID']   || row['TeamID']   || '').trim();
             const role   = (row['Team_Role'] || '').trim();
-            const period = (row['활동기간']  || row['Active_Period'] || row['Period'] || row['period'] || '').trim();
+            const period = (row['?쒕룞湲곌컙']  || row['Active_Period'] || row['Period'] || row['period'] || '').trim();
             if (!teamId) return;
             const person = peopleById[pid];
             if (!person || (person.Category || '').trim() === 'Alumni') return;
@@ -715,15 +715,17 @@
         </div>
       </div>
       <p class="powered-by">
-        <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &copy; 2026 &middot;
-        Developed by <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &
-        <a href="https://github.com/jsulim">Junsu Lim</a> &middot;
-        Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>
-        (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
-        <span class="float-right" aria-hidden="true">
-          <a href="#" class="back-to-top"><span class="button_icon"><i class="fas fa-chevron-up fa-2x"></i></span></a>
+    <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &copy; 2026 &middot; Developed by <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &amp; <a href="https://github.com/jsulim">Junsu Lim</a> &middot; Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a> (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
+
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
         </span>
-      </p>
+      </a>
+    </span>
+
+  </p>
     </footer>
   </div>
 

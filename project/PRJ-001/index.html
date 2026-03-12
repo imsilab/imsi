@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en-us">
 
 <head>
@@ -34,22 +34,45 @@
 
   <title>Medical VLM with Global Anomaly Detection (MEDIC-AD) | IMSI Research Lab</title>
         <style>
+    .article-project {
+      --project-card-max-width: 780px;
+    }
+    .article-project .project-content-stack {
+      max-width: var(--project-card-max-width);
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
     .article-project .article-style {
-      padding: 1.2rem 1.3rem;
-      border: 1px solid #e6eaf2;
+      margin-top: 1.4rem;
+      padding: 1.25rem 1.3rem;
+      border: 1px solid #e2e8f4;
       border-radius: 14px;
       background: #ffffff;
       box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
     }
     .article-project .article-style h3 {
-      margin-bottom: 0.75rem;
-      font-size: 1.15rem;
-      color: #0f1e3a;
+      margin-bottom: 0.85rem;
+      font-size: 1.1rem;
+      letter-spacing: 0.01em;
+      color: #122444;
+    }
+    .article-project .article-style .abstract-body {
+      max-width: 76ch;
+    }
+    .article-project .article-style p {
+      margin-bottom: 0.95rem;
+      font-size: 1.01rem;
+      line-height: 1.8;
+      color: #273548;
+    }
+    .article-project .article-style p:last-child {
+      margin-bottom: 0;
     }
     .article-project .featured-image-wrapper {
       margin-left: auto;
       margin-right: auto;
-      max-width: 780px;
+      max-width: var(--project-card-max-width);
       width: 100%;
       border-radius: 14px;
       overflow: hidden;
@@ -66,7 +89,8 @@
       background: transparent;
     }
     .project-insights {
-      margin-top: 2.1rem;
+      margin-top: 0;
+      margin-bottom: 1.4rem;
       border: 1px solid #dce6fb;
       border-radius: 16px;
       background: linear-gradient(145deg, #f7faff 0%, #eef4ff 100%);
@@ -106,7 +130,9 @@
     }
     .project-insights #project-overview {
       margin: 0;
-      line-height: 1.67;
+      max-width: 76ch;
+      font-size: 1.01rem;
+      line-height: 1.8;
       color: #243244;
     }
     .project-insights .insight-grid {
@@ -137,12 +163,18 @@
       padding-left: 0;
     }
     .project-insights .insight-list li {
-      margin-bottom: 0.5rem;
-      line-height: 1.56;
+      margin-bottom: 0;
+      padding: 0.42rem 0;
+      line-height: 1.58;
       color: #2f3c4e;
+      border-bottom: 1px solid #ebf1ff;
+    }
+    .project-insights .insight-list li:first-child {
+      padding-top: 0;
     }
     .project-insights .insight-list li:last-child {
-      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: 0;
     }
     .project-insights .insight-placeholder {
       color: #6d7786;
@@ -157,6 +189,10 @@
       }
       .project-insights .insight-grid {
         grid-template-columns: 1fr;
+      }
+      .article-project .article-style p,
+      .project-insights #project-overview {
+        font-size: 0.98rem;
       }
     }
   </style></head>
@@ -217,7 +253,7 @@
           <a class="nav-link " href="/imsi/#people"><span>People</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="/imsi/alumni/"><span>Alumni</span></a>
+          <a class="nav-link " href="/imsi/alumni/"><span>Teams</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link " href="/imsi/#contact"><span>Contact</span></a>
@@ -258,34 +294,38 @@
   </div>
 
   <div class="article-container">
-            <div class="article-style">
-      <h3>Abstract</h3>
-      <p>Lesion detection, symptom tracking, and visual explainability are central to real-world medical image analysis, yet current medical vision-language models (VLMs) still lack mechanisms that translate their broad knowledge into clinically actionable outputs.</p>
-      <p>To bridge this gap, we present MEDIC-AD, a clinically oriented VLM that strengthens these capabilities through a stage-wise framework. First, learnable anomaly-aware tokens ($\langle Ano \rangle$) encourage the model to focus on abnormal regions and build more discriminative lesion-centered representations. Second, inter-image difference tokens ($\langle Diff \rangle$) explicitly encode temporal changes between studies, allowing the model to distinguish worsening, improvement, and stability in disease burden.</p>
-      <p>Finally, a dedicated explainability stage trains the model to generate heatmaps that highlight lesion-related regions, offering clear visual evidence that is consistent with the model's reasoning. Through this staged design, MEDIC-AD steadily boosts performance across anomaly detection, symptom tracking, and anomaly segmentation, achieving state-of-the-art results compared with both closed-source and medical-specialized baselines.</p>
-      <p>Evaluations on real longitudinal clinical data collected from hospital workflows further show that MEDIC-AD delivers stable predictions and clinically faithful explanations in practical patient-monitoring and decision-support workflows.</p>
-    </div>
+    <div class="project-content-stack">
+      <section class="project-insights" aria-label="Project Summary">
+        <div class="overview-card">
+          <span class="overview-label">Overview</span>
+          <p id="project-overview">Synchronizing overview from sheet...</p>
+        </div>
+        <div class="insight-grid">
+          <div class="insight-card">
+            <h3>Key Achievements</h3>
+            <ul class="insight-list" id="project-achievements">
+              <li class="insight-placeholder">Synchronizing achievements from sheet...</li>
+            </ul>
+          </div>
+          <div class="insight-card">
+            <h3>Milestones</h3>
+            <ul class="insight-list" id="project-milestones">
+              <li class="insight-placeholder">Synchronizing milestones from sheet...</li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
-    <section class="project-insights" aria-label="Project Summary">
-      <div class="overview-card">
-        <span class="overview-label">Overview</span>
-        <p id="project-overview">Synchronizing overview from sheet...</p>
-      </div>
-      <div class="insight-grid">
-        <div class="insight-card">
-          <h3>Key Achievements</h3>
-          <ul class="insight-list" id="project-achievements">
-            <li class="insight-placeholder">Synchronizing achievements from sheet...</li>
-          </ul>
-        </div>
-        <div class="insight-card">
-          <h3>Milestones</h3>
-          <ul class="insight-list" id="project-milestones">
-            <li class="insight-placeholder">Synchronizing milestones from sheet...</li>
-          </ul>
+      <div class="article-style">
+        <h3>Abstract</h3>
+        <div class="abstract-body">
+          <p>Lesion detection, symptom tracking, and visual explainability are central to real-world medical image analysis, yet current medical vision-language models (VLMs) still lack mechanisms that translate their broad knowledge into clinically actionable outputs.</p>
+          <p>To bridge this gap, we present MEDIC-AD, a clinically oriented VLM that strengthens these capabilities through a stage-wise framework. First, learnable anomaly-aware tokens ($\langle Ano \rangle$) encourage the model to focus on abnormal regions and build more discriminative lesion-centered representations. Second, inter-image difference tokens ($\langle Diff \rangle$) explicitly encode temporal changes between studies, allowing the model to distinguish worsening, improvement, and stability in disease burden.</p>
+          <p>Finally, a dedicated explainability stage trains the model to generate heatmaps that highlight lesion-related regions, offering clear visual evidence that is consistent with the model's reasoning. Through this staged design, MEDIC-AD steadily boosts performance across anomaly detection, symptom tracking, and anomaly segmentation, achieving state-of-the-art results compared with both closed-source and medical-specialized baselines.</p>
+          <p>Evaluations on real longitudinal clinical data collected from hospital workflows further show that MEDIC-AD delivers stable predictions and clinically faithful explanations in practical patient-monitoring and decision-support workflows.</p>
         </div>
       </div>
-    </section>
+    </div>
 
     <div class="article-tags">
       <a class="badge badge-light" href="/imsi/tags/deep-learning">Deep Learning</a>
@@ -455,6 +495,7 @@
 
 </body>
 </html>
+
 
 
 
