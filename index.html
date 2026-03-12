@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en-us">
 
 <head>
@@ -274,6 +274,94 @@
       height: 96px;
       object-fit: cover;
     }
+
+    #talks .media.stream-item {
+      align-items: stretch;
+      margin-bottom: 2rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    
+    #talks .col-12.col-lg-8 > .media.stream-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    #talks .media-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 136px;
+    }
+
+    #talks .media-body .article-title {
+      line-height: 1.35;
+      margin-bottom: 0.5rem;
+      min-height: 2.7em;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    #talks .media-body .article-style {
+      margin-bottom: 0.45rem;
+    }
+
+    #talks .media-body .article-style p {
+      margin-bottom: 0;
+      color: rgba(0, 0, 0, 0.62);
+      line-height: 1.5;
+      min-height: 3em;
+      max-height: 3em;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    #talks .talk-thumbnail {
+      width: 220px;
+      min-width: 220px;
+      max-width: 220px;
+    }
+
+    #talks .talk-thumbnail a,
+    #talks .talk-thumbnail img {
+      display: block;
+      width: 100%;
+    }
+
+    #talks .talk-thumbnail img {
+      height: 136px;
+      object-fit: cover;
+      border-radius: 8px;
+      background: #f7f7f7;
+    }
+
+    @media (max-width: 768px) {
+      #talks .media.stream-item {
+        flex-direction: column;
+      }
+
+      #talks .talk-thumbnail {
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+        margin-left: 0 !important;
+        margin-top: 0.7rem;
+      }
+
+      #talks .talk-thumbnail img {
+        height: 180px;
+      }
+
+      #talks .media-body {
+        min-height: 0;
+      }
+    }
+
 
     .people-person img.portrait,
     .people-person .portrait {
@@ -2057,24 +2145,80 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
   
   
 
-    <section id="talks" class="home-section wg-pages   "  >
+  <section id="talks" class="home-section wg-pages   "  >
     <div class="container">
-<div class="row">
-  <div class="col-12 col-lg-4 section-heading">
-    <h1>Recent Talks</h1>
-  </div>
-  <div class="col-12 col-lg-8 talks-loading" id="home-talks-body">
-    <div id="talks-loading-state" class="media stream-item">
-      <div class="media-body">
-        <h3 class="article-title mb-0 mt-0">Synchronizing review talks...</h3>
+      <div class="row">
+        <div class="col-12 col-lg-4 section-heading">
+          <h1>Recent Talks</h1>
+        </div>
+        <div class="col-12 col-lg-8">
+          <!-- Template card 1: replace title/summary/date/reviewer/link/image -->
+          <div class="media stream-item">
+            <div class="media-body">
+              <h3 class="article-title mb-0 mt-0">
+                SRDiff: Single Image Super-Resolution with Diffusion Probabilistic Models
+              </h3>
+              <div class="article-style">
+                <p>It uses a conditional diffusion process to predict the image residual, generating high-fidelity $SR$ results that avoid the over-smoothing common in $MSE$-based models.</p>
+              </div>
+              <div class="stream-meta article-metadata">
+                <div>
+                  <span>Mar 2026 | Anna Jung</span>
+                </div>
+              </div>
+            </div>
+            <div class="ml-3 talk-thumbnail">
+              <a href="/imsi/images/talks/talk-01.jpg" target="_blank" rel="noopener">
+                <img src="/imsi/images/talks/talk-01.jpg" alt="SRDiff: Single Image Super-Resolution with Diffusion Probabilistic Models">
+              </a>
+            </div>
+          </div>
+
+          <!-- Template card 2 -->
+          <div class="media stream-item">
+            <div class="media-body">
+              <h3 class="article-title mb-0 mt-0">
+                Variational Inference with Normalizing Flows
+              </h3>
+              <div class="article-style">
+                <p>It maps a simple distribution to a complex one using a sequence of invertible transformations $f$, enabling exact likelihood $p(x)$ estimation and efficient sampling.</p>
+              </div>
+              <div class="stream-meta article-metadata">
+                <div>
+                  <span>Mar 2026 | Junbeom Lee</span>
+                </div>
+              </div>
+            </div>
+            <div class="ml-3 talk-thumbnail">
+              <a href="/imsi/images/talks/talk-02.jpg" target="_blank" rel="noopener">
+                <img src="/imsi/images/talks/talk-02.jpg" alt="Variational Inference with Normalizing Flows">
+              </a>
+            </div>
+          </div>
+
+          <!-- Template card 3 -->
+          <div class="media stream-item">
+            <div class="media-body">
+              <h3 class="article-title mb-0 mt-0">
+                Masked Autoencoders Are Scalable Vision Learners
+              </h3>
+              <div class="article-style">
+                <p>It scales vision learning by masking a large portion of an image ($75\%$) and forcing an asymmetric $ViT$ to reconstruct the original pixels, learning robust representations.</p>
+              </div>
+              <div class="stream-meta article-metadata">
+                <div>
+                  <span>Mar 2026 | Yului Jeng</span>
+                </div>
+              </div>
+            </div>
+            <div class="ml-3 talk-thumbnail">
+              <a href="/imsi/images/talks/talk-03.jpg" target="_blank" rel="noopener">
+                <img src="/imsi/images/talks/talk-03.jpg" alt="Masked Autoencoders Are Scalable Vision Learners">
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-
-    <div id="talks-dynamic-list"></div>
-
-  </div>
-</div>
-
     </div>
   </section>
   <section id="people" class="home-section wg-people   "  >
@@ -2094,12 +2238,12 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
     <h1>People</h1>
   </div>
 
-  <!-- ?? Principal Investigators ?? -->
+  <!-- ???? Principal Investigators ???? -->
   <div class="col-md-12">
     <h2 class="mb-4">Principal Investigators</h2>
   </div>
 
-  <!-- ?댄쁺??援먯닔??-->
+  <!-- ??꾩겫???대Ŋ???-->
   <div class="col-12 col-sm-auto people-person">
     <a href="/imsi/authors/investigators/hyukjae-lee/">
       <img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
@@ -2112,7 +2256,7 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
     </div>
   </div>
 
-  <!-- 源?⑥? 援먯닔??-->
+  <!-- 繹먃??? ?대Ŋ???-->
   <div class="col-12 col-sm-auto people-person">
     <a href="/imsi/authors/investigators/nam-joon-kim/"><img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;" src="/imsi/authors/investigators/nam-joon-kim/avatar.png" alt="Avatar"></a>
     <div class="portrait-title">
@@ -2121,7 +2265,7 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
     </div>
   </div>
 
-  <!-- ?? Research Assistants ?? -->
+  <!-- ???? Research Assistants ???? -->
   <div class="col-md-12">
     <h2 class="mb-4">Research Assistants</h2>
   </div>
@@ -2142,7 +2286,7 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
     </div>
   </div>
 
-  <!-- ?? Student Researchers ?? -->
+  <!-- ???? Student Researchers ???? -->
   <div class="col-md-12">
     <h2 class="mb-4">Student Researchers</h2>
   </div>
@@ -2193,7 +2337,7 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
     </div>
   </div>
 
-  <!-- ?? Undergraduate Interns ?? -->
+  <!-- ???? Undergraduate Interns ???? -->
   <div class="col-md-12">
     <h2 class="mb-4">Undergraduate Interns</h2>
   </div>
@@ -2206,12 +2350,12 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
     </div>
   </div>
 
-  <!-- ?? Advisors ?? -->
+  <!-- ???? Advisors ???? -->
   <div class="col-md-12">
     <h2 class="mb-4">Advisors</h2>
   </div>
 
-  <!-- Won Jae Lee (?댁썝?? -->
+  <!-- Won Jae Lee (??곸뜚?? -->
   <div class="col-12 col-sm-auto people-person">
     <a href="/imsi/authors/advisors/won-jae-lee/">
       <img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
@@ -2224,7 +2368,7 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
     </div>
   </div>
 
-  <!-- Woo Kyoung Jeong (?뺤슦寃? -->
+  <!-- Woo Kyoung Jeong (?類ㅼ뒭野? -->
   <div class="col-12 col-sm-auto people-person">
     <a href="/imsi/authors/advisors/woo-kyoung-jeong/">
       <img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
@@ -2237,7 +2381,7 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
     </div>
   </div>
 
-  <!-- Pa Hong (?랁뙆) -->
+  <!-- Pa Hong (??곷솁) -->
   <div class="col-12 col-sm-auto people-person">
     <a href="/imsi/authors/advisors/pa-hong/">
       <img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
@@ -2337,7 +2481,7 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
     </div>
   </div>
 
-  <!-- ── Visitors ── -->
+  <!-- ?? Visitors ?? -->
   <div class="col-md-12">
     <h2 class="mb-4">Visitors</h2>
   </div>
@@ -2907,114 +3051,6 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
 </div>`;
       }
 
-      const REVIEW_TALKS_DEFAULT_DECK_URL = 'https://docs.google.com/presentation/d/1gX2HaL3Boer6pyNRTGsXugbbED6TCFow3s2H8GPsPWs/edit';
-      const REVIEW_TALKS_EXCLUDE_REGEX = /(thank\s*you|end\s*of\s*document|new\s*chapter|\uC0C8\uB85C\uC6B4\s*\uCC55\uD130)/i;
-
-      function parseValidDate(value) {
-        const raw = String(value || '').trim();
-        if (!raw) return null;
-        const date = new Date(raw);
-        return Number.isNaN(date.getTime()) ? null : date;
-      }
-
-      function buildGoogleSlideThumbnail(deckUrl, slideId) {
-        const deckIdMatch = String(deckUrl || '').match(/\/presentation\/d\/([A-Za-z0-9_-]+)/);
-        const deckId = deckIdMatch ? deckIdMatch[1] : '';
-        const pageId = String(slideId || '').trim();
-        if (!deckId || !pageId) return '';
-        return `https://docs.google.com/presentation/d/${deckId}/export/png?id=${deckId}&pageid=${encodeURIComponent(pageId)}`;
-      }
-
-      function buildGoogleSlideUrl(deckUrl, slideId) {
-        const baseUrl = String(deckUrl || REVIEW_TALKS_DEFAULT_DECK_URL).split('#')[0];
-        const pageId = String(slideId || '').trim();
-        if (!pageId) return baseUrl;
-        return `${baseUrl}?slide=${encodeURIComponent(pageId)}#slide=${encodeURIComponent(pageId)}`;
-      }
-
-      function buildHomeTalkItem(item, deckUrl) {
-        const title = String(item?.title || '').trim();
-        const description = String(item?.description || item?.summary || item?.excerpt || '').trim();
-        const speaker = String(item?.speaker || item?.reviewer || '').trim();
-        const slideId = String(item?.slide_id || '').trim();
-        const talkUrl = String(item?.slide_url || item?.url || '').trim() || buildGoogleSlideUrl(deckUrl, slideId);
-        const thumbUrl = String(item?.thumbnail || '').trim() || buildGoogleSlideThumbnail(deckUrl, slideId);
-        const parsedDate = parseValidDate(item?.iso_date || item?.date || '');
-        const dateText = parsedDate
-          ? parsedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
-          : '';
-
-        if (!title || !talkUrl) return '';
-
-        return `
-<div class="media stream-item">
-  <div class="media-body">
-    <h3 class="article-title mb-0 mt-0">
-      <a href="${escapeHtml(talkUrl)}" target="_blank" rel="noopener">${escapeHtml(title)}</a>
-    </h3>
-    ${description ? `<div class="article-style"><p>${escapeHtml(description)}</p></div>` : ''}
-    ${(dateText || speaker) ? `<div class="stream-meta article-metadata"><div><span>${escapeHtml([dateText, speaker].filter(Boolean).join(' | '))}</span></div></div>` : ''}
-    <div class="btn-links">
-      <a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="${escapeHtml(talkUrl)}" target="_blank" rel="noopener">Slide</a>
-    </div>
-  </div>
-  ${thumbUrl ? `<div class="ml-3 talk-thumbnail"><a href="${escapeHtml(talkUrl)}" target="_blank" rel="noopener"><img src="${escapeHtml(thumbUrl)}" alt="${escapeHtml(title)}"></a></div>` : ''}
-</div>`;
-      }
-
-      function filterReviewTalkItems(items) {
-        return items.filter((item) => {
-          const title = String(item?.title || '').trim();
-          const description = String(item?.description || item?.summary || item?.excerpt || '').trim();
-          if (!title) return false;
-          const combined = `${title} ${description}`;
-          return !REVIEW_TALKS_EXCLUDE_REGEX.test(combined);
-        });
-      }
-
-      function sortReviewTalkItems(items) {
-        return [...items].sort((a, b) => {
-          const dateA = parseValidDate(a?.iso_date || a?.date || '');
-          const dateB = parseValidDate(b?.iso_date || b?.date || '');
-          if (dateA && dateB) {
-            return dateB.getTime() - dateA.getTime();
-          }
-          if (dateB) return 1;
-          if (dateA) return -1;
-          return 0;
-        });
-      }
-
-      async function renderHomeTalksFromJson() {
-        const sectionBody = document.getElementById('home-talks-body');
-        const list = document.getElementById('talks-dynamic-list');
-        const loading = document.getElementById('talks-loading-state');
-        if (!sectionBody || !list) return;
-
-        try {
-          const response = await fetch('/imsi/data/review-talks.json', { cache: 'no-store' });
-          if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-          const payload = await response.json();
-          const deckUrl = String(payload?.deck_url || REVIEW_TALKS_DEFAULT_DECK_URL).trim() || REVIEW_TALKS_DEFAULT_DECK_URL;
-          const rawItems = Array.isArray(payload?.items) ? payload.items : [];
-          const visibleItems = sortReviewTalkItems(filterReviewTalkItems(rawItems)).slice(0, 3);
-
-          if (visibleItems.length === 0) {
-            list.innerHTML = '<div class="media stream-item"><div class="media-body"><div class="article-style"><p>No review slides synced yet.</p></div></div></div>';
-            return;
-          }
-
-          list.innerHTML = visibleItems.map((item) => buildHomeTalkItem(item, deckUrl)).filter(Boolean).join('\n');
-        } catch (err) {
-          console.error('Failed to render review talks from JSON:', err);
-          list.innerHTML = '<div class="media stream-item"><div class="media-body"><div class="article-style"><p>Failed to load review talks.</p></div></div></div>';
-        } finally {
-          if (loading) loading.remove();
-          sectionBody.classList.remove('talks-loading');
-        }
-      }
-
       async function renderHomeBlogpostsFromJson() {
         const sectionBody = document.querySelector('#posts .col-12.col-lg-8');
         if (!sectionBody) return;
@@ -3201,7 +3237,6 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
         }
       }
 
-      renderHomeTalksFromJson();
       renderHomeBlogpostsFromJson();
       renderHomePublicationsFromSheet();
       renderHomeProjectsFromSheet();
@@ -3265,7 +3300,6 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
 
 </body>
 </html>
-
 
 
 
