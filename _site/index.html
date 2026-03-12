@@ -28,7 +28,7 @@
   
     
   
-  <meta name="description" content="IMSI Research Group investigates intelligent multimedia signal processing and artificial intelligence, focusing on advanced machine learning techniques for multimedia applications, computer vision, and signal processing.">
+  <meta name="description" content="IMSI Research Lab investigates intelligent multimedia signal processing and artificial intelligence, focusing on advanced machine learning techniques for multimedia applications, computer vision, and signal processing.">
 
   
   <link rel="alternate" hreflang="en-us" href="https://imsilab.github.io/">
@@ -275,37 +275,38 @@
       object-fit: cover;
     }
 
-    #posts .stream-meta.article-metadata {
-      margin-top: 0.45rem;
+    .people-person img.portrait,
+    .people-person .portrait {
+      display: block;
+      margin: 0 auto;
     }
 
-    #posts .article-style {
-      margin-top: 0.45rem;
+    /* Hero Redesign Styles */
+    .hero-label {
+      font-size: 0.85rem;
+      letter-spacing: 0.2rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      display: block;
     }
-
-    #posts .article-style p {
-      margin-bottom: 0;
-      line-height: 1.5;
-      color: rgba(0, 0, 0, 0.62);
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+    .hero-title {
+      font-size: 3.5rem !important;
+      font-weight: 800 !important;
+      line-height: 1.1;
+      margin-bottom: 2rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     }
-
-    #talks .talk-thumbnail img {
-      width: 150px;
-      max-width: 150px;
-      height: 96px;
-      object-fit: cover;
-      border-radius: 4px;
-      background: #f7f7f7;
+    .hero-lead {
+      font-size: 1.1rem !important;
+      line-height: 1.6 !important;
+      color: rgba(255, 255, 255, 0.95) !important;
+      max-width: 800px;
     }
-
-    #talks .talks-loading .media.stream-item {
-      opacity: 0.65;
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.5rem !important; }
     }
-
   </style>
 
   
@@ -317,7 +318,7 @@
 
 
   
-  <link rel="alternate" href="/imsi/index.xml" type="application/rss+xml" title="IMSI Research Group">
+  <link rel="alternate" href="/imsi/index.xml" type="application/rss+xml" title="IMSI Research Lab">
   
 
   <link rel="manifest" href="/imsi/index.webmanifest">
@@ -340,10 +341,10 @@
   <meta property="twitter:site" content="@xbresson">
   <meta property="twitter:creator" content="@xbresson">
   
-  <meta property="og:site_name" content="IMSI Research Group">
+  <meta property="og:site_name" content="IMSI Research Lab">
   <meta property="og:url" content="https://imsilab.github.io/">
-  <meta property="og:title" content="IMSI Research Group">
-  <meta property="og:description" content="IMSI Research Group investigates intelligent multimedia signal processing and artificial intelligence, focusing on advanced machine learning techniques for multimedia applications, computer vision, and signal processing."><meta property="og:image" content="https://imsilab.github.io/images/imsi_favicon_512.png">
+  <meta property="og:title" content="IMSI Research Lab">
+  <meta property="og:description" content="IMSI Research Lab investigates intelligent multimedia signal processing and artificial intelligence, focusing on advanced machine learning techniques for multimedia applications, computer vision, and signal processing."><meta property="og:image" content="https://imsilab.github.io/images/imsi_favicon_512.png">
   <meta property="twitter:image" content="https://imsilab.github.io/images/imsi_favicon_512.png"><meta property="og:locale" content="en-us">
   
     <meta property="og:updated_time" content="2018-06-28T00:00:00&#43;00:00">
@@ -371,7 +372,7 @@
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",
   "@id": "https://imsilab.github.io/",
-  "name": "IMSI Research Group",
+  "name": "IMSI Research Lab",
   
   
   
@@ -402,7 +403,7 @@
 
 
 
-  <title>IMSI Research Group - Intelligent Multimedia Signal Processing and Intelligence</title>
+  <title>IMSI Research Lab - Intelligent Multimedia Signal Processing and Intelligence</title>
 
 </head>
 
@@ -576,7 +577,8 @@
   
   
 
-  <section id="hero" class="home-section wg-hero dark  bg-image parallax " style="background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(&#39;https://imsilab.github.io/img/network.jpg&#39;);" >
+  <section id="hero" class="home-section wg-hero dark bg-image parallax" 
+           style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/imsi/img/google_group.jpg'); padding: 120px 0;">
     <div class="container">
       
 
@@ -584,8 +586,9 @@
 
 
 
+    <span class="hero-label">ISMI LAB</span>
     <h1 class="hero-title">
-      IMSI Research Group
+      Accelerating Medical<br>SuperIntelligence
     </h1>
 
     
@@ -606,7 +609,7 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
         
       
     <p class="cta-btns">
-      <a href="/imsi/publication"  class="btn btn-light btn-lg"><i class="fa fa-book pr-1" aria-hidden="true"></i>Publications</a>
+      <a href="/imsi/publication"  class="btn btn-light btn-lg" style="border-radius: 4px; padding: 12px 30px; font-weight: 600;"><i class="fa fa-book pr-2" aria-hidden="true"></i>Publications</a>
 
       
       
@@ -2211,29 +2214,35 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
   <!-- Won Jae Lee (?댁썝?? -->
   <div class="col-12 col-sm-auto people-person">
     <a href="/imsi/authors/advisors/won-jae-lee/">
-      <div class="portrait" style="width:150px;height:150px;border-radius:50%;background:#37474f;display:flex;align-items:center;justify-content:center;font-size:55px;font-weight:bold;color:white;">L</div>
+      <img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
+           src="/imsi/authors/advisors/won-jae-lee/avatar.png" alt="Avatar"
+           onerror="this.outerHTML='<div class=\'portrait\' style=\'width:150px;height:150px;border-radius:50%;background:#37474f;display:flex;align-items:center;justify-content:center;font-size:55px;font-weight:bold;color:white;\'>L</div>'">
     </a>
     <div class="portrait-title">
       <h2><a href="/imsi/authors/advisors/won-jae-lee/">Won Jae Lee</a></h2>
-      <h3>Professor, Radiology</h3>
+      <h3>Samsung Changwon Hospital, Radiology</h3>
     </div>
   </div>
 
   <!-- Woo Kyoung Jeong (?뺤슦寃? -->
   <div class="col-12 col-sm-auto people-person">
     <a href="/imsi/authors/advisors/woo-kyoung-jeong/">
-      <div class="portrait" style="width:150px;height:150px;border-radius:50%;background:#37474f;display:flex;align-items:center;justify-content:center;font-size:55px;font-weight:bold;color:white;">J</div>
+      <img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
+           src="/imsi/authors/advisors/woo-kyoung-jeong/avatar.png" alt="Avatar"
+           onerror="this.outerHTML='<div class=\'portrait\' style=\'width:150px;height:150px;border-radius:50%;background:#37474f;display:flex;align-items:center;justify-content:center;font-size:55px;font-weight:bold;color:white;\'>J</div>'">
     </a>
     <div class="portrait-title">
       <h2><a href="/imsi/authors/advisors/woo-kyoung-jeong/">Woo Kyoung Jeong</a></h2>
-      <h3>Professor, Radiology</h3>
+      <h3>Samsung Medical Center, Radiology</h3>
     </div>
   </div>
 
   <!-- Pa Hong (?랁뙆) -->
   <div class="col-12 col-sm-auto people-person">
     <a href="/imsi/authors/advisors/pa-hong/">
-      <div class="portrait" style="width:150px;height:150px;border-radius:50%;background:#37474f;display:flex;align-items:center;justify-content:center;font-size:55px;font-weight:bold;color:white;">H</div>
+      <img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
+           src="/imsi/authors/advisors/pa-hong/avatar.png" alt="Avatar"
+           onerror="this.outerHTML='<div class=\'portrait\' style=\'width:150px;height:150px;border-radius:50%;background:#37474f;display:flex;align-items:center;justify-content:center;font-size:55px;font-weight:bold;color:white;\'>H</div>'">
     </a>
     <div class="portrait-title">
       <h2><a href="/imsi/authors/advisors/pa-hong/">Pa Hong</a></h2>
@@ -2266,7 +2275,9 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
   <!-- Ivan (NVIDIA, HK) -->
   <div class="col-12 col-sm-auto people-person">
     <a href="/imsi/authors/advisors/ivan-nvidia/">
-      <div class="portrait" style="width:150px;height:150px;border-radius:50%;background:#76b900;display:flex;align-items:center;justify-content:center;font-size:55px;font-weight:bold;color:white;">I</div>
+      <img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
+           src="/imsi/authors/advisors/ivan-nvidia/avatar.png" alt="Avatar"
+           onerror="this.outerHTML='<div class=\'portrait\' style=\'width:150px;height:150px;border-radius:50%;background:#76b900;display:flex;align-items:center;justify-content:center;font-size:55px;font-weight:bold;color:white;\'>I</div>'">
     </a>
     <div class="portrait-title">
       <h2><a href="/imsi/authors/advisors/ivan-nvidia/">Ivan</a></h2>
@@ -2303,7 +2314,9 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
   <!-- Ken (NVIDIA, Taiwan) -->
   <div class="col-12 col-sm-auto people-person">
     <a href="/imsi/authors/advisors/ken-liao/">
-      <div class="portrait" style="width:150px;height:150px;border-radius:50%;background:#76b900;display:flex;align-items:center;justify-content:center;font-size:55px;font-weight:bold;color:white;">K</div>
+      <img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
+           src="/imsi/authors/advisors/ken-liao/avatar.png" alt="Avatar"
+           onerror="this.outerHTML='<div class=\'portrait\' style=\'width:150px;height:150px;border-radius:50%;background:#76b900;display:flex;align-items:center;justify-content:center;font-size:55px;font-weight:bold;color:white;\'>K</div>'">
     </a>
     <div class="portrait-title">
       <h2><a href="/imsi/authors/advisors/ken-liao/">Ken Liao</a></h2>
@@ -2311,7 +2324,20 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
     </div>
   </div>
 
-  <!-- ?? Visitors ?? -->
+  <!-- Ka-Chun (NVIDIA) -->
+  <div class="col-12 col-sm-auto people-person">
+    <a href="/imsi/authors/advisors/ka-chun-cheung/">
+      <img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
+           src="/imsi/authors/advisors/ka-chun-cheung/avatar.png" alt="Avatar"
+           onerror="this.outerHTML='<div class=\'portrait\' style=\'width:150px;height:150px;border-radius:50%;background:#76b900;display:flex;align-items:center;justify-content:center;font-size:55px;font-weight:bold;color:white;\'>K</div>'">
+    </a>
+    <div class="portrait-title">
+      <h2><a href="/imsi/authors/advisors/ka-chun-cheung/">Ka-Chun Cheung</a></h2>
+      <h3>NVIDIA AI Technology</h3>
+    </div>
+  </div>
+
+  <!-- ── Visitors ── -->
   <div class="col-md-12">
     <h2 class="mb-4">Visitors</h2>
   </div>
@@ -2327,7 +2353,7 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
   </div>
 
   <div class="col-12 col-sm-auto people-person">
-    <a href="/imsi/authors/visitors/junsu-lim/"><img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;" src="/imsi/authors/visitors/junsu-lim/avatar.png" alt="Avatar"></a>
+    <a href="/imsi/authors/visitors/junsu-lim/"><img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;" src="/imsi/authors/visitors/junsu-lim/avatar.jpg" alt="Avatar"></a>
     <div class="portrait-title">
       <h2><a href="/imsi/authors/visitors/junsu-lim/">Junsu Lim</a></h2>
       <h3>Visitor</h3>
@@ -3181,21 +3207,21 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
       renderHomeProjectsFromSheet();
     </script>
 
-    
-
-
-
-
-
-
-  
-  
-  <div class="container">
     <footer class="site-footer">
+      <div class="row justify-content-center align-items-center mb-5">
+        <div class="col-auto px-4">
+          <img src="/imsi/images/logo/capp.png" alt="CAPP Lab Logo" style="max-height: 200px; width: auto; max-width: 100%;">
+        </div>
+        <div class="col-auto px-4">
+          <img src="/imsi/images/logo/snu.jpg" alt="SNU Logo" style="max-height: 200px; width: auto; max-width: 100%;">
+        </div>
+        <div class="col-auto px-4">
+          <img src="/imsi/images/logo/smc.png" alt="SMC Logo" style="max-height: 160px; width: auto; max-width: 100%;">
+        </div>
+      </div>
   
-
-  <p class="powered-by">
-    <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &copy; 2026 &middot; Developed by <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &amp; <a href="https://github.com/jsulim">Junsu Lim</a> &middot; Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a> (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
+      <p class="powered-by">
+        <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &copy; 2026 &middot; Developed by <a href="https://github.com/khkim1729">Kyeonghun Kim</a> & <a href="https://github.com/jsulim">Junsu Lim</a> &middot; Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a> (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
 
     <span class="float-right" aria-hidden="true">
       <a href="#" class="back-to-top">

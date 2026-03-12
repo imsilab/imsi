@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="generator" content="Source Themes Academic 4.7.0">
-  <meta name="author" content="IMSI Research Group">
-  <meta name="description" content="IMSI Research Group Teams ??all members organized by team">
+  <meta name="author" content="IMSI Research Lab">
+  <meta name="description" content="IMSI Research Lab Teams — all members organized by team">
   <link rel="alternate" hreflang="en-us" href="https://imsilab.github.io/alumni/">
   <meta name="theme-color" content="#2962ff">
   <script src="/imsi/js/mathjax-config.js"></script>
@@ -26,11 +26,11 @@
   <link rel="apple-touch-icon" type="image/png" href="/imsi/images/imsi_favicon_192.png">
   <link rel="canonical" href="https://imsilab.github.io/alumni/">
   <meta property="twitter:card" content="summary">
-  <meta property="og:site_name" content="IMSI Research Group">
+  <meta property="og:site_name" content="IMSI Research Lab">
   <meta property="og:url" content="https://imsilab.github.io/alumni/">
-  <meta property="og:title" content="Teams | IMSI Research Group">
-  <meta property="og:description" content="IMSI Research Group Teams ??all members organized by team">
-  <title>Teams | IMSI Research Group</title>
+  <meta property="og:title" content="Teams | IMSI Research Lab">
+  <meta property="og:description" content="IMSI Research Lab Teams — all members organized by team">
+  <title>Teams | IMSI Research Lab</title>
 
   <style>
     /* ?? Page ?? */
@@ -240,14 +240,14 @@
   <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
     <div class="container">
       <div class="d-none d-lg-inline-flex">
-        <a class="navbar-brand" href="/imsi/">IMSI Research Group</a>
+        <a class="navbar-brand" href="/imsi/">IMSI Research Lab</a>
       </div>
       <button type="button" class="navbar-toggler" data-toggle="collapse"
               data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
         <span><i class="fas fa-bars"></i></span>
       </button>
       <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
-        <a class="navbar-brand" href="/imsi/">IMSI Research Group</a>
+        <a class="navbar-brand" href="/imsi/">IMSI Research Lab</a>
       </div>
       <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
         <ul class="navbar-nav d-md-inline-flex">
@@ -273,26 +273,57 @@
 
     <div class="teams-header">
       <h1>Teams</h1>
-      <p>All IMSI Research Group members, organized by role or research team</p>
+      <p>All IMSI Research Lab members, organized by role or research team</p>
     </div>
 
-    <!-- Primary tabs: Members | Teams -->
+    <!-- ── Principal Investigators ── -->
+    <div class="row section-heading justify-content-center" style="margin-top: 2rem;">
+      <div class="col-md-12 text-center">
+        <h2 class="mb-4">Principal Investigators</h2>
+      </div>
+    </div>
+    <div class="row justify-content-center" style="margin-bottom: 3rem;">
+      <!-- 이혁재 교수님 -->
+      <div class="col-12 col-sm-auto people-person text-center">
+        <a href="/imsi/authors/investigators/hyukjae-lee/">
+          <img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
+               src="/imsi/authors/investigators/hyukjae-lee/avatar.png" alt="Avatar">
+        </a>
+        <div class="portrait-title">
+          <h2 style="font-size: 1.25rem;"><a href="/imsi/authors/investigators/hyukjae-lee/">Hyukjae Lee</a></h2>
+          <h3 style="font-size: 0.9rem;">Principal Investigator</h3>
+        </div>
+      </div>
+      <!-- 김남준 교수님 -->
+      <div class="col-12 col-sm-auto people-person text-center">
+        <a href="/imsi/authors/investigators/nam-joon-kim/">
+          <img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
+               src="/imsi/authors/investigators/nam-joon-kim/avatar.png" alt="Avatar">
+        </a>
+        <div class="portrait-title">
+          <h2 style="font-size: 1.25rem;"><a href="/imsi/authors/investigators/nam-joon-kim/">Nam-Joon Kim</a></h2>
+          <h3 style="font-size: 0.9rem;">Principal Investigator</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Primary tabs: Teams | Alumni -->
     <div class="tab-row">
-      <button id="tab-members" class="tab-btn active" onclick="switchTab('members')">Members</button>
-      <button id="tab-teams" class="tab-btn" onclick="switchTab('teams')">Teams</button>
+      <button id="tab-teams" class="tab-btn active" onclick="switchTab('teams')">Teams</button>
+      <button id="tab-alumni" class="tab-btn" onclick="switchTab('alumni')">Alumni</button>
     </div>
 
     <p id="teams-loading"><i class="fas fa-spinner fa-spin"></i> Loading members from spreadsheet...</p>
     <p id="teams-error" style="display:none;color:#c0392b;">Failed to load team data.</p>
 
-    <!-- ?? MEMBERS TAB (People-widget style) ?? -->
-    <div id="panel-members" style="display:none;">
-      <div id="members-people-view"></div>
-    </div>
-
-    <!-- ?? TEAMS TAB ?? -->
+    <!-- ── TEAMS TAB ── -->
     <div id="panel-teams" style="display:none;">
       <div id="teams-people-view"></div>
+    </div>
+
+    <!-- ── ALUMNI TAB (People-widget style) ── -->
+    <div id="panel-alumni" style="display:none;">
+      <div id="alumni-people-view"></div>
     </div>
 
   </div>
@@ -353,9 +384,14 @@
       'sooyong-kim':   '/imsi/authors/student_researchers/sooyong-kim/avatar.png',
       'jooyoung-bae':  '/imsi/authors/undergraduate_interns/jooyoung-bae/avatar.png',
       'junbeom-lee':   '/imsi/authors/undergraduate_interns/junbeom-lee/avatar.png',
-      'junsu-lim':     '/imsi/authors/visitors/junsu-lim/avatar.png',
+      'junsu-lim':     '/imsi/authors/visitors/junsu-lim/avatar.jpg',
       'ginny-nvidia':  '/imsi/authors/advisors/ginny-nvidia/avatar.png',
       'jeff-nvidia':   '/imsi/authors/advisors/jeff-nvidia/avatar.png',
+      'ivan-nvidia':   '/imsi/authors/advisors/ivan-nvidia/avatar.png',
+      'ken-liao':      '/imsi/authors/advisors/ken-liao/avatar.png',
+      'ka-chun-cheung': '/imsi/authors/advisors/ka-chun-cheung/avatar.png',
+      'woo-kyoung-jeong': '/imsi/authors/advisors/woo-kyoung-jeong/avatar.png',
+      'won-jae-lee': '/imsi/authors/advisors/won-jae-lee/avatar.png',
     };
 
     function getPhoto(p, profileUrl) {
@@ -370,7 +406,7 @@
     /* mkPortrait: initials circle as base, photo overlaid on top */
     function mkPortrait(initial, photoSrc, altText) {
       const base = `position:relative;width:150px;height:150px;border-radius:50%;background:#2962ff;` +
-                   `display:flex;align-items:center;justify-content:center;` +
+                   `display:flex;align-items:center;justify-content:center;margin:0 auto;` +
                    `font-size:55px;font-weight:bold;color:white;overflow:hidden;`;
       const overlay = photoSrc
         ? `<img src="${photoSrc}" alt="${altText}" ` +
@@ -561,10 +597,10 @@
 
     /* ?? Tab toggle ?? */
     function switchTab(tab) {
-      document.getElementById('panel-members').style.display = tab === 'members' ? 'block' : 'none';
-      document.getElementById('panel-teams'  ).style.display = tab === 'teams'   ? 'block' : 'none';
-      document.getElementById('tab-members').classList.toggle('active', tab === 'members');
-      document.getElementById('tab-teams'  ).classList.toggle('active', tab === 'teams');
+      document.getElementById('panel-teams' ).style.display = tab === 'teams'  ? 'block' : 'none';
+      document.getElementById('panel-alumni').style.display = tab === 'alumni' ? 'block' : 'none';
+      document.getElementById('tab-teams' ).classList.toggle('active', tab === 'teams');
+      document.getElementById('tab-alumni').classList.toggle('active', tab === 'alumni');
     }
 
     /* ?? Teams: People-widget style renderer (sorted by Team_Role) ?? */
@@ -623,31 +659,12 @@
         const peopleById = {};
         people.forEach(p => { const pid = (p[idKey]||'').trim(); if (pid) peopleById[pid] = p; });
 
-        /* MEMBERS tab */
-        const memberGroups = groupBy(people, p => (p.Category||'').trim()||'ETC', CATEGORY_ORDER);
-        const membersEl = document.getElementById('members-people-view');
-        membersEl.innerHTML = '<div class="row justify-content-center people-widget" id="members-people-row"></div>';
-        renderMembersPeopleStyle(memberGroups, 'members-people-row');
-
-        /* Inject Nam-Joon Kim at top of Principal Investigators if not already in spreadsheet */
-        const piRow = document.getElementById('members-people-row');
-        const namJoonInData = people.some(p => (p.Name_EN_FULL||p.Name_KR||'').toLowerCase().includes('nam'));
-        if (!namJoonInData && piRow) {
-          const piCard = mkPortrait('K', '/imsi/authors/investigators/nam-joon-kim/avatar.png', 'Nam-Joon Kim');
-          const piHtml = `
-            <div class="col-md-12" id="pi-header-inject" style="margin-top:1rem;">
-              <h2 class="mb-4">Principal Investigators <span style="font-size:0.85rem;font-weight:400;color:#888;">(2)</span></h2>
-            </div>
-            <div class="col-12 col-sm-auto people-person">
-              <a href="/imsi/authors/investigators/hyukjae-lee/">${mkPortrait('L','/imsi/authors/investigators/hyukjae-lee/avatar.png','Hyukjae Lee')}</a>
-              <div class="portrait-title"><h2><a href="/imsi/authors/investigators/hyukjae-lee/">Hyukjae Lee</a></h2><h3>Principal Investigator</h3></div>
-            </div>
-            <div class="col-12 col-sm-auto people-person">
-              <a href="/imsi/authors/investigators/nam-joon-kim/">${piCard}</a>
-              <div class="portrait-title"><h2><a href="/imsi/authors/investigators/nam-joon-kim/">Nam-Joon Kim</a></h2><h3>Principal Investigator</h3></div>
-            </div>`;
-          piRow.insertAdjacentHTML('afterbegin', piHtml);
-        }
+        /* ALUMNI tab: Filter for Category === 'Alumni' */
+        const alumniOnly = people.filter(p => (p.Category||'').trim() === 'Alumni');
+        const alumniGroups = groupBy(alumniOnly, p => (p.Category||'').trim()||'Alumni', CATEGORY_ORDER);
+        const alumniEl = document.getElementById('alumni-people-view');
+        alumniEl.innerHTML = '<div class="row justify-content-center people-widget" id="alumni-people-row"></div>';
+        renderMembersPeopleStyle(alumniGroups, 'alumni-people-row');
 
         /* TEAMS tab: join WEB_PersonTeam */
         const teamGroups = {};
@@ -659,7 +676,7 @@
             const period = (row['?쒕룞湲곌컙']  || row['Active_Period'] || row['Period'] || row['period'] || '').trim();
             if (!teamId) return;
             const person = peopleById[pid];
-            if (!person) return;
+            if (!person || (person.Category || '').trim() === 'Alumni') return;
             if (!teamGroups[teamId]) teamGroups[teamId] = [];
             teamGroups[teamId].push({ ...person, _teamRole: role, _period: period });
           });
@@ -671,7 +688,7 @@
         teamsEl.innerHTML = '<div class="row justify-content-center people-widget" id="teams-people-row"></div>';
         renderTeamsPeopleStyle(sortedTeamGroups, 'teams-people-row');
 
-        switchTab('members');
+        switchTab('teams');
         console.log('ID key:', idKey, '| Teams:', Object.keys(sortedTeamGroups).join(', '));
 
       } catch (err) {
@@ -686,6 +703,17 @@
 
   <div class="container">
     <footer class="site-footer">
+      <div class="row justify-content-center align-items-center mb-5">
+        <div class="col-auto px-4">
+          <img src="/imsi/images/logo/capp.png" alt="CAPP Lab Logo" style="max-height: 200px; width: auto; max-width: 100%;">
+        </div>
+        <div class="col-auto px-4">
+          <img src="/imsi/images/logo/snu.jpg" alt="SNU Logo" style="max-height: 200px; width: auto; max-width: 100%;">
+        </div>
+        <div class="col-auto px-4">
+          <img src="/imsi/images/logo/smc.png" alt="SMC Logo" style="max-height: 160px; width: auto; max-width: 100%;">
+        </div>
+      </div>
       <p class="powered-by">
     <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &copy; 2026 &middot; Developed by <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &amp; <a href="https://github.com/jsulim">Junsu Lim</a> &middot; Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a> (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
 
