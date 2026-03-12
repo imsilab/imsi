@@ -278,7 +278,7 @@
 
       if (title) {
         setTextById('pub-title', title);
-        document.title = `${title} | IMSI Research Group`;
+        document.title = `${title} | IMSI Research Lab`;
       }
 
       if (authors) {
