@@ -207,6 +207,94 @@
     #publication-dynamic-root + .row {
       display: none;
     }
+
+    #publication-dynamic-root {
+      margin-top: 0.5rem;
+    }
+
+    #publication-dynamic-root .pub-archive-controls {
+      align-items: center;
+    }
+
+    #publication-dynamic-root .filter-search {
+      width: 100%;
+      min-width: 260px;
+    }
+
+    #publication-dynamic-list.pub-year-sections {
+      display: block;
+    }
+
+    #publication-dynamic-list .pub-year-group {
+      margin-bottom: 2.25rem;
+    }
+
+    #publication-dynamic-list .pub-year-heading {
+      font-size: 1.45rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 2px solid rgba(41, 98, 255, 0.2);
+    }
+
+    #publication-dynamic-list .pub-card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    #publication-dynamic-list .pub-card {
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 12px;
+      background: #fff;
+      padding: 1.05rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    }
+
+    #publication-dynamic-list .pub-card-title {
+      margin: 0 0 0.55rem;
+      font-size: 1.06rem;
+      line-height: 1.4;
+    }
+
+    #publication-dynamic-list .pub-card-authors {
+      margin: 0 0 0.45rem;
+      font-size: 0.93rem;
+      line-height: 1.45;
+      color: rgba(0, 0, 0, 0.72);
+    }
+
+    #publication-dynamic-list .pub-card-meta {
+      margin: 0 0 0.7rem;
+      font-size: 0.84rem;
+      line-height: 1.4;
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    #publication-dynamic-list .pub-card-actions {
+      margin-top: auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    #publication-dynamic-list .pub-card-actions .btn {
+      font-size: 0.78rem;
+      padding: 0.2rem 0.6rem;
+    }
+
+    @media (max-width: 576px) {
+      #publication-dynamic-root .filter-search {
+        min-width: 0;
+      }
+
+      #publication-dynamic-list .pub-card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 
   
@@ -1648,10 +1736,7 @@
         const raw = String(rawAuthors || '').trim();
         if (!raw) return '';
         const authors = raw.split(',').map(v => v.trim()).filter(Boolean);
-        if (authors.length <= 5) return raw;
-        const firstAuthor = authors[0];
-        const surname = firstAuthor.split(/\s+/).filter(Boolean).pop() || firstAuthor;
-        return `${surname} et al.`;
+        return authors.join(', ');
       }
 
       function toYearNumber(value) {
@@ -1663,67 +1748,169 @@
         return String(pubId || '').trim().replace(/_/g, '-');
       }
 
-      function buildPublicationListItem(row) {
+      function normalizeSearchText(value) {
+        return String(value || '')
+          .toLowerCase()
+          .normalize('NFKD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/['’`]/g, '')
+          .replace(/[-_]/g, ' ')
+          .replace(/[^a-z0-9\s]/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+
+      function publicationIdSortValue(row) {
+        const pubId = getPubValue(row, ['Pub_ID', 'Pub ID', 'pub_id', 'Column_0']);
+        const matches = String(pubId).match(/\d+/g);
+        if (!matches || matches.length === 0) return -1;
+        const n = Number(matches[matches.length - 1]);
+        return Number.isFinite(n) ? n : -1;
+      }
+
+      function escapeBibValue(value) {
+        return String(value || '')
+          .replace(/\\/g, '\\\\')
+          .replace(/{/g, '\\{')
+          .replace(/}/g, '\\}')
+          .replace(/\r?\n/g, ' ')
+          .trim();
+      }
+
+      function buildPublicationBibText(title, authors, year) {
+        return [
+          '@article{',
+          `  title={${escapeBibValue(title)}},`,
+          `  author={${escapeBibValue(authors)}},`,
+          `  year={${escapeBibValue(year)}}`,
+          '}',
+          ''
+        ].join('\n');
+      }
+
+      let publicationCiteBlobUrl = null;
+
+      function openPublicationCiteModal(title, authors, year) {
+        if (!window.jQuery) return;
+        const $ = window.jQuery;
+        const $modal = $('#modal');
+        const $code = $modal.find('.modal-body code');
+        const $download = $modal.find('.js-download-cite');
+
+        const citeText = buildPublicationBibText(title, authors, year);
+        $code.text(citeText);
+        $('#modal-error').text('');
+
+        if (publicationCiteBlobUrl) {
+          URL.revokeObjectURL(publicationCiteBlobUrl);
+          publicationCiteBlobUrl = null;
+        }
+
+        publicationCiteBlobUrl = URL.createObjectURL(
+          new Blob([citeText], { type: 'text/plain;charset=utf-8' })
+        );
+        $download.attr('href', publicationCiteBlobUrl);
+        $download.attr('download', 'cite.bib');
+
+        $modal.modal('show');
+      }
+
+      function bindPublicationCiteButtons(root) {
+        if (!root || !window.jQuery) return;
+        const $ = window.jQuery;
+        $(root).find('.js-pub-cite-modal').off('click').on('click', function (event) {
+          event.preventDefault();
+          const button = event.currentTarget;
+          openPublicationCiteModal(
+            button.getAttribute('data-title') || '',
+            button.getAttribute('data-authors') || '',
+            button.getAttribute('data-year') || ''
+          );
+        });
+      }
+
+      function buildPublicationCard(row) {
         const pubId = getPubValue(row, ['Pub_ID', 'Pub ID', 'pub_id', 'Column_0']);
         const year = getPubValue(row, ['Year', 'year', 'Column_1']);
         const title = getPubValue(row, ['Title', 'title', 'Column_2']);
-        const authors = formatPublicationAuthors(getPubValue(row, ['Authors', 'authors', 'Column_4']));
+        const venue = getPubValue(row, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']);
+        const authorsRaw = getPubValue(row, ['Authors', 'authors', 'Column_4']);
+        const authors = formatPublicationAuthors(authorsRaw);
+        const paperLink = getPubValue(row, ['Paper_Link', 'Paper Link', 'paper_link', 'Column_5']);
         if (!title) return '';
 
         const normalizedPubId = normalizePublicationId(pubId);
-        const url = normalizedPubId ? `/imsi/publication/${encodeURIComponent(normalizedPubId)}/index.html` : '';
-        const titleHtml = url
-          ? `<a href="${escapePubHtml(url)}">${escapePubHtml(title)}</a>`
-          : `${escapePubHtml(title)}`;
-        const authorHtml = authors
-          ? `<span class="article-metadata li-cite-author">${escapePubHtml(authors)}</span> `
-          : '';
-        const yearHtml = year ? `(${escapePubHtml(year)}). ` : '';
+        const localPdfUrl = normalizedPubId ? `/imsi/publication/${encodeURIComponent(normalizedPubId)}/paper.pdf` : '';
+        const pdfUrl = paperLink || localPdfUrl;
+
+        const actions = [];
+        actions.push(`<a class="btn btn-outline-primary btn-sm" href="${escapePubHtml(pdfUrl)}" target="_blank" rel="noopener">PDF</a>`);
+        actions.push(`<button type="button" class="btn btn-outline-primary btn-sm js-pub-cite-modal" data-title="${escapePubHtml(title)}" data-authors="${escapePubHtml(authorsRaw)}" data-year="${escapePubHtml(year)}">Cite</button>`);
+        const actionsHtml = actions.length ? `<div class="pub-card-actions">${actions.join('')}</div>` : '';
+        const meta = [venue, year].filter(Boolean).join(', ');
 
         return `
-<div class="pub-list-item" style="margin-bottom: 1rem">
-  <i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
-  ${authorHtml}${yearHtml}${titleHtml}.
-</div>`;
+<article class="pub-card">
+  <h3 class="pub-card-title">${escapePubHtml(title)}</h3>
+  ${authors ? `<p class="pub-card-authors">${escapePubHtml(authors)}</p>` : ''}
+  ${meta ? `<p class="pub-card-meta">${escapePubHtml(meta)}</p>` : ''}
+  ${actionsHtml}
+</article>`;
       }
 
-      function renderPublicationPagination(container, totalPages, currentPage, onSelect) {
-        let pager = document.getElementById('publication-pagination');
-        if (pager) pager.remove();
+      function sortPublicationRows(rows) {
+        return [...rows].sort((a, b) => {
+          const ay = toYearNumber(getPubValue(a, ['Year', 'year', 'Column_1'])) ?? -1;
+          const by = toYearNumber(getPubValue(b, ['Year', 'year', 'Column_1'])) ?? -1;
+          if (ay !== by) return by - ay;
 
-        pager = document.createElement('nav');
-        pager.id = 'publication-pagination';
-        pager.setAttribute('aria-label', 'Publication list pagination');
-        pager.style.marginTop = '1.25rem';
+          const aid = publicationIdSortValue(a);
+          const bid = publicationIdSortValue(b);
+          if (aid !== bid) return bid - aid;
 
-        const ul = document.createElement('ul');
-        ul.className = 'pagination justify-content-center';
+          const at = getPubValue(a, ['Title', 'title', 'Column_2']).toLowerCase();
+          const bt = getPubValue(b, ['Title', 'title', 'Column_2']).toLowerCase();
+          return at.localeCompare(bt);
+        });
+      }
 
-        const addPage = (label, target, disabled, active) => {
-          const li = document.createElement('li');
-          li.className = `page-item${disabled ? ' disabled' : ''}${active ? ' active' : ''}`;
-          const a = document.createElement('a');
-          a.className = 'page-link';
-          a.href = '#';
-          a.innerHTML = label;
-          if (!disabled) {
-            a.addEventListener('click', (e) => {
-              e.preventDefault();
-              onSelect(target);
-            });
-          }
-          li.appendChild(a);
-          ul.appendChild(li);
-        };
+      function groupPublicationsByYear(rows) {
+        const buckets = new Map();
+        rows.forEach((row) => {
+          const year = getPubValue(row, ['Year', 'year', 'Column_1']) || 'Unknown';
+          if (!buckets.has(year)) buckets.set(year, []);
+          buckets.get(year).push(row);
+        });
 
-        addPage('&laquo;', currentPage - 1, currentPage === 1, false);
-        for (let p = 1; p <= totalPages; p += 1) {
-          addPage(String(p), p, false, p === currentPage);
+        const sortedYears = [...buckets.keys()].sort((a, b) => {
+          const ay = toYearNumber(a);
+          const by = toYearNumber(b);
+          if (ay !== null && by !== null) return by - ay;
+          if (by !== null) return 1;
+          if (ay !== null) return -1;
+          return String(a).localeCompare(String(b));
+        });
+
+        return sortedYears.map((year) => ({ year, rows: buckets.get(year) || [] }));
+      }
+
+      function renderPublicationYearSections(listEl, rows) {
+        if (!rows.length) {
+          listEl.innerHTML = '<div class="article-style"><p>No publications found for this filter.</p></div>';
+          return;
         }
-        addPage('&raquo;', currentPage + 1, currentPage === totalPages, false);
 
-        pager.appendChild(ul);
-        container.insertAdjacentElement('afterend', pager);
+        const groups = groupPublicationsByYear(rows);
+        const html = groups.map((group) => `
+<section class="pub-year-group">
+  <h2 class="pub-year-heading">${escapePubHtml(group.year)}</h2>
+  <div class="pub-card-grid">
+    ${group.rows.map(buildPublicationCard).filter(Boolean).join('\n')}
+  </div>
+</section>`).join('\n');
+
+        listEl.innerHTML = html;
+        bindPublicationCiteButtons(listEl);
       }
 
       async function renderPublicationArchiveFromSheet() {
@@ -1743,21 +1930,12 @@
             return;
           }
 
-          const sorted = [...rows].sort((a, b) => {
-            const ay = toYearNumber(getPubValue(a, ['Year', 'year', 'Column_1'])) ?? 0;
-            const by = toYearNumber(getPubValue(b, ['Year', 'year', 'Column_1'])) ?? 0;
-            if (ay !== by) return by - ay; // Descending year order
-            const at = getPubValue(a, ['Title', 'title', 'Column_2']).toLowerCase();
-            const bt = getPubValue(b, ['Title', 'title', 'Column_2']).toLowerCase();
-            return at.localeCompare(bt);
-          });
+          const sorted = sortPublicationRows(rows);
 
           const state = {
             all: sorted,
             year: 'all',
-            query: '',
-            page: 1,
-            perPage: 9
+            query: ''
           };
 
           const years = [...new Set(sorted
@@ -1766,70 +1944,52 @@
             .sort((a, b) => (toYearNumber(b) ?? 0) - (toYearNumber(a) ?? 0));
 
           root.innerHTML = `
-<div class="form-row mb-4">
-  <div class="col-auto">
-    <input id="pub-search-dynamic" type="search" class="filter-search" placeholder="Search..." autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+<div class="form-row mb-4 pub-archive-controls">
+  <div class="col-12 col-md-7 col-lg-6 mb-2 mb-md-0">
+    <input id="pub-search-dynamic" type="search" class="filter-search" placeholder="Search by title, author, venue..." autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
   </div>
   <div class="col-auto">
-    <select id="pub-type-filter-dynamic" class="pub-filters pubtype-select form-control form-control-sm">
-      <option value="all">Type (All)</option>
-    </select>
-  </div>
-  <div class="col-auto">
-    <select id="pub-year-filter-dynamic" class="pub-filters form-control form-control-sm">
+    <select id="pub-year-filter-dynamic" class="pub-filters form-control form-control-sm" aria-label="Filter publications by year">
       <option value="all">Year (All)</option>
       ${years.map(y => `<option value="${escapePubHtml(y)}">${escapePubHtml(y)}</option>`).join('')}
     </select>
   </div>
 </div>
-<div id="publication-dynamic-list"></div>`;
+<div id="publication-dynamic-list" class="pub-year-sections"></div>`;
 
           const listEl = document.getElementById('publication-dynamic-list');
           const searchInput = document.getElementById('pub-search-dynamic');
-          const typeSelect = document.getElementById('pub-type-filter-dynamic');
           const yearSelect = document.getElementById('pub-year-filter-dynamic');
 
           const render = () => {
-            const byYear = state.year === 'all'
-              ? state.all
-              : state.all.filter(r => getPubValue(r, ['Year', 'year', 'Column_1']) === state.year);
-            const query = state.query.toLowerCase();
-            const filtered = !query
-              ? byYear
-              : byYear.filter((r) => {
-                const title = getPubValue(r, ['Title', 'title', 'Column_2']).toLowerCase();
-                const authors = getPubValue(r, ['Authors', 'authors', 'Column_4']).toLowerCase();
-                return title.includes(query) || authors.includes(query);
-              });
+            const query = normalizeSearchText(state.query);
+            const queryCompact = query.replace(/\s+/g, '');
+            const filtered = state.all.filter((r) => {
+              if (state.year !== 'all' && getPubValue(r, ['Year', 'year', 'Column_1']) !== state.year) {
+                return false;
+              }
+              if (!query) return true;
 
-            const totalPages = Math.max(1, Math.ceil(filtered.length / state.perPage));
-            state.page = Math.min(Math.max(1, state.page), totalPages);
-            const start = (state.page - 1) * state.perPage;
-            const slice = filtered.slice(start, start + state.perPage);
-            const html = slice.map(buildPublicationListItem).filter(Boolean).join('\n');
-            listEl.innerHTML = html || '<div class="article-style"><p>No publications found for this year.</p></div>';
-
-            renderPublicationPagination(root, totalPages, state.page, (nextPage) => {
-              state.page = nextPage;
-              render();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
+              const haystack = normalizeSearchText([
+                getPubValue(r, ['Title', 'title', 'Column_2']),
+                getPubValue(r, ['Authors', 'authors', 'Column_4']),
+                getPubValue(r, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']),
+                getPubValue(r, ['Year', 'year', 'Column_1'])
+              ].join(' '));
+              const haystackCompact = haystack.replace(/\s+/g, '');
+              return haystack.includes(query) || haystackCompact.includes(queryCompact);
             });
+
+            renderPublicationYearSections(listEl, filtered);
           };
 
           searchInput.addEventListener('input', () => {
             state.query = searchInput.value || '';
-            state.page = 1;
-            render();
-          });
-
-          typeSelect.addEventListener('change', () => {
-            state.page = 1;
             render();
           });
 
           yearSelect.addEventListener('change', () => {
             state.year = yearSelect.value;
-            state.page = 1;
             render();
           });
 

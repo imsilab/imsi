@@ -268,13 +268,6 @@
       display: none;
     }
 
-    #publications .publications-thumb img {
-      width: 96px;
-      max-width: 96px;
-      height: 96px;
-      object-fit: cover;
-    }
-
     #talks .media.stream-item {
       align-items: stretch;
       margin-bottom: 2rem;
@@ -2981,19 +2974,10 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
         if (!title) return '';
 
         const normalizedPubId = normalizePublicationId(pubId);
-        const detailUrl = normalizedPubId ? `/imsi/publication/${encodeURIComponent(normalizedPubId)}/index.html` : '';
         const localPdfUrl = normalizedPubId ? `/imsi/publication/${encodeURIComponent(normalizedPubId)}/paper.pdf` : '';
         const pdfUrl = String(paperLink || localPdfUrl || '').trim();
-        const imageCandidates = getPublicationImageCandidates(pubId);
-        const imageSrc = imageCandidates[0];
-        const fallbackList = imageCandidates.join('|');
         const secondaryMeta = [venueName, year].filter(Boolean).join(' | ');
-        const titleHtml = detailUrl
-          ? `<a href="${escapeHtml(detailUrl)}">${escapeHtml(title)}</a>`
-          : `${escapeHtml(title)}`;
-        const imageHtml = detailUrl
-          ? `<a href="${escapeHtml(detailUrl)}"><img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(title)}" data-fallbacks="${escapeHtml(fallbackList)}" data-fallback-index="0" onerror="onPublicationImageError(this)"></a>`
-          : `<img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(title)}" data-fallbacks="${escapeHtml(fallbackList)}" data-fallback-index="0" onerror="onPublicationImageError(this)">`;
+        const titleHtml = `${escapeHtml(title)}`;
         const pdfButtonHtml = pdfUrl
           ? `<a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="${escapeHtml(pdfUrl)}" target="_blank" rel="noopener">PDF</a>`
           : '';
@@ -3013,9 +2997,6 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
       ${pdfButtonHtml}
       ${citeButtonHtml}
     </div>
-  </div>
-  <div class="ml-3 publications-thumb">
-    ${imageHtml}
   </div>
 </div>`;
       }
