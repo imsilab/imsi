@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="author" content="IMSI Research Lab">
+  <meta name="description" content="IMSI Lab News">
+  <meta name="theme-color" content="#2962ff">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  <link rel="stylesheet" href="/imsi/css/academic.css">
+
+  <link rel="manifest" href="/imsi/index.webmanifest">
+  <link rel="icon" type="image/png" href="/imsi/images/imsi_favicon_32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/imsi/images/imsi_favicon_192.png">
+
+  <style>
+    .news-list-page {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding-top: 2.2rem;
+      padding-bottom: 2rem;
+    }
+
+    .news-list-page h1 {
+      margin-bottom: 1.1rem;
+    }
+
+    #news-list-dynamic .media.stream-item {
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.85rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    #news-list-dynamic .news-item-title {
+      margin: 0;
+      line-height: 1.35;
+      font-size: 1.02rem;
+      font-weight: 600;
+    }
+
+    #news-list-dynamic .news-item-title a {
+      color: #1f2937;
+    }
+
+    #news-list-dynamic .news-item-date {
+      margin-left: 1rem;
+      white-space: nowrap;
+      color: rgba(0, 0, 0, 0.58);
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      #news-list-dynamic .media.stream-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      #news-list-dynamic .news-item-date {
+        margin-left: 0;
+        margin-top: 0.3rem;
+      }
+    }
+  </style>
+
+  <title>News | IMSI Lab</title>
+</head>
+<body id="top" data-spy="scroll" data-offset="70" data-target="#navbar-main">
+
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container">
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/imsi/">IMSI Lab</a>
+      </div>
+
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/imsi/">IMSI Lab</a>
+      </div>
+
+      <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+        <ul class="navbar-nav d-md-inline-flex">
+          <li class="nav-item"><a class="nav-link" href="/imsi/#hero"><span>Home</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/publication"><span>Publications</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/post/"><span>Blog</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/images/"><span>Images</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/#people"><span>People</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/alumni/"><span>Teams</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/#contact"><span>Contact</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article">
+    <div class="article-container news-list-page">
+      <h1>News</h1>
+      <div id="news-list-dynamic">
+        <div class="media stream-item"><div class="media-body"><h3 class="news-item-title">Synchronizing news...</h3></div></div>
+      </div>
+    </div>
+  </article>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="/imsi/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+  <script src="/imsi/js/SheetServices.js"></script>
+  <script>
+    function escapeNewsHtml(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function getNewsValue(row, keys) {
+      for (const key of keys) {
+        if (row[key] !== undefined && row[key] !== null && String(row[key]).trim() !== '') {
+          return String(row[key]).trim();
+        }
+      }
+      return '';
+    }
+
+    function normalizeNewsId(value) {
+      return String(value || '').trim().replace(/_/g, '-').toUpperCase();
+    }
+
+    function parseNewsDateValue(value) {
+      const raw = String(value || '').trim();
+      if (!raw) return null;
+      const gvizMatch = raw.match(/^Date\((\d+),\s*(\d+),\s*(\d+)\)$/i);
+      if (gvizMatch) {
+        const parsed = new Date(Number(gvizMatch[1]), Number(gvizMatch[2]), Number(gvizMatch[3]));
+        return Number.isNaN(parsed.getTime()) ? null : parsed;
+      }
+      const parsed = new Date(raw.replace(/\./g, '-').replace(/\//g, '-'));
+      return Number.isNaN(parsed.getTime()) ? null : parsed;
+    }
+
+    function formatNewsDate(value) {
+      const parsed = parseNewsDateValue(value);
+      if (!parsed) return String(value || '').trim();
+      return parsed.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function buildNewsItem(row) {
+      const newsId = normalizeNewsId(getNewsValue(row, ['News_ID', 'News ID', 'news_id', 'Column_0']));
+      const title = getNewsValue(row, ['Title', 'title', 'Column_1']);
+      const dateText = formatNewsDate(getNewsValue(row, ['Date', 'date', 'Column_2']));
+      if (!title || !newsId) return '';
+      const url = `/imsi/news/${encodeURIComponent(newsId)}/index.html`;
+
+      return `<div class="media stream-item"><div class="media-body"><h3 class="news-item-title"><a href="${escapeNewsHtml(url)}">${escapeNewsHtml(title)}</a></h3></div><div class="news-item-date">${escapeNewsHtml(dateText)}</div></div>`;
+    }
+
+    async function renderNewsList() {
+      const root = document.getElementById('news-list-dynamic');
+      if (!root) return;
+      if (typeof getNews !== 'function') {
+        root.innerHTML = '<div class="media stream-item"><div class="media-body"><h3 class="news-item-title">Unable to sync news right now.</h3></div></div>';
+        return;
+      }
+      try {
+        const rows = await getNews();
+        if (!Array.isArray(rows) || rows.length === 0) {
+          root.innerHTML = '<div class="media stream-item"><div class="media-body"><h3 class="news-item-title">No news available.</h3></div></div>';
+          return;
+        }
+
+        const ordered = rows
+          .map((row, idx) => ({ row, idx, date: parseNewsDateValue(getNewsValue(row, ['Date', 'date', 'Column_2'])) }))
+          .sort((a, b) => {
+            const at = a.date ? a.date.getTime() : Number.NEGATIVE_INFINITY;
+            const bt = b.date ? b.date.getTime() : Number.NEGATIVE_INFINITY;
+            if (at !== bt) return bt - at;
+            return b.idx - a.idx;
+          })
+          .map(item => item.row);
+
+        const html = ordered.map(buildNewsItem).filter(Boolean).join('');
+        root.innerHTML = html || '<div class="media stream-item"><div class="media-body"><h3 class="news-item-title">No news available.</h3></div></div>';
+      } catch (err) {
+        console.error('Failed to render news list:', err);
+      }
+    }
+
+    renderNewsList();
+  </script>
+
+  <footer class="site-footer">
+    <div class="row justify-content-center align-items-center mb-5">
+      <div class="col-auto px-4 d-flex align-items-center justify-content-center"><img src="/imsi/images/logo/capp.png" alt="CAPP Lab Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;"></div>
+      <div class="col-auto px-4 d-flex align-items-center justify-content-center"><img src="/imsi/images/logo/snu.jpg" alt="SNU Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;"></div>
+      <div class="col-auto px-4 d-flex align-items-center justify-content-center"><img src="/imsi/images/logo/smc.png" alt="SMC Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;"></div>
+    </div>
+    <p class="powered-by">
+      <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &copy; 2026 &middot; Developed by <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &amp; <a href="https://github.com/jsulim">Junsu Lim</a> &middot; Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a> (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
+      <span class="float-right" aria-hidden="true"><a href="#" class="back-to-top"><span class="button_icon"><i class="fas fa-chevron-up fa-2x"></i></span></a></span>
+    </p>
+  </footer>
+
+</body>
+</html>
+
+

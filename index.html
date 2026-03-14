@@ -333,6 +333,48 @@
       background: #f7f7f7;
     }
 
+    #news .news-list.is-loading {
+      opacity: 0.65;
+    }
+
+    #news .news-list .media.stream-item {
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.85rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    #news .news-list .media.stream-item:last-child {
+      margin-bottom: 0;
+    }
+
+    #news .news-item-title {
+      line-height: 1.35;
+      margin-bottom: 0;
+      font-size: 1.0rem;
+      font-weight: 600;
+    }
+
+    #news .news-item-title a {
+      color: #22385f;
+    }
+
+    #news .news-item-date {
+      margin-left: 1rem;
+      white-space: nowrap;
+      color: rgba(0, 0, 0, 0.58);
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    #news .see-all {
+      margin-top: 1.15rem;
+    }
+
     @media (max-width: 768px) {
       #talks .media.stream-item {
         flex-direction: column;
@@ -352,6 +394,16 @@
 
       #talks .media-body {
         min-height: 0;
+      }
+
+      #news .news-list .media.stream-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      #news .news-item-date {
+        margin-left: 0;
+        margin-top: 0.3rem;
       }
     }
 
@@ -2214,6 +2266,18 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
       </div>
     </div>
   </section>
+  <section id="news" class="home-section wg-pages">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-4 section-heading">
+          <h1>News</h1>
+        </div>
+        <div class="col-12 col-lg-8">
+          <div id="home-news-list" class="news-list is-loading"></div>
+        </div>
+      </div>
+    </div>
+  </section>
   <section id="people" class="home-section wg-people   "  >
     <div class="container">
       
@@ -3013,6 +3077,67 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
         });
       }
 
+      function normalizeNewsId(newsId) {
+        return String(newsId || '').trim().replace(/_/g, '-');
+      }
+
+      function parseNewsDateValue(value) {
+        if (value instanceof Date && !Number.isNaN(value.getTime())) {
+          return value;
+        }
+        const raw = String(value || '').trim();
+        if (!raw) return null;
+
+        const gvizMatch = raw.match(/^Date\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+),\s*(\d+),\s*(\d+))?\)$/i);
+        if (gvizMatch) {
+          const year = Number(gvizMatch[1]);
+          const month = Number(gvizMatch[2]);
+          const day = Number(gvizMatch[3]);
+          const hour = Number(gvizMatch[4] || 0);
+          const minute = Number(gvizMatch[5] || 0);
+          const second = Number(gvizMatch[6] || 0);
+          const parsed = new Date(year, month, day, hour, minute, second);
+          return Number.isNaN(parsed.getTime()) ? null : parsed;
+        }
+
+        const normalized = raw
+          .replace(/\./g, '-')
+          .replace(/\//g, '-');
+        const parsed = new Date(normalized);
+        return Number.isNaN(parsed.getTime()) ? null : parsed;
+      }
+
+      function formatNewsDate(value) {
+        const parsed = parseNewsDateValue(value);
+        if (!parsed) return String(value || '').trim();
+        return parsed.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+      }
+
+      function buildHomeNewsItem(row) {
+        const newsId = getRowValue(row, ['News_ID', 'News ID', 'news_id', 'Column_0']);
+        const title = getRowValue(row, ['Title', 'title', 'Column_1']);
+        const dateRaw = getRowValue(row, ['Date', 'date', 'Column_2']);
+        if (!title) return '';
+
+        const normalizedNewsId = normalizeNewsId(newsId);
+        const detailUrl = normalizedNewsId ? `/imsi/news/${encodeURIComponent(normalizedNewsId)}/index.html` : '#';
+        const dateText = formatNewsDate(dateRaw);
+
+        return `
+<div class="media stream-item">
+  <div class="media-body">
+    <h3 class="article-title mb-0 mt-0 news-item-title">
+      <a href="${escapeHtml(detailUrl)}">${escapeHtml(title)}</a>
+    </h3>
+  </div>
+  ${dateText ? `<div class="news-item-date">${escapeHtml(dateText)}</div>` : ''}
+</div>`;
+      }
+
       function buildHomeBlogpostItem(item) {
         const title = String(item?.title || '').trim();
         const link = String(item?.link || '').trim();
@@ -3065,6 +3190,55 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
           sectionBody.appendChild(seeAll);
         } catch (err) {
           console.error('Failed to render home blogposts from Tistory JSON:', err);
+        }
+      }
+
+      async function renderHomeNewsFromSheet() {
+        const sectionBody = document.querySelector('#news .col-12.col-lg-8');
+        const list = document.getElementById('home-news-list');
+        if (!sectionBody || !list) return;
+
+        try {
+          if (typeof getNews !== 'function') return;
+
+          list.classList.add('is-loading');
+          list.innerHTML = '';
+
+          const oldSeeAll = document.getElementById('news-see-all-link');
+          if (oldSeeAll) oldSeeAll.remove();
+
+          const newsRows = await getNews();
+          if (!Array.isArray(newsRows) || newsRows.length === 0) return;
+
+          const ordered = newsRows
+            .map((row, idx) => ({
+              row,
+              idx,
+              parsedDate: parseNewsDateValue(getRowValue(row, ['Date', 'date', 'Column_2']))
+            }))
+            .sort((a, b) => {
+              const at = a.parsedDate ? a.parsedDate.getTime() : Number.NEGATIVE_INFINITY;
+              const bt = b.parsedDate ? b.parsedDate.getTime() : Number.NEGATIVE_INFINITY;
+              if (at !== bt) return bt - at;
+              return b.idx - a.idx;
+            })
+            .map(item => item.row);
+
+          const visible = ordered.slice(0, 4);
+          const html = visible.map(buildHomeNewsItem).filter(Boolean).join('\n');
+          if (!html) return;
+
+          list.innerHTML = html;
+
+          const seeAll = document.createElement('div');
+          seeAll.id = 'news-see-all-link';
+          seeAll.className = 'see-all';
+          seeAll.innerHTML = '<a href="/imsi/news/">See all news <i class="fas fa-angle-right"></i></a>';
+          sectionBody.appendChild(seeAll);
+        } catch (err) {
+          console.error('Failed to render home news from sheet:', err);
+        } finally {
+          list.classList.remove('is-loading');
         }
       }
 
@@ -3221,18 +3395,19 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
       renderHomeBlogpostsFromJson();
       renderHomePublicationsFromSheet();
       renderHomeProjectsFromSheet();
+      renderHomeNewsFromSheet();
     </script>
 
     <footer class="site-footer">
       <div class="row justify-content-center align-items-center mb-5">
-        <div class="col-auto px-4">
-          <img src="/imsi/images/logo/capp.png" alt="CAPP Lab Logo" style="max-height: 200px; width: auto; max-width: 100%;">
+        <div class="col-auto px-4 d-flex align-items-center justify-content-center">
+          <img src="/imsi/images/logo/capp.png" alt="CAPP Lab Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
         </div>
-        <div class="col-auto px-4">
-          <img src="/imsi/images/logo/snu.jpg" alt="SNU Logo" style="max-height: 200px; width: auto; max-width: 100%;">
+        <div class="col-auto px-4 d-flex align-items-center justify-content-center">
+          <img src="/imsi/images/logo/snu.jpg" alt="SNU Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
         </div>
-        <div class="col-auto px-4">
-          <img src="/imsi/images/logo/smc.png" alt="SMC Logo" style="max-height: 160px; width: auto; max-width: 100%;">
+        <div class="col-auto px-4 d-flex align-items-center justify-content-center">
+          <img src="/imsi/images/logo/smc.png" alt="SMC Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
         </div>
       </div>
   
@@ -3281,6 +3456,8 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
 
 </body>
 </html>
+
+
 
 
 

@@ -1,0 +1,530 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.7.0">
+
+  <meta name="author" content="IMSI Research Lab">
+  <meta name="description" content="IMSI Lab News">
+  <meta name="theme-color" content="#2962ff">
+
+  <script src="/imsi/js/mathjax-config.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  <link rel="stylesheet" href="/imsi/css/academic.css">
+
+  <link rel="manifest" href="/imsi/index.webmanifest">
+  <link rel="icon" type="image/png" href="/imsi/images/imsi_favicon_32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/imsi/images/imsi_favicon_192.png">
+
+  <style>
+    .news-article {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding-top: 3.4rem;
+      padding-bottom: 2rem;
+    }
+
+    .news-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: 1.4rem;
+      row-gap: 0.72rem;
+      align-items: end;
+      margin-bottom: 1.45rem;
+      padding-bottom: 0.9rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .news-title {
+      grid-column: 1 / -1;
+      margin: 0;
+      font-size: 2rem;
+      line-height: 1.2;
+      color: #50627f;
+      font-weight: 700;
+    }
+
+    .news-date {
+      grid-column: 2;
+      justify-self: end;
+      align-self: end;
+      margin-top: 0.25rem;
+      color: #8ea1bf;
+      font-size: 0.95rem;
+      white-space: nowrap;
+      padding-bottom: 0;
+    }
+
+    .news-content {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+      font-size: 0.98rem;
+      line-height: 1.72;
+      color: #33465f;
+    }
+
+    .news-loading-hidden {
+      display: none;
+    }
+
+    #news-sheet-skeleton {
+      max-width: 1160px;
+      margin: 5.4rem auto 1.6rem;
+      padding: 0 1rem;
+    }
+
+    #news-sheet-skeleton .sheet-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.48rem;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #1f3b77;
+      margin-bottom: 0.72rem;
+    }
+
+    #news-sheet-skeleton .sheet-status .status-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #2f5fbe;
+      font-size: 0.92rem;
+      line-height: 1;
+    }
+
+    #news-sheet-skeleton .sheet-board {
+      border: 1px solid #d9e2f1;
+      border-radius: 10px;
+      background: #ffffff;
+      padding: 12px;
+      box-shadow: 0 8px 24px rgba(16, 35, 86, 0.08);
+    }
+
+    #news-sheet-skeleton .sheet-row {
+      display: grid;
+      grid-template-columns: 1.4fr 0.6fr 1fr 1.6fr;
+      gap: 8px;
+      margin-bottom: 8px;
+      opacity: 0;
+      transform: translateY(5px);
+      animation: news-sheet-row-in 0.4s ease forwards;
+    }
+
+    #news-sheet-skeleton .sheet-row:last-child {
+      margin-bottom: 0;
+    }
+
+    #news-sheet-skeleton .sheet-row:nth-child(1) { animation-delay: 0.05s; }
+    #news-sheet-skeleton .sheet-row:nth-child(2) { animation-delay: 0.14s; }
+    #news-sheet-skeleton .sheet-row:nth-child(3) { animation-delay: 0.23s; }
+    #news-sheet-skeleton .sheet-row:nth-child(4) { animation-delay: 0.32s; }
+    #news-sheet-skeleton .sheet-row:nth-child(5) { animation-delay: 0.41s; }
+
+    #news-sheet-skeleton .sheet-cell {
+      height: 14px;
+      border-radius: 5px;
+      background: linear-gradient(90deg, #e9eef8 20%, #f8fbff 50%, #e9eef8 80%);
+      background-size: 200% 100%;
+      animation: news-sheet-shimmer 1.35s linear infinite;
+    }
+
+    #news-sheet-skeleton .sheet-row.is-header .sheet-cell {
+      height: 12px;
+      background: linear-gradient(90deg, #d3dff3 20%, #ecf3ff 50%, #d3dff3 80%);
+      background-size: 200% 100%;
+    }
+
+    #news-sheet-skeleton .sheet-cell.wide {
+      grid-column: span 2;
+    }
+
+    @keyframes news-sheet-shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    @keyframes news-sheet-row-in {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .news-content p {
+      margin-bottom: 1rem;
+    }
+
+    .news-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 991px) {
+      .news-title {
+        font-size: 1.7rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .news-header {
+        display: block;
+      }
+
+      .news-title {
+        font-size: 1.45rem;
+      }
+
+      .news-date {
+        font-size: 0.88rem;
+        margin-top: 0.45rem;
+        text-align: left;
+      }
+
+      .news-content {
+        font-size: 0.95rem;
+      }
+
+      #news-sheet-skeleton {
+        margin-top: 4.2rem;
+      }
+
+      #news-sheet-skeleton .sheet-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      #news-sheet-skeleton .sheet-cell.wide {
+        grid-column: span 2;
+      }
+    }
+  </style>
+
+  <title>News | IMSI Lab</title>
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents">
+
+  <aside class="search-results" id="search">
+    <div class="container">
+      <section class="search-header">
+        <div class="row no-gutters justify-content-between mb-3">
+          <div class="col-6">
+            <h1>Search</h1>
+          </div>
+          <div class="col-6 col-search-close">
+            <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+          </div>
+        </div>
+        <div id="search-box">
+          <input name="q" id="search-query" placeholder="Search..." autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        </div>
+      </section>
+      <section class="section-search-results">
+        <div id="search-hits"></div>
+      </section>
+    </div>
+  </aside>
+
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container">
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/imsi/">IMSI Lab</a>
+      </div>
+
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/imsi/">IMSI Lab</a>
+      </div>
+
+      <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+        <ul class="navbar-nav d-md-inline-flex">
+          <li class="nav-item"><a class="nav-link" href="/imsi/#hero"><span>Home</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/publication"><span>Publications</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/post/"><span>Blog</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/images/"><span>Images</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/#people"><span>People</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/alumni/"><span>Teams</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="/imsi/#contact"><span>Contact</span></a></li>
+        </ul>
+      </div>
+
+      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="news-sheet-skeleton" aria-live="polite" aria-busy="true">
+    <p class="sheet-status"><span class="status-icon" aria-hidden="true">&#10024;</span><span>Synchronizing...</span></p>
+    <div class="sheet-board">
+      <div class="sheet-row is-header">
+        <div class="sheet-cell"></div>
+        <div class="sheet-cell"></div>
+        <div class="sheet-cell wide"></div>
+      </div>
+      <div class="sheet-row">
+        <div class="sheet-cell wide"></div>
+        <div class="sheet-cell"></div>
+        <div class="sheet-cell"></div>
+      </div>
+      <div class="sheet-row">
+        <div class="sheet-cell"></div>
+        <div class="sheet-cell"></div>
+        <div class="sheet-cell wide"></div>
+      </div>
+      <div class="sheet-row">
+        <div class="sheet-cell wide"></div>
+        <div class="sheet-cell"></div>
+        <div class="sheet-cell"></div>
+      </div>
+    </div>
+  </section>
+
+  <article id="news-article" class="article news-loading-hidden">
+    <div class="article-container news-article">
+      <header class="news-header">
+        <h1 id="news-title" class="news-title">Loading news title...</h1>
+        <div id="news-date" class="news-date"></div>
+      </header>
+
+      <div id="news-content" class="article-style news-content">
+        <p>Loading content...</p>
+      </div>
+    </div>
+  </article>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+
+  <script>
+    const code_highlighting = true;
+    const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+    const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+    const content_type = {
+      'post': "Posts",
+      'project': "Projects",
+      'publication': "Publications",
+      'talk': "Talks"
+    };
+  </script>
+
+  <script id="search-hit-fuse-template" type="text/x-template">
+    <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
+  <script src="/imsi/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+  <script src="/imsi/js/SheetServices.js"></script>
+  <script>
+    function getNewsValue(row, keys) {
+      for (const key of keys) {
+        if (row[key] !== undefined && row[key] !== null && String(row[key]).trim() !== '') {
+          return String(row[key]).trim();
+        }
+      }
+      return '';
+    }
+
+    function escapeNewsHtml(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function normalizeNewsId(value) {
+      return String(value || '').trim().replace(/_/g, '-').toUpperCase();
+    }
+
+    function parseNewsDateValue(value) {
+      if (value instanceof Date && !Number.isNaN(value.getTime())) {
+        return value;
+      }
+
+      const raw = String(value || '').trim();
+      if (!raw) return null;
+
+      const gvizMatch = raw.match(/^Date\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+),\s*(\d+),\s*(\d+))?\)$/i);
+      if (gvizMatch) {
+        const year = Number(gvizMatch[1]);
+        const month = Number(gvizMatch[2]);
+        const day = Number(gvizMatch[3]);
+        const hour = Number(gvizMatch[4] || 0);
+        const minute = Number(gvizMatch[5] || 0);
+        const second = Number(gvizMatch[6] || 0);
+        const parsed = new Date(year, month, day, hour, minute, second);
+        return Number.isNaN(parsed.getTime()) ? null : parsed;
+      }
+
+      const normalized = raw.replace(/\./g, '-').replace(/\//g, '-');
+      const parsed = new Date(normalized);
+      return Number.isNaN(parsed.getTime()) ? null : parsed;
+    }
+
+    function formatNewsDate(value) {
+      const parsed = parseNewsDateValue(value);
+      if (!parsed) return String(value || '').trim();
+      return parsed.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    }
+
+    function getCurrentNewsId() {
+      const match = window.location.pathname.match(/\/news\/([^\/]+)/i);
+      if (!match) return '';
+      return normalizeNewsId(decodeURIComponent(match[1] || ''));
+    }
+
+    function formatNewsContent(rawContent) {
+      const text = String(rawContent || '').trim();
+      if (!text) {
+        return '<p>Content coming soon.</p>';
+      }
+
+      return text
+        .split(/\n{2,}/)
+        .map(part => part.trim())
+        .filter(Boolean)
+        .map(part => `<p>${escapeNewsHtml(part).replace(/\n/g, '<br>')}</p>`)
+        .join('');
+    }
+
+    function revealNewsArticle() {
+      const skeleton = document.getElementById('news-sheet-skeleton');
+      if (skeleton && skeleton.parentNode) {
+        skeleton.parentNode.removeChild(skeleton);
+      }
+      const article = document.getElementById('news-article');
+      if (article) {
+        article.classList.remove('news-loading-hidden');
+      }
+    }
+
+    async function renderNewsDetail() {
+      const article = document.getElementById('news-article');
+      const titleEl = document.getElementById('news-title');
+      const dateEl = document.getElementById('news-date');
+      const contentEl = document.getElementById('news-content');
+      if (!titleEl || !dateEl || !contentEl) {
+        revealNewsArticle();
+        return;
+      }
+      if (typeof getNews !== 'function') {
+        contentEl.innerHTML = '<p>Unable to sync news right now.</p>';
+        revealNewsArticle();
+        return;
+      }
+
+      const currentNewsId = getCurrentNewsId();
+      if (currentNewsId) {
+        titleEl.textContent = `News ${currentNewsId}`;
+      }
+
+      try {
+        const rows = await getNews();
+        if (!Array.isArray(rows) || rows.length === 0) {
+          contentEl.innerHTML = '<p>Content coming soon.</p>';
+          return;
+        }
+
+        const matchedRow = rows.find((row) => {
+          const rowId = normalizeNewsId(getNewsValue(row, ['News_ID', 'News ID', 'news_id', 'Column_0']));
+          return rowId && rowId === currentNewsId;
+        });
+
+        if (!matchedRow) {
+          contentEl.innerHTML = '<p>Content coming soon.</p>';
+          return;
+        }
+
+        const title = getNewsValue(matchedRow, ['Title', 'title', 'Column_1']) || `News ${currentNewsId}`;
+        const dateRaw = getNewsValue(matchedRow, ['Date', 'date', 'Column_2']);
+        const content = getNewsValue(matchedRow, ['Content', 'content', 'Column_3']);
+
+        titleEl.textContent = title;
+        dateEl.textContent = formatNewsDate(dateRaw);
+        contentEl.innerHTML = formatNewsContent(content);
+        document.title = `${title} | IMSI Lab`;
+      } catch (err) {
+        console.error('Failed to render news detail:', err);
+        contentEl.innerHTML = '<p>Content coming soon.</p>';
+      } finally {
+        if (article) {
+          article.classList.remove('news-loading-hidden');
+        }
+        revealNewsArticle();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', renderNewsDetail);
+  </script>
+
+  <footer class="site-footer">
+    <div class="row justify-content-center align-items-center mb-5">
+      <div class="col-auto px-4 d-flex align-items-center justify-content-center">
+        <img src="/imsi/images/logo/capp.png" alt="CAPP Lab Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
+      </div>
+      <div class="col-auto px-4 d-flex align-items-center justify-content-center">
+        <img src="/imsi/images/logo/snu.jpg" alt="SNU Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
+      </div>
+      <div class="col-auto px-4 d-flex align-items-center justify-content-center">
+        <img src="/imsi/images/logo/smc.png" alt="SMC Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
+      </div>
+    </div>
+
+    <p class="powered-by">
+      <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &copy; 2026 &middot; Developed by <a href="https://github.com/khkim1729">Kyeonghun Kim</a> &amp; <a href="https://github.com/jsulim">Junsu Lim</a> &middot; Powered by <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a> (<a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic</a>).
+
+      <span class="float-right" aria-hidden="true">
+        <a href="#" class="back-to-top">
+          <span class="button_icon">
+            <i class="fas fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+    </p>
+  </footer>
+
+</body>
+</html>
+
+
+
+
