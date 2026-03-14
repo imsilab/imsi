@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en-us">
 
 <head>
@@ -802,7 +802,7 @@ The <strong>quality</strong> of these datasets also leads one to question if you
 3. appropriate datasets that can statistically separate model performance
 4. comprehensive in terms of the fundamental tasks (applications) that the research can be applied to.  -->
 <p>Designing benchmarks is highly challenging as we must make robust decisions for coding framework, experimental settings and appropriate datasets. The benchmark should also be comprehensive to cover most of the fundamental tasks which is indicative of the application area the research can be applied to. For instance, graph learning problems include predicting properties at the node-level, edge-level and graph-level. A benchmark should attempt to cover many, if not all, of these.</p>
-<p>Similarly, it is <strong>challenging to collect real and representative large-scale datasets</strong>. The lack of theoretical tools that can define the quality of a dataset or, validate its statistical representativeness for a given task makes it difficult to decide on datasets. Furthermore, there are arbitrary choices required on the features of nodes and edges for graphs and the scale of graph sizes as most of the popular graph learning frameworks do not cater <em>?쁵ery efficiently??/em> to large graphs.</p>
+<p>Similarly, it is <strong>challenging to collect real and representative large-scale datasets</strong>. The lack of theoretical tools that can define the quality of a dataset or, validate its statistical representativeness for a given task makes it difficult to decide on datasets. Furthermore, there are arbitrary choices required on the features of nodes and edges for graphs and the scale of graph sizes as most of the popular graph learning frameworks do not cater <em>??킻ry efficiently??/em> to large graphs.</p>
 <blockquote>
 <p>There has been a promising effort recently, <a href="https://ogb.stanford.edu">The Open Graph Benchmark (OGB)</a>, to collect meaningful medium-to-large scale dataset in order to steer graph learning research. The initiative is complementary to the goals of this project.</p>
 </blockquote>
@@ -978,14 +978,14 @@ The <strong>quality</strong> of these datasets also leads one to question if you
 <blockquote>
 <p>The GNNs that we benchmark are: <a href="https://arxiv.org/abs/1609.02907"><em>Vanilla</em> Graph Convolutional Network (GCN)</a>, <a href="https://cs.stanford.edu/people/jure/pubs/graphsage-nips17.pdf">GraphSage</a>, <a href="https://arxiv.org/abs/1710.10903">Graph Attention Network (GAT)</a>, <a href="https://arxiv.org/abs/1611.08402">Gaussian Mixture Model (MoNet)</a>, <a href="https://arxiv.org/abs/1711.07553">GatedGCN</a>, <a href="https://arxiv.org/abs/1810.00826">Graph Isomorphism Network (GIN)</a>, <a href="https://papers.nips.cc/paper/9718-on-the-equivalence-between-graph-isomorphism-testing-and-function-approximation-with-gnns">RingGNN</a> and <a href="https://arxiv.org/abs/1905.11136">3WL-GNN</a>.</p>
 </blockquote>
-<p><strong>1. Graph-agnostic NNs perform poorly on the proposed datasets</strong>: We compare all GNNs to a simple MLP which updates each node?셲 features independent of one-another, i.e. ignoring the graph structure.</p>
+<p><strong>1. Graph-agnostic NNs perform poorly on the proposed datasets</strong>: We compare all GNNs to a simple MLP which updates each node???features independent of one-another, i.e. ignoring the graph structure.</p>
 <blockquote>
 <p>MLP node update equation at layer $\ell$ is:
 $$
 h_{i}^{\ell+1} =  \sigma \left( W^{\ell} \ h_{i}^{\ell} \right)
 $$</p>
 </blockquote>
-<p>MLP evaluates to consistently low scores on each of the datasets which shows the necessity to consider graph structure for these tasks. This result is also indicative of how appropriate these datasets are for GNN research as they statistically separate model?셲 performance.</p>
+<p>MLP evaluates to consistently low scores on each of the datasets which shows the necessity to consider graph structure for these tasks. This result is also indicative of how appropriate these datasets are for GNN research as they statistically separate model???performance.</p>
 <p><strong>2. GCNs outperform WL-GNNs on the proposed datasets</strong>: Although WL-GNNs are provably powerful in terms of graph isomorphism and expressiveness, the WL-GNN models that we consider were not able to outperform GCNs. These models are limited in scaling to larger datasets as their space/time complexity are inefficient as compared to the GCNs which leverage sparse tensors.</p>
 <blockquote>
 <p>GCNs are seen to conveniently scale to $16$ layers and provide the best results on all datasets, whereas the WL-GNNs face loss divergence and/or out-of-memory errors when trying to build deeper networks.</p>
@@ -1372,6 +1372,17 @@ $$</p>
   
   <div class="container">
     <footer class="site-footer">
+      <div class="row justify-content-center align-items-center mb-5">
+        <div class="col-auto px-4 d-flex align-items-center justify-content-center">
+          <img src="/imsi/images/logo/capp.png" alt="CAPP Lab Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
+        </div>
+        <div class="col-auto px-4 d-flex align-items-center justify-content-center">
+          <img src="/imsi/images/logo/snu.jpg" alt="SNU Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
+        </div>
+        <div class="col-auto px-4 d-flex align-items-center justify-content-center">
+          <img src="/imsi/images/logo/smc.png" alt="SMC Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
+        </div>
+      </div>
   
 
   <p class="powered-by">
@@ -1419,4 +1430,5 @@ $$</p>
 
 </body>
 </html>
+
 

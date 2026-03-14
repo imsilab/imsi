@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en-us">
 
 <head>
@@ -1753,7 +1753,7 @@
           .toLowerCase()
           .normalize('NFKD')
           .replace(/[\u0300-\u036f]/g, '')
-          .replace(/['’`]/g, '')
+          .replace(/['??]/g, '')
           .replace(/[-_]/g, ' ')
           .replace(/[^a-z0-9\s]/g, ' ')
           .replace(/\s+/g, ' ')
@@ -2014,6 +2014,17 @@
   
   <div class="container">
     <footer class="site-footer">
+      <div class="row justify-content-center align-items-center mb-5">
+        <div class="col-auto px-4 d-flex align-items-center justify-content-center">
+          <img src="/imsi/images/logo/capp.png" alt="CAPP Lab Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
+        </div>
+        <div class="col-auto px-4 d-flex align-items-center justify-content-center">
+          <img src="/imsi/images/logo/snu.jpg" alt="SNU Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
+        </div>
+        <div class="col-auto px-4 d-flex align-items-center justify-content-center">
+          <img src="/imsi/images/logo/smc.png" alt="SMC Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
+        </div>
+      </div>
   
 
       <p class="powered-by">
@@ -2059,6 +2070,7 @@
 
 </body>
 </html>
+
 
 
 
