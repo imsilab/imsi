@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en-us">
 
 <head>
@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="generator" content="Source Themes Academic 4.7.0">
   <meta name="author" content="IMSI Research Lab">
-  <meta name="description" content="IMSI Research Lab Teams — all members organized by team">
+  <meta name="description" content="IMSI Research Lab Teams ??all members organized by team">
   <link rel="alternate" hreflang="en-us" href="https://imsilab.github.io/alumni/">
   <meta name="theme-color" content="#2962ff">
   <script src="/imsi/js/mathjax-config.js"></script>
@@ -29,21 +29,21 @@
   <meta property="og:site_name" content="IMSI Research Lab">
   <meta property="og:url" content="https://imsilab.github.io/alumni/">
   <meta property="og:title" content="Teams | IMSI Research Lab">
-  <meta property="og:description" content="IMSI Research Lab Teams — all members organized by team">
+  <meta property="og:description" content="IMSI Research Lab Teams ??all members organized by team">
   <title>Teams | IMSI Research Lab</title>
 
   <style>
-    /* ?? Page ?? */
+    /* ???? Page ???? */
     .teams-page { padding: 3rem 0 4rem; }
     .teams-header { margin-bottom: 2rem; }
     .teams-header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.4rem; }
     .teams-header p  { color: #666; margin: 0; }
 
-    /* ?? Loading / error ?? */
+    /* ???? Loading / error ???? */
     #teams-loading { color: #777; font-style: italic; padding: 2rem 0; }
     #teams-error   { color: #c0392b; padding: 1rem 0; }
 
-    /* ?? TABS ?? */
+    /* ???? TABS ???? */
     .tab-row {
       display: flex;
       justify-content: center;
@@ -66,7 +66,7 @@
     .tab-btn:hover  { color: #2962ff; }
     .tab-btn.active { color: #2962ff; border-bottom-color: #2962ff; }
 
-    /* ?? Teams sub-toggle ?? */
+    /* ???? Teams sub-toggle ???? */
     .sub-toggle { display: flex; gap: 0.4rem; margin-bottom: 1.6rem; }
     .sub-btn {
       padding: 0.38rem 0.9rem;
@@ -81,7 +81,7 @@
     }
     .sub-btn.active { background: #2962ff; color: #fff; }
 
-    /* ?? People-widget style (matches main index.html) ?? */
+    /* ???? People-widget style (matches main index.html) ???? */
     .people-widget-section { margin-bottom: 0.5rem; }
     .people-section-header {
       width: 100%;
@@ -137,7 +137,7 @@
       margin: 0;
     }
 
-    /* ?? Teams tab: Thumbnail grid (small) ?? */
+    /* ???? Teams tab: Thumbnail grid (small) ???? */
     .team-section { margin-bottom: 3rem; }
     .team-section-title {
       font-size: 1.25rem; font-weight: 700;
@@ -164,7 +164,7 @@
     .member-card .m-name  { font-size: 0.8rem; font-weight: 600; line-height: 1.3; }
     .member-card .m-dept  { font-size: 0.68rem; color: #888; margin-top: 2px; }
 
-    /* ?? ORG CHART ?? */
+    /* ???? ORG CHART ???? */
     .org-wrapper { overflow-x: auto; padding: 1.5rem 0; }
     .org-tree { display: flex; flex-direction: column; align-items: center; }
     .org-root-node { display: flex; flex-direction: column; align-items: center; }
@@ -268,7 +268,7 @@
     </div>
   </nav>
 
-  <!-- ?먥븧?먥븧 MAIN ?먥븧?먥븧 -->
+  <!-- ?癒λ름?癒λ름 MAIN ?癒λ름?癒λ름 -->
   <div class="container teams-page">
 
     <div class="teams-header">
@@ -276,14 +276,14 @@
       <p>All IMSI Research Lab members, organized by role or research team</p>
     </div>
 
-    <!-- ── Principal Investigators ── -->
+    <!-- ?? Principal Investigators ?? -->
     <div class="row section-heading justify-content-center" style="margin-top: 2rem;">
       <div class="col-md-12 text-center">
         <h2 class="mb-4">Principal Investigators</h2>
       </div>
     </div>
     <div class="row justify-content-center" style="margin-bottom: 3rem;">
-      <!-- 이혁재 교수님 -->
+      <!-- ?댄쁺??援먯닔??-->
       <div class="col-12 col-sm-auto people-person text-center">
         <a href="/imsi/authors/investigators/hyukjae-lee/">
           <img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
@@ -294,7 +294,7 @@
           <h3 style="font-size: 0.9rem;">Principal Investigator</h3>
         </div>
       </div>
-      <!-- 김남준 교수님 -->
+      <!-- 源?⑥? 援먯닔??-->
       <div class="col-12 col-sm-auto people-person text-center">
         <a href="/imsi/authors/investigators/nam-joon-kim/">
           <img class="portrait" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
@@ -316,12 +316,12 @@
     <p id="teams-loading"><i class="fas fa-spinner fa-spin"></i> Loading members from spreadsheet...</p>
     <p id="teams-error" style="display:none;color:#c0392b;">Failed to load team data.</p>
 
-    <!-- ── TEAMS TAB ── -->
+    <!-- ?? TEAMS TAB ?? -->
     <div id="panel-teams" style="display:none;">
       <div id="teams-people-view"></div>
     </div>
 
-    <!-- ── ALUMNI TAB (People-widget style) ── -->
+    <!-- ?? ALUMNI TAB (People-widget style) ?? -->
     <div id="panel-alumni" style="display:none;">
       <div id="alumni-people-view"></div>
     </div>
@@ -358,7 +358,7 @@
   <script src="/imsi/js/SheetServices.js"></script>
 
   <script>
-    /* ?? CONFIG ?? */
+    /* ???? CONFIG ???? */
     const TEAM_COL = 'Team';
 
     const CATEGORY_ORDER = [
@@ -372,7 +372,7 @@
       'Visitors','Visitor',
     ];
 
-    /* ?? Known profile photos (only confirmed avatar.png files) ?? */
+    /* ???? Known profile photos (only confirmed avatar.png files) ???? */
     const PHOTO_OVERRIDES = {
       'jaehyeok-bae':  '/imsi/authors/alumni/jaehyeok-bae/avatar.png',
       'seoyoung-ju':   '/imsi/authors/alumni/seoyoung-ju/avatar.png',
@@ -417,7 +417,7 @@
     }
 
 
-    /* ?? Helpers ?? */
+    /* ???? Helpers ???? */
     // Category ??folder name mapping
     const CAT_FOLDER = {
       'Investigators':          'investigators',
@@ -465,7 +465,7 @@
       return result;
     }
 
-    /* ?? MEMBERS: People-widget style renderer ?? */
+    /* ???? MEMBERS: People-widget style renderer ???? */
     function renderMembersPeopleStyle(groups, containerId) {
       const el = document.getElementById(containerId);
       const keys = Object.keys(groups);
@@ -507,7 +507,7 @@
       }).join('');
     }
 
-    /* ?? TEAMS: Thumbnail grid renderer ?? */
+    /* ???? TEAMS: Thumbnail grid renderer ???? */
     function renderTeamsGrid(groups, containerId) {
       const el = document.getElementById(containerId);
       const keys = Object.keys(groups);
@@ -535,7 +535,7 @@
       }).join('');
     }
 
-    /* ?? TEAMS: Org chart renderer ?? */
+    /* ???? TEAMS: Org chart renderer ???? */
     function renderTeamsTree(groups, rootId) {
       const root = document.getElementById(rootId);
       const teams = Object.keys(groups);
@@ -595,7 +595,7 @@
       });
     }
 
-    /* ?? Tab toggle ?? */
+    /* ???? Tab toggle ???? */
     function switchTab(tab) {
       document.getElementById('panel-teams' ).style.display = tab === 'teams'  ? 'block' : 'none';
       document.getElementById('panel-alumni').style.display = tab === 'alumni' ? 'block' : 'none';
@@ -603,7 +603,7 @@
       document.getElementById('tab-alumni').classList.toggle('active', tab === 'alumni');
     }
 
-    /* ?? Teams: People-widget style renderer (sorted by Team_Role) ?? */
+    /* ???? Teams: People-widget style renderer (sorted by Team_Role) ???? */
     function renderTeamsPeopleStyle(groups, containerId) {
       const el = document.getElementById(containerId);
       const keys = Object.keys(groups);
@@ -640,7 +640,7 @@
       }).join('');
     }
 
-    /* ?? Main ?? */
+    /* ???? Main ???? */
     async function loadTeams() {
       try {
         const [people, personTeamRows] = await Promise.all([
@@ -673,7 +673,7 @@
             const pid    = (row['Person_ID'] || row['PersonID'] || '').trim();
             const teamId = (row['Team_ID']   || row['TeamID']   || '').trim();
             const role   = (row['Team_Role'] || '').trim();
-            const period = (row['?쒕룞湲곌컙']  || row['Active_Period'] || row['Period'] || row['period'] || '').trim();
+            const period = (row['Active_Period'] || row['Period'] || row['period'] || row['Participation_Period'] || '').trim();
             if (!teamId) return;
             const person = peopleById[pid];
             if (!person || (person.Category || '').trim() === 'Alumni') return;
@@ -731,3 +731,4 @@
 
 </body>
 </html>
+
