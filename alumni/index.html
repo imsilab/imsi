@@ -673,7 +673,7 @@
             const pid    = (row['Person_ID'] || row['PersonID'] || '').trim();
             const teamId = (row['Team_ID']   || row['TeamID']   || '').trim();
             const role   = (row['Team_Role'] || '').trim();
-            const period = (row['??뺣짗疫꿸퀗而?]  || row['Active_Period'] || row['Period'] || row['period'] || '').trim();
+            const period = (row['Active_Period'] || row['Period'] || row['period'] || row['Participation_Period'] || '').trim();
             if (!teamId) return;
             const person = peopleById[pid];
             if (!person || (person.Category || '').trim() === 'Alumni') return;
