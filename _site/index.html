@@ -3034,6 +3034,7 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
         const venueName = getRowValue(row, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']);
         const authors = getRowValue(row, ['Authors', 'authors', 'Column_4']);
         const paperLink = getRowValue(row, ['Paper_Link', 'Paper Link', 'paper_link', 'Column_5']);
+        const posterLink = getRowValue(row, ['Poster_Link', 'Poster Link', 'poster_link', 'Column_8', 'Column_9']);
 
         if (!title) return '';
 
@@ -3044,6 +3045,9 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
         const titleHtml = `${escapeHtml(title)}`;
         const pdfButtonHtml = pdfUrl
           ? `<a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="${escapeHtml(pdfUrl)}" target="_blank" rel="noopener">PDF</a>`
+          : '';
+        const posterButtonHtml = posterLink
+          ? `<a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="${escapeHtml(String(posterLink).trim())}" target="_blank" rel="noopener">POSTER</a>`
           : '';
         const citeButtonHtml = `<button type="button" class="btn btn-outline-primary my-1 mr-1 btn-sm js-home-cite-modal" data-title="${escapeHtml(title)}" data-authors="${escapeHtml(authors)}" data-year="${escapeHtml(year)}">Cite</button>`;
 
@@ -3059,6 +3063,7 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
     </div>
     <div class="btn-links">
       ${pdfButtonHtml}
+      ${posterButtonHtml}
       ${citeButtonHtml}
     </div>
   </div>
