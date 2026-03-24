@@ -3034,7 +3034,9 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
         const venueName = getRowValue(row, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']);
         const authors = getRowValue(row, ['Authors', 'authors', 'Column_4']);
         const paperLink = getRowValue(row, ['Paper_Link', 'Paper Link', 'paper_link', 'Column_5']);
-        const posterLink = getRowValue(row, ['Poster_Link', 'Poster Link', 'poster_link', 'Column_8', 'Column_9']);
+        const codeLink = getRowValue(row, ['Code', 'code', 'Code_Link', 'Code Link', 'code_link', 'Column_8']);
+        const posterLink = getRowValue(row, ['Poster_Link', 'Poster Link', 'poster_link', 'Column_9']);
+        const slidesLink = getRowValue(row, ['Slides_Link', 'Slides Link', 'slides_link', 'Slide_Link', 'Slide Link', 'slide_link', 'Column_10']);
 
         if (!title) return '';
 
@@ -3046,8 +3048,14 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
         const pdfButtonHtml = pdfUrl
           ? `<a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="${escapeHtml(pdfUrl)}" target="_blank" rel="noopener">PDF</a>`
           : '';
+        const codeButtonHtml = codeLink
+          ? `<a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="${escapeHtml(String(codeLink).trim())}" target="_blank" rel="noopener">Code</a>`
+          : '';
         const posterButtonHtml = posterLink
           ? `<a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="${escapeHtml(String(posterLink).trim())}" target="_blank" rel="noopener">POSTER</a>`
+          : '';
+        const slidesButtonHtml = slidesLink
+          ? `<a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="${escapeHtml(String(slidesLink).trim())}" target="_blank" rel="noopener">SLIDE</a>`
           : '';
         const citeButtonHtml = `<button type="button" class="btn btn-outline-primary my-1 mr-1 btn-sm js-home-cite-modal" data-title="${escapeHtml(title)}" data-authors="${escapeHtml(authors)}" data-year="${escapeHtml(year)}">Cite</button>`;
 
@@ -3063,7 +3071,9 @@ At <strong>ISMI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
     </div>
     <div class="btn-links">
       ${pdfButtonHtml}
+      ${codeButtonHtml}
       ${posterButtonHtml}
+      ${slidesButtonHtml}
       ${citeButtonHtml}
     </div>
   </div>
