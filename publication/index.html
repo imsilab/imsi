@@ -1870,8 +1870,16 @@
 </article>`;
       }
 
+      function isUnderReviewVenue(value) {
+        return String(value || '').trim().toLowerCase().includes('under review');
+      }
+
       function sortPublicationRows(rows) {
         return [...rows].sort((a, b) => {
+          const aUnderReview = isUnderReviewVenue(getPubValue(a, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']));
+          const bUnderReview = isUnderReviewVenue(getPubValue(b, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']));
+          if (aUnderReview !== bUnderReview) return aUnderReview ? 1 : -1;
+
           const ay = toYearNumber(getPubValue(a, ['Year', 'year', 'Column_1'])) ?? -1;
           const by = toYearNumber(getPubValue(b, ['Year', 'year', 'Column_1'])) ?? -1;
           if (ay !== by) return by - ay;
