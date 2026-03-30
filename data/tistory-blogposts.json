@@ -1,9 +1,37 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-03-23T02:53:26.512919Z",
+  "updated_at": "2026-03-30T03:26:35.288851Z",
   "count": 6,
   "items": [
+    {
+      "title": "[한서연] HIAMD: Hierarchical feature representation and multimodal fusion with deep learning for AD/MCI diagnosis",
+      "link": "https://lambdacourse.tistory.com/40",
+      "pub_date": "Sat, 28 Mar 2026 13:19:46 +0900",
+      "iso_date": "2026-03-28T04:19:46Z",
+      "excerpt": "0.. 주제 알츠하이머병(AD)과 그 전 단계인 경도인지장애(MCI)를 AI로 진단하게 만드는 연구 MRI와 PET 데이터를 동시에 사용 1.. 문제 제기 특징 추출 Voxel-based approach: 특징 벡터의 차원이 너무 높다는 한계 Region of Interest (ROI) - based approach: 미세한 변화를 반영하지 못한다는 한계 다중모달 데이터 결합 여러 모달리티에서 추출된 특징을 단순히 연결 or..."
+    },
+    {
+      "title": "[이준범] SLEAP: A deep learning system for multi-animal pose tracking",
+      "link": "https://lambdacourse.tistory.com/39",
+      "pub_date": "Sat, 28 Mar 2026 12:54:14 +0900",
+      "iso_date": "2026-03-28T03:54:14Z",
+      "excerpt": "저자 : Talmo D. Pereira, Nathaniel Tabris, Arie Matsliah, David M. Turner, Junyu Li, Shruthi Ravindranath, Eleni S. Papadoyannis, Edna Normand, David S. Deutsch, Z. Yan Wang, Grace C. McKenzie-Smith, Catalin C. Mitelut, Marielisa Diez..."
+    },
+    {
+      "title": "[정안나] VoxelMorph: A Learning Framework for Deformable Medical Image Registration",
+      "link": "https://lambdacourse.tistory.com/38",
+      "pub_date": "Sat, 28 Mar 2026 03:34:25 +0900",
+      "iso_date": "2026-03-27T18:34:25Z",
+      "excerpt": "Basic Information Published in 2019 IEEE Transactions on Medical Imaging (TMI) Link: https://arxiv.org/abs/1809.05231 VoxelMorph: A Learning Framework for Deformable Medical Image Registration We present VoxelMorph, a fast learning-based..."
+    },
+    {
+      "title": "[최성헌] MoE &amp; Switch Transformer",
+      "link": "https://lambdacourse.tistory.com/37",
+      "pub_date": "Wed, 25 Mar 2026 06:18:16 +0900",
+      "iso_date": "2026-03-24T21:18:16Z",
+      "excerpt": "OUTRAGEOUSLY LARGE NEURAL NETWORKS: THE SPARSELY-GATED MIXTURE-OF-EXPERTS LAYER( 2017 ) 구글 브레인 ICLR Introduction - 딥러닝의 성공은 데이터셋이 충분히 크고, 파라미터 수가 많으면 다양한 도메인에서의 예측 정확도를 높일 수 있다는 점에 있다. - 하지만 모든 데이터에 대해 모델 전체를 활성화하게 된다면, 학습 비용이 이차 함수적으로..."
+    },
     {
       "title": "[김민주] Relational Knowledge Distillation (2019)",
       "link": "https://lambdacourse.tistory.com/36",
@@ -17,34 +45,6 @@
       "pub_date": "Sat, 21 Mar 2026 11:52:38 +0900",
       "iso_date": "2026-03-21T02:52:38Z",
       "excerpt": "논문 정보 RePaint: Inpainting using Denoising Diffusion Probabilistic Models 저자: Andreas Lugmayr, Martin Danelljan, Andres Romero, Fisher Yu, Radu Timofte, Luc Van Gool CVPR 2022 Paper https://arxiv.org/pdf/2201.09865 Introduction Image..."
-    },
-    {
-      "title": "[정윤선] FAMI-Pose",
-      "link": "https://lambdacourse.tistory.com/34",
-      "pub_date": "Sat, 21 Mar 2026 11:51:45 +0900",
-      "iso_date": "2026-03-21T02:51:45Z",
-      "excerpt": "1. Introduction video-based human pose estimation 은 컴퓨터 비전에서 핵심 문제 비디오 기반 pose estimation 은 단일 이미지보다 더 많은 시각적 정보를 활용 가능 , 따라서 현재 프레임의 pose 를 정확하게 추정하기 위해 이웃 프레임 정보를 활용한다 . 주요 어려움 : 빠른 움직임으로 프레임 간 차이가 큼 , occlusion- 사람 몸 일부가 가려지는 경우 기존 방법들은..."
-    },
-    {
-      "title": "[정안나] Emerging Properties in Self-Supervised Vision Transformers",
-      "link": "https://lambdacourse.tistory.com/33",
-      "pub_date": "Sat, 21 Mar 2026 11:25:22 +0900",
-      "iso_date": "2026-03-21T02:25:22Z",
-      "excerpt": "Basic Information Conference: ICCV Year: 2021 Link: https://arxiv.org/pdf/2104.14294 Abstract Does self-supervised learning provides new properties to Vision Transformer (ViT)? Self-supervised learning: model creates and learns from its..."
-    },
-    {
-      "title": "[정율의] SRDiff",
-      "link": "https://lambdacourse.tistory.com/32",
-      "pub_date": "Sat, 7 Mar 2026 10:13:15 +0900",
-      "iso_date": "2026-03-07T01:13:15Z",
-      "excerpt": "[2104.14951] SRDiff: Single Image Super-Resolution with Diffusion Probabilistic Models SRDiff: Single Image Super-Resolution with Diffusion Probabilistic Models Haoying Li, Yifan Yang, Meng Chang, Huajun Feng, Zhihai Xu, Qi Li, Yueting..."
-    },
-    {
-      "title": "[이준범] Variational Inference with Normalizing Flows",
-      "link": "https://lambdacourse.tistory.com/31",
-      "pub_date": "Sat, 7 Mar 2026 10:05:00 +0900",
-      "iso_date": "2026-03-07T01:05:00Z",
-      "excerpt": "저자 : Danilo Jimenez Rezende (Google DeepMind), Shakir Mohamed (Google DeepMind) 학회 : ICML 발표연도 : 2015 https://arxiv.org/pdf/1505.05770 1. Introduction Background Variational Inference의 핵심 : 추론 과정을 최적화 문제로 전환하여 대규모 데이터셋에서도 널리 쓰임. →..."
     }
   ]
 }
