@@ -3059,6 +3059,25 @@ At <strong>IMSI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
         });
       }
 
+      function formatHighlightedVenueHtml(value, escapeFn) {
+        const raw = String(value || '').trim();
+        if (!raw) return '';
+
+        const pattern = /oral presentation/ig;
+        let result = '';
+        let lastIndex = 0;
+
+        raw.replace(pattern, (match, offset) => {
+          result += escapeFn(raw.slice(lastIndex, offset));
+          result += `<strong style="color:#1f2937;">${escapeFn(match)}</strong>`;
+          lastIndex = offset + match.length;
+          return match;
+        });
+
+        result += escapeFn(raw.slice(lastIndex));
+        return result;
+      }
+
       function buildHomePublicationItem(row) {
         const pubId = getRowValue(row, ['Pub_ID', 'Pub ID', 'pub_id', 'Column_0']);
         const year = getRowValue(row, ['Year', 'year', 'Column_1']);
@@ -3075,7 +3094,8 @@ At <strong>IMSI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
         const normalizedPubId = normalizePublicationId(pubId);
         const localPdfUrl = normalizedPubId ? `/imsi/publication/${encodeURIComponent(normalizedPubId)}/paper.pdf` : '';
         const pdfUrl = String(paperLink || localPdfUrl || '').trim();
-        const secondaryMeta = [venueName, year].filter(Boolean).join(' | ');
+        const venueHtml = formatHighlightedVenueHtml(venueName, escapeHtml);
+        const secondaryMetaHtml = [venueHtml, year ? escapeHtml(year) : ''].filter(Boolean).join(' | ');
         const titleHtml = `${escapeHtml(title)}`;
         const pdfButtonHtml = pdfUrl
           ? `<a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="${escapeHtml(pdfUrl)}" target="_blank" rel="noopener">PDF</a>`
@@ -3099,7 +3119,7 @@ At <strong>IMSI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
     </h3>
     <div class="stream-meta article-metadata">
       <div>${escapeHtml(authors)}</div>
-      ${secondaryMeta ? `<div>${escapeHtml(secondaryMeta)}</div>` : ''}
+      ${secondaryMetaHtml ? `<div>${secondaryMetaHtml}</div>` : ''}
     </div>
     <div class="btn-links">
       ${pdfButtonHtml}

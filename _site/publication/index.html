@@ -1829,6 +1829,25 @@
         });
       }
 
+      function formatHighlightedVenueHtml(value, escapeFn) {
+        const raw = String(value || '').trim();
+        if (!raw) return '';
+
+        const pattern = /oral presentation/ig;
+        let result = '';
+        let lastIndex = 0;
+
+        raw.replace(pattern, (match, offset) => {
+          result += escapeFn(raw.slice(lastIndex, offset));
+          result += `<strong style="color:#1f2937;">${escapeFn(match)}</strong>`;
+          lastIndex = offset + match.length;
+          return match;
+        });
+
+        result += escapeFn(raw.slice(lastIndex));
+        return result;
+      }
+
       function buildPublicationCard(row) {
         const pubId = getPubValue(row, ['Pub_ID', 'Pub ID', 'pub_id', 'Column_0']);
         const year = getPubValue(row, ['Year', 'year', 'Column_1']);
@@ -1859,13 +1878,14 @@
         }
         actions.push(`<button type="button" class="btn btn-outline-primary btn-sm js-pub-cite-modal" data-title="${escapePubHtml(title)}" data-authors="${escapePubHtml(authorsRaw)}" data-year="${escapePubHtml(year)}">Cite</button>`);
         const actionsHtml = actions.length ? `<div class="pub-card-actions">${actions.join('')}</div>` : '';
-        const meta = [venue, year].filter(Boolean).join(', ');
+        const venueHtml = formatHighlightedVenueHtml(venue, escapePubHtml);
+        const metaHtml = [venueHtml, year ? escapePubHtml(year) : ''].filter(Boolean).join(', ');
 
         return `
 <article class="pub-card">
   <h3 class="pub-card-title">${escapePubHtml(title)}</h3>
   ${authors ? `<p class="pub-card-authors">${escapePubHtml(authors)}</p>` : ''}
-  ${meta ? `<p class="pub-card-meta">${escapePubHtml(meta)}</p>` : ''}
+  ${metaHtml ? `<p class="pub-card-meta">${metaHtml}</p>` : ''}
   ${actionsHtml}
 </article>`;
       }
@@ -1920,14 +1940,52 @@
           return;
         }
 
-        const groups = groupPublicationsByYear(rows);
-        const html = groups.map((group) => `
+        const regularRows = rows.filter((row) => !isUnderReviewVenue(getPubValue(row, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3'])));
+        const underReviewRows = rows.filter((row) => isUnderReviewVenue(getPubValue(row, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3'])));
+
+        const regularGroups = groupPublicationsByYear(regularRows);
+        const underReviewGroups = groupPublicationsByYear(underReviewRows);
+        const regularMap = new Map(regularGroups.map((group) => [String(group.year), group.rows]));
+        const underReviewMap = new Map(underReviewGroups.map((group) => [String(group.year), group.rows]));
+        const years = [...new Set([
+          ...underReviewGroups.map((group) => String(group.year)),
+          ...regularGroups.map((group) => String(group.year))
+        ])].sort((a, b) => {
+          const ay = toYearNumber(a);
+          const by = toYearNumber(b);
+          if (ay !== null && by !== null) return by - ay;
+          if (by !== null) return 1;
+          if (ay !== null) return -1;
+          return String(a).localeCompare(String(b));
+        });
+
+        const html = years.map((year) => {
+          const sections = [];
+          const underReviewYearRows = underReviewMap.get(year) || [];
+          const regularYearRows = regularMap.get(year) || [];
+
+          if (underReviewYearRows.length) {
+            sections.push(`
 <section class="pub-year-group">
-  <h2 class="pub-year-heading">${escapePubHtml(group.year)}</h2>
+  <h2 class="pub-year-heading">${escapePubHtml(year)} Under Review</h2>
   <div class="pub-card-grid">
-    ${group.rows.map(buildPublicationCard).filter(Boolean).join('\n')}
+    ${underReviewYearRows.map(buildPublicationCard).filter(Boolean).join('\n')}
   </div>
-</section>`).join('\n');
+</section>`);
+          }
+
+          if (regularYearRows.length) {
+            sections.push(`
+<section class="pub-year-group">
+  <h2 class="pub-year-heading">${escapePubHtml(year)}</h2>
+  <div class="pub-card-grid">
+    ${regularYearRows.map(buildPublicationCard).filter(Boolean).join('\n')}
+  </div>
+</section>`);
+          }
+
+          return sections.join('\n');
+        }).join('\n');
 
         listEl.innerHTML = html;
         bindPublicationCiteButtons(listEl);
