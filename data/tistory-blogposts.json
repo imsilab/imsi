@@ -1,9 +1,37 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-04-27T03:47:40.697618Z",
+  "updated_at": "2026-05-04T03:54:01.722111Z",
   "count": 6,
   "items": [
+    {
+      "title": "[정안나] Mask R-CNN",
+      "link": "https://lambdacourse.tistory.com/44",
+      "pub_date": "Sat, 2 May 2026 10:09:27 +0900",
+      "iso_date": "2026-05-02T01:09:27Z",
+      "excerpt": "Basic Information Paper Title: \"Mask R-CNN\" Conference: ICCV 2017 Author: Facebook AI Research (FAIR) Link: https://arxiv.org/abs/1703.06870 Abstract (section) Introduces Mask R-CNN, a simple flexible framework for object instance..."
+    },
+    {
+      "title": "[김민주] LARGE SCALE DISTRIBUTED NEURAL NETWORKTRAINING THROUGH ONLINE DISTILLATION",
+      "link": "https://lambdacourse.tistory.com/43",
+      "pub_date": "Sat, 2 May 2026 08:30:34 +0900",
+      "iso_date": "2026-05-01T23:30:34Z",
+      "excerpt": "0. 논문 소개 https://arxiv.org/pdf/1804.03235 Gogle Brain, Google DeepMind 소속 연구진 1. 서론 (Introduction) 문제점: 일정 수 이상의 GPU를 투입하면 통신 오버헤드와 그래디언트 간섭으로 인해 학습 속도 향상이 정체됨 (Diminishing Returns). 해결책: 교사(Teacher)와 학생(Student)을 나누는 전통적 증류 방식 대신, 동일한..."
+    },
+    {
+      "title": "[김태윤] IP-Adapter",
+      "link": "https://lambdacourse.tistory.com/42",
+      "pub_date": "Sat, 2 May 2026 01:37:04 +0900",
+      "iso_date": "2026-05-01T16:37:04Z",
+      "excerpt": "IP-Adapter IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models Ye et al., 2023 arXiv preprint only 1,700+ citations https://arxiv.org/abs/2308.06721 IP-Adapter: Text Compatible Image Prompt Adapter for..."
+    },
+    {
+      "title": "[정율의] Be Your Own Teacher: Self Distillation",
+      "link": "https://lambdacourse.tistory.com/41",
+      "pub_date": "Sat, 2 May 2026 00:48:23 +0900",
+      "iso_date": "2026-05-01T15:48:23Z",
+      "excerpt": "논문명: Be Your Own Teacher: Improve the Performance of Convolutional Neural Networks via Self Distillation 학회: ICCV 2019 1. Abstract & Introduction 이 논문은 청화대학교 Zhang et al.이 2019년에 발표한 연구로, Self Distillation라는 새로운 학습 프레임워크를 제안한다. 기존의 지식..."
+    },
     {
       "title": "[한서연] HIAMD: Hierarchical feature representation and multimodal fusion with deep learning for AD/MCI diagnosis",
       "link": "https://lambdacourse.tistory.com/40",
@@ -17,34 +45,6 @@
       "pub_date": "Sat, 28 Mar 2026 12:54:14 +0900",
       "iso_date": "2026-03-28T03:54:14Z",
       "excerpt": "저자 : Talmo D. Pereira, Nathaniel Tabris, Arie Matsliah, David M. Turner, Junyu Li, Shruthi Ravindranath, Eleni S. Papadoyannis, Edna Normand, David S. Deutsch, Z. Yan Wang, Grace C. McKenzie-Smith, Catalin C. Mitelut, Marielisa Diez..."
-    },
-    {
-      "title": "[정안나] VoxelMorph: A Learning Framework for Deformable Medical Image Registration",
-      "link": "https://lambdacourse.tistory.com/38",
-      "pub_date": "Sat, 28 Mar 2026 03:34:25 +0900",
-      "iso_date": "2026-03-27T18:34:25Z",
-      "excerpt": "Basic Information Published in 2019 IEEE Transactions on Medical Imaging (TMI) Link: https://arxiv.org/abs/1809.05231 VoxelMorph: A Learning Framework for Deformable Medical Image Registration We present VoxelMorph, a fast learning-based..."
-    },
-    {
-      "title": "[최성헌] MoE &amp; Switch Transformer",
-      "link": "https://lambdacourse.tistory.com/37",
-      "pub_date": "Wed, 25 Mar 2026 06:18:16 +0900",
-      "iso_date": "2026-03-24T21:18:16Z",
-      "excerpt": "OUTRAGEOUSLY LARGE NEURAL NETWORKS: THE SPARSELY-GATED MIXTURE-OF-EXPERTS LAYER( 2017 ) 구글 브레인 ICLR Introduction - 딥러닝의 성공은 데이터셋이 충분히 크고, 파라미터 수가 많으면 다양한 도메인에서의 예측 정확도를 높일 수 있다는 점에 있다. - 하지만 모든 데이터에 대해 모델 전체를 활성화하게 된다면, 학습 비용이 이차 함수적으로..."
-    },
-    {
-      "title": "[김민주] Relational Knowledge Distillation (2019)",
-      "link": "https://lambdacourse.tistory.com/36",
-      "pub_date": "Sat, 21 Mar 2026 12:03:46 +0900",
-      "iso_date": "2026-03-21T03:03:46Z",
-      "excerpt": "논문정보 https://arxiv.org/pdf/1904.05068 Relational Knowledge Distillation (2019) 공개: arXiv preprint 정식 등재: CVPR 2019 POSTECH Computer Vision Lab + Microsoft Research 협업 연구 0. Abstract relational knowledge distillation (RKD) => knowledge..."
-    },
-    {
-      "title": "[양지원] RePaint",
-      "link": "https://lambdacourse.tistory.com/35",
-      "pub_date": "Sat, 21 Mar 2026 11:52:38 +0900",
-      "iso_date": "2026-03-21T02:52:38Z",
-      "excerpt": "논문 정보 RePaint: Inpainting using Denoising Diffusion Probabilistic Models 저자: Andreas Lugmayr, Martin Danelljan, Andres Romero, Fisher Yu, Radu Timofte, Luc Van Gool CVPR 2022 Paper https://arxiv.org/pdf/2201.09865 Introduction Image..."
     }
   ]
 }
