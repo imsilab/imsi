@@ -1,9 +1,30 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-05-04T03:54:01.722111Z",
+  "updated_at": "2026-05-11T04:09:28.139438Z",
   "count": 6,
   "items": [
+    {
+      "title": "[한서연] FlexControl",
+      "link": "https://lambdacourse.tistory.com/47",
+      "pub_date": "Sat, 9 May 2026 12:03:03 +0900",
+      "iso_date": "2026-05-09T03:03:03Z",
+      "excerpt": "논문명: FlexControl: Computation-Aware ControlNet with Differentiable Router forText-to-Image Generation 학회: CVPR 2025 저자: Zheng Fang, Lichuan Xiang, Xu Cai, Kaicheng Zhou, Hongkai Wen 소속: University of Warwick, Collov Labs 1. 연구 배경 및 문제 의식..."
+    },
+    {
+      "title": "[정율의] CornerNet",
+      "link": "https://lambdacourse.tistory.com/46",
+      "pub_date": "Sat, 9 May 2026 10:37:08 +0900",
+      "iso_date": "2026-05-09T01:37:08Z",
+      "excerpt": "논문명: CornerNet: Detecting Objects as Paired Keypoints 학회: ECCV 2018, European Conference on Computer Vision 저자: Hei Law, Jia Deng 소속: University of Michigan, Ann Arbor 1. 요약 CornerNet은 객체 검출 방식을 새롭게 정의한 모델이다. 기존의 one-stage detector들은 보통..."
+    },
+    {
+      "title": "[정광민] Deep-Emotion: Facial Expression Recognition Using Attentional Convolutional Network",
+      "link": "https://lambdacourse.tistory.com/45",
+      "pub_date": "Fri, 8 May 2026 20:43:34 +0900",
+      "iso_date": "2026-05-08T11:43:34Z",
+      "excerpt": "1. 연구 배경 및 문제 의식 얼굴 표정 인식(Facial Expression Recognition, FER)은 인간-컴퓨터 상호작용, 의료, 보안 등 다양한 분야에서 활용되는 연구 주제다. 그러나 동일한 감정 안에서도 표정이 매우 다양하게 나타나는 높은 intra-class variation 때문에 여전히 도전적인 문제로 남아 있다. 기존 접근은 크게 두 갈래였다. 전통적 방식은 SIFT, HOG, LBP, Gabor..."
+    },
     {
       "title": "[정안나] Mask R-CNN",
       "link": "https://lambdacourse.tistory.com/44",
@@ -24,27 +45,6 @@
       "pub_date": "Sat, 2 May 2026 01:37:04 +0900",
       "iso_date": "2026-05-01T16:37:04Z",
       "excerpt": "IP-Adapter IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models Ye et al., 2023 arXiv preprint only 1,700+ citations https://arxiv.org/abs/2308.06721 IP-Adapter: Text Compatible Image Prompt Adapter for..."
-    },
-    {
-      "title": "[정율의] Be Your Own Teacher: Self Distillation",
-      "link": "https://lambdacourse.tistory.com/41",
-      "pub_date": "Sat, 2 May 2026 00:48:23 +0900",
-      "iso_date": "2026-05-01T15:48:23Z",
-      "excerpt": "논문명: Be Your Own Teacher: Improve the Performance of Convolutional Neural Networks via Self Distillation 학회: ICCV 2019 1. Abstract & Introduction 이 논문은 청화대학교 Zhang et al.이 2019년에 발표한 연구로, Self Distillation라는 새로운 학습 프레임워크를 제안한다. 기존의 지식..."
-    },
-    {
-      "title": "[한서연] HIAMD: Hierarchical feature representation and multimodal fusion with deep learning for AD/MCI diagnosis",
-      "link": "https://lambdacourse.tistory.com/40",
-      "pub_date": "Sat, 28 Mar 2026 13:19:46 +0900",
-      "iso_date": "2026-03-28T04:19:46Z",
-      "excerpt": "0.. 주제 알츠하이머병(AD)과 그 전 단계인 경도인지장애(MCI)를 AI로 진단하게 만드는 연구 MRI와 PET 데이터를 동시에 사용 1.. 문제 제기 특징 추출 Voxel-based approach: 특징 벡터의 차원이 너무 높다는 한계 Region of Interest (ROI) - based approach: 미세한 변화를 반영하지 못한다는 한계 다중모달 데이터 결합 여러 모달리티에서 추출된 특징을 단순히 연결 or..."
-    },
-    {
-      "title": "[이준범] SLEAP: A deep learning system for multi-animal pose tracking",
-      "link": "https://lambdacourse.tistory.com/39",
-      "pub_date": "Sat, 28 Mar 2026 12:54:14 +0900",
-      "iso_date": "2026-03-28T03:54:14Z",
-      "excerpt": "저자 : Talmo D. Pereira, Nathaniel Tabris, Arie Matsliah, David M. Turner, Junyu Li, Shruthi Ravindranath, Eleni S. Papadoyannis, Edna Normand, David S. Deutsch, Z. Yan Wang, Grace C. McKenzie-Smith, Catalin C. Mitelut, Marielisa Diez..."
     }
   ]
 }
