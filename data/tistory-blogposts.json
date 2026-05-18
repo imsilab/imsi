@@ -1,9 +1,37 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-05-11T04:09:28.139438Z",
+  "updated_at": "2026-05-18T04:18:25.498141Z",
   "count": 6,
   "items": [
+    {
+      "title": "[김원혁] Multimodal Unsupervised Image-to-Image Translation",
+      "link": "https://lambdacourse.tistory.com/51",
+      "pub_date": "Sat, 16 May 2026 14:50:38 +0900",
+      "iso_date": "2026-05-16T05:50:38Z",
+      "excerpt": "Multimodal Unsupervised Image-to-Image Translation (MUNIT) https://arxiv.org/pdf/1804.04732 저자: Xun Huang, Ming-Yu Liu, Serge Belongie, Jan Kautz 1. Introduction Unsupervised Image-to-Image Translation (UNIT)..."
+    },
+    {
+      "title": "[소유진] Flow Matching",
+      "link": "https://lambdacourse.tistory.com/50",
+      "pub_date": "Sat, 16 May 2026 11:59:18 +0900",
+      "iso_date": "2026-05-16T02:59:18Z",
+      "excerpt": "논문명: Flow Matching for Generative Modeling https://arxiv.org/abs/2210.02747 Flow Matching for Generative Modeling We introduce a new paradigm for generative modeling built on Continuous Normalizing Flows (CNFs), allowing us to train CNFs..."
+    },
+    {
+      "title": "[김태균] PointNet",
+      "link": "https://lambdacourse.tistory.com/49",
+      "pub_date": "Fri, 15 May 2026 15:27:31 +0900",
+      "iso_date": "2026-05-15T06:27:31Z",
+      "excerpt": "논문명: PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation 학회: CVPR 2017 링크: https://arxiv.org/abs/1612.00593 PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation Point cloud is an important..."
+    },
+    {
+      "title": "[정광민] DemoFusion",
+      "link": "https://lambdacourse.tistory.com/48",
+      "pub_date": "Thu, 14 May 2026 16:42:31 +0900",
+      "iso_date": "2026-05-14T07:42:31Z",
+      "excerpt": "MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] }}; 논문명: DemoFusion: Democratising High-Resolution Image Generation With No $$$ 저자: Ruoyi Du, Dongliang Chang, Timothy Hospedales, Yi-Zhe Song, Zhanyu Ma 학회: CVPR 2024..."
+    },
     {
       "title": "[한서연] FlexControl",
       "link": "https://lambdacourse.tistory.com/47",
@@ -17,34 +45,6 @@
       "pub_date": "Sat, 9 May 2026 10:37:08 +0900",
       "iso_date": "2026-05-09T01:37:08Z",
       "excerpt": "논문명: CornerNet: Detecting Objects as Paired Keypoints 학회: ECCV 2018, European Conference on Computer Vision 저자: Hei Law, Jia Deng 소속: University of Michigan, Ann Arbor 1. 요약 CornerNet은 객체 검출 방식을 새롭게 정의한 모델이다. 기존의 one-stage detector들은 보통..."
-    },
-    {
-      "title": "[정광민] Deep-Emotion: Facial Expression Recognition Using Attentional Convolutional Network",
-      "link": "https://lambdacourse.tistory.com/45",
-      "pub_date": "Fri, 8 May 2026 20:43:34 +0900",
-      "iso_date": "2026-05-08T11:43:34Z",
-      "excerpt": "1. 연구 배경 및 문제 의식 얼굴 표정 인식(Facial Expression Recognition, FER)은 인간-컴퓨터 상호작용, 의료, 보안 등 다양한 분야에서 활용되는 연구 주제다. 그러나 동일한 감정 안에서도 표정이 매우 다양하게 나타나는 높은 intra-class variation 때문에 여전히 도전적인 문제로 남아 있다. 기존 접근은 크게 두 갈래였다. 전통적 방식은 SIFT, HOG, LBP, Gabor..."
-    },
-    {
-      "title": "[정안나] Mask R-CNN",
-      "link": "https://lambdacourse.tistory.com/44",
-      "pub_date": "Sat, 2 May 2026 10:09:27 +0900",
-      "iso_date": "2026-05-02T01:09:27Z",
-      "excerpt": "Basic Information Paper Title: \"Mask R-CNN\" Conference: ICCV 2017 Author: Facebook AI Research (FAIR) Link: https://arxiv.org/abs/1703.06870 Abstract (section) Introduces Mask R-CNN, a simple flexible framework for object instance..."
-    },
-    {
-      "title": "[김민주] LARGE SCALE DISTRIBUTED NEURAL NETWORKTRAINING THROUGH ONLINE DISTILLATION",
-      "link": "https://lambdacourse.tistory.com/43",
-      "pub_date": "Sat, 2 May 2026 08:30:34 +0900",
-      "iso_date": "2026-05-01T23:30:34Z",
-      "excerpt": "0. 논문 소개 https://arxiv.org/pdf/1804.03235 Gogle Brain, Google DeepMind 소속 연구진 1. 서론 (Introduction) 문제점: 일정 수 이상의 GPU를 투입하면 통신 오버헤드와 그래디언트 간섭으로 인해 학습 속도 향상이 정체됨 (Diminishing Returns). 해결책: 교사(Teacher)와 학생(Student)을 나누는 전통적 증류 방식 대신, 동일한..."
-    },
-    {
-      "title": "[김태윤] IP-Adapter",
-      "link": "https://lambdacourse.tistory.com/42",
-      "pub_date": "Sat, 2 May 2026 01:37:04 +0900",
-      "iso_date": "2026-05-01T16:37:04Z",
-      "excerpt": "IP-Adapter IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models Ye et al., 2023 arXiv preprint only 1,700+ citations https://arxiv.org/abs/2308.06721 IP-Adapter: Text Compatible Image Prompt Adapter for..."
     }
   ]
 }
