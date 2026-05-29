@@ -95,6 +95,33 @@
       padding-bottom: 0.5rem;
       border-bottom: 2px solid #e0e0e0;
     }
+    .team-heading-inline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .team-title-icon-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      margin-left: 0.1rem;
+      border-radius: 50%;
+      vertical-align: middle;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .team-title-icon-link:hover {
+      opacity: 0.82;
+      transform: translateY(-1px);
+    }
+    .team-title-icon-link img {
+      width: 24px;
+      height: 24px;
+      display: block;
+    }
     .people-row {
       display: flex;
       flex-wrap: wrap;
@@ -455,6 +482,38 @@
       return null;
     }
 
+    const TEAM_LINKS = {
+      SUDAL: {
+        url: 'https://team-sudal.tistory.com/',
+        icon: '/imsi/static/images/logo/tistory.svg',
+        label: 'Team SUDAL Tistory'
+      }
+    };
+
+    function teamDisplayName(teamId) {
+      return String(teamId || '').replace(/^T_/, '');
+    }
+
+    function teamLinkKey(teamId) {
+      return teamDisplayName(teamId).trim().toUpperCase().replace(/^TEAM\s+/, '');
+    }
+
+    function teamLinkHtml(teamId) {
+      const link = TEAM_LINKS[teamLinkKey(teamId)];
+      if (!link) return '';
+      return `<a class="team-title-icon-link" href="${link.url}" target="_blank" rel="noopener" aria-label="${link.label}" title="${link.label}">
+        <img src="${link.icon}" alt="Tistory">
+      </a>`;
+    }
+
+    function teamHeadingHtml(teamId, count) {
+      return `<span class="team-heading-inline">
+        <span>${teamDisplayName(teamId)}</span>
+        ${teamLinkHtml(teamId)}
+        <span style="font-size:0.85rem;font-weight:400;color:#888;">(${count})</span>
+      </span>`;
+    }
+
     function groupBy(people, keyFn, orderHint) {
       const map = {};
       people.forEach(p => {
@@ -532,7 +591,7 @@
             : `<div class="member-card">${inner}</div>`;
         }).join('');
         return `<div class="team-section">
-          <div class="team-section-title">${label}<span class="team-count">(${members.length})</span></div>
+          <div class="team-section-title">${teamDisplayName(label)}${teamLinkHtml(label)}<span class="team-count">(${members.length})</span></div>
           <div class="members-grid">${cards}</div>
         </div>`;
       }).join('');
@@ -637,7 +696,7 @@
         }).join('');
         return `
            <div class="col-md-12" style="margin-top:1.5rem;">
-             <h2 class="mb-4">${teamId.replace(/^T_/,'')} <span style="font-size:0.85rem;font-weight:400;color:#888;">(${members.length})</span></h2>
+             <h2 class="mb-4">${teamHeadingHtml(teamId, members.length)}</h2>
            </div>
           ${personCards}`;
       }).join('');
