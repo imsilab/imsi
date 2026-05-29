@@ -419,23 +419,29 @@
       font-size: 0.85rem;
       letter-spacing: 0.2rem;
       font-weight: 700;
-      color: rgba(255, 255, 255, 0.9);
+      color: rgba(255, 255, 255, 0.95) !important;
       margin-bottom: 1.5rem;
       text-transform: uppercase;
       display: block;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.8) !important;
     }
     .hero-title {
       font-size: 3.5rem !important;
       font-weight: 800 !important;
       line-height: 1.1;
       margin-bottom: 2rem;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      color: #ffffff !important;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.9), 1px 1px 3px rgba(0,0,0,0.8) !important;
     }
     .hero-lead {
       font-size: 1.1rem !important;
       line-height: 1.6 !important;
-      color: rgba(255, 255, 255, 0.95) !important;
+      color: #ffffff !important;
       max-width: 800px;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.9), 1px 1px 2px rgba(0,0,0,0.8) !important;
+    }
+    .hero-lead strong {
+      color: #ffffff !important;
     }
     @media (max-width: 768px) {
       .hero-title { font-size: 2.5rem !important; }
@@ -711,7 +717,7 @@
   
 
   <section id="hero" class="home-section wg-hero dark bg-image parallax" 
-           style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/imsi/img/google_group.jpg'); padding: 120px 0;">
+           style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/imsi/img/nvidia.jpg'); padding: 120px 0;">
     <div class="container">
       
 
@@ -844,12 +850,12 @@ At <strong>IMSI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
                 
                 
                 
-                <a href="#" data-filter=".js-id-Models" class="btn btn-primary btn-lg">Models</a>
+                <a href="#" data-filter=".js-id-Models" class="btn btn-light btn-lg">Models</a>
               
                 
                 
                 
-                <a href="#" data-filter=".js-id-Applications" class="btn btn-primary btn-lg">Applications</a>
+                <a href="#" data-filter=".js-id-Applications" class="btn btn-light btn-lg">Applications</a>
               
             </div>
           </div>
@@ -2308,7 +2314,7 @@ At <strong>IMSI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
            onerror="this.outerHTML='<div class=\'portrait\' style=\'width:150px;height:150px;border-radius:50%;background:#2962ff;display:flex;align-items:center;justify-content:center;font-size:55px;font-weight:bold;color:white;\'>L</div>'">
     </a>
     <div class="portrait-title">
-      <h2><a href="/imsi/authors/investigators/hyukjae-lee/">Hyukjae Lee</a></h2>
+      <h2><a href="/imsi/authors/investigators/hyukjae-lee/">Hyuk-Jae Lee</a></h2>
       <h3>Principal Investigator</h3>
     </div>
   </div>
@@ -3479,15 +3485,15 @@ At <strong>IMSI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
     </script>
 
     <footer class="site-footer">
-      <div class="row justify-content-center align-items-center mb-5">
-        <div class="col-auto px-4 d-flex align-items-center justify-content-center">
-          <img src="/imsi/images/logo/capp.png" alt="CAPP Lab Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
+      <div class="d-flex justify-content-center align-items-center flex-wrap mb-5" style="gap: 3rem; margin-top: 2rem;">
+        <div class="d-flex align-items-center justify-content-center" style="width: 260px; height: 120px;">
+          <img src="/imsi/images/logo/capp.png" alt="CAPP Lab Logo" style="max-height: 120px; max-width: 100%; object-fit: contain;">
         </div>
-        <div class="col-auto px-4 d-flex align-items-center justify-content-center">
-          <img src="/imsi/images/logo/snu.jpg" alt="SNU Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
+        <div class="d-flex align-items-center justify-content-center" style="width: 260px; height: 120px;">
+          <img src="/imsi/images/logo/snu.jpg" alt="SNU Logo" style="max-height: 120px; max-width: 100%; object-fit: contain;">
         </div>
-        <div class="col-auto px-4 d-flex align-items-center justify-content-center">
-          <img src="/imsi/images/logo/smc.png" alt="SMC Logo" style="max-height: 120px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
+        <div class="d-flex align-items-center justify-content-center" style="width: 260px; height: 120px;">
+          <img src="/imsi/images/logo/smc.png" alt="SMC Logo" style="max-height: 120px; max-width: 100%; object-fit: contain;">
         </div>
       </div>
   
