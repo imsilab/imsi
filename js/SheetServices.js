@@ -68,3 +68,7 @@ async function getProjects() {
 async function getNews() {
     return await fetchSheetData('WEB_NEWS');
 }
+
+async function getGallery() {
+    return await fetchSheetData('WEB_Gallery');
+}

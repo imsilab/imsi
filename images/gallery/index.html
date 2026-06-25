@@ -23,6 +23,33 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
 
   <link rel="stylesheet" href="/imsi/css/academic.css">
+  <style>
+    .gallery-card-meta,
+    .gallery-photo-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.8rem;
+      color: #666;
+      font-size: 0.84rem;
+      margin-bottom: 0.55rem;
+    }
+    .gallery-card-meta i,
+    .gallery-photo-meta i {
+      margin-right: 0.28rem;
+      color: #2962ff;
+    }
+    .gallery-card-description {
+      margin-bottom: 1rem;
+    }
+    .gallery-photo-info {
+      padding: 0.65rem 0.1rem 0;
+    }
+    .gallery-photo-description {
+      color: #444;
+      font-size: 0.9rem;
+      margin-bottom: 0;
+    }
+  </style>
 
   <link rel="manifest" href="/imsi/index.webmanifest">
   <link rel="icon" type="image/png" href="/imsi/images/imsi_favicon_32x32_fill_lanczos_center_2.png">
@@ -109,7 +136,7 @@
       <h1>Gallery</h1>
       <p>Browse through our lab activities, events, and memorable moments</p>
     </div>
-    <div class="col-12 col-lg-8">
+    <div class="col-12 col-lg-8" id="gallery-content">
 
       <!-- 2026 Section -->
       <div class="row mb-5">
@@ -358,6 +385,252 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
 
   <script src="/imsi/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+  <script src="/imsi/js/SheetServices.js"></script>
+  <script>
+    function escapeGalleryHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function getGalleryValue(row, keys) {
+      for (const key of keys) {
+        const value = row[key];
+        if (value !== undefined && value !== null && String(value).trim() !== '') {
+          return String(value).trim();
+        }
+      }
+      return '';
+    }
+
+    function normalizeGalleryYear(value) {
+      const match = String(value || '').match(/\d{4}/);
+      return match ? match[0] : String(value || 'Other').trim();
+    }
+
+    function normalizeGalleryDate(value) {
+      const raw = String(value || '').trim();
+      const match = raw.match(/^Date\((\d{4}),(\d{1,2}),(\d{1,2})\)$/);
+      if (!match) return raw;
+      const year = match[1];
+      const month = String(Number(match[2]) + 1).padStart(2, '0');
+      const day = String(Number(match[3])).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function normalizeGalleryImagePath(value) {
+      const path = String(value || '').trim().replace(/\\/g, '/');
+      if (!path) return '';
+      if (/^(https?:)?\/\//i.test(path) || path.startsWith('/')) return path;
+      if (path.startsWith('static/')) return `/imsi/${path}`;
+      return path;
+    }
+
+    function isFilledGalleryValue(value) {
+      const text = String(value || '').trim();
+      return text !== '' && !/^tbd$/i.test(text);
+    }
+
+    function gallerySlug(value) {
+      return String(value || 'gallery')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '') || 'gallery';
+    }
+
+    function renderGalleryMeta(date, location, className) {
+      const parts = [];
+      if (isFilledGalleryValue(date)) {
+        parts.push(`<span><i class="far fa-calendar-alt"></i>${escapeGalleryHtml(date)}</span>`);
+      }
+      if (isFilledGalleryValue(location)) {
+        parts.push(`<span><i class="fas fa-map-marker-alt"></i>${escapeGalleryHtml(location)}</span>`);
+      }
+      return parts.length ? `<div class="${className}">${parts.join('')}</div>` : '';
+    }
+
+    const GALLERY_CARD_DESCRIPTIONS = {
+      'SINGAPORE-2026': 'Research collaboration and academic exchange in Singapore',
+      'USA-2026': 'GTC Poster presentations and NVIDIA, Salesforce, and Google Cloud meetings in the United States',
+      'IEIE-2026': 'Summer Annual Conference of IEIE in Jeju',
+      'GONJIAM-2025': 'Annual lab retreat and team building activities',
+      'BUSAN-2025': 'IEEE Asia Pacific Conference on Circuits and Systems in Busan'
+    };
+
+    function getGalleryCardDescription(album) {
+      const sheetDescription = album.images
+        .map(item => item.galleryDescription)
+        .find(isFilledGalleryValue);
+      if (sheetDescription) return sheetDescription;
+      const fallback = GALLERY_CARD_DESCRIPTIONS[album.id];
+      if (fallback) return fallback;
+      const firstDescription = album.images
+        .map(item => item.description)
+        .find(isFilledGalleryValue);
+      return firstDescription || '';
+    }
+
+    function buildGalleryAlbums(rows) {
+      const albums = [];
+      const byId = {};
+
+      rows.forEach((row, index) => {
+        const id = getGalleryValue(row, ['Gallery_ID', 'Gallery ID', 'gallery_id', 'Column_0']);
+        const imagePath = normalizeGalleryImagePath(getGalleryValue(row, ['Image_Path', 'Image Path', 'image_path', 'Column_3']));
+        if (!id || !imagePath) return;
+
+        if (!byId[id]) {
+          const year = normalizeGalleryYear(getGalleryValue(row, ['Year', 'year', 'Column_1']));
+          byId[id] = {
+            id,
+            year,
+            title: getGalleryValue(row, ['Title', 'title', 'Column_2']) || id,
+            order: index,
+            images: []
+          };
+          albums.push(byId[id]);
+        }
+
+        const album = byId[id];
+        const date = normalizeGalleryDate(getGalleryValue(row, ['Date', 'date', 'Column_4']));
+        const location = getGalleryValue(row, ['Location', 'location', 'Column_5']);
+        const galleryDescription = getGalleryValue(row, ['Gallery_Description', 'Gallery Description', 'gallery_description', 'Column_6']);
+        const description = getGalleryValue(row, ['Description', 'description', 'Column_7']);
+        album.images.push({ imagePath, date, location, galleryDescription, description });
+      });
+
+      albums.forEach(album => {
+        const first = album.images[0] || {};
+        album.date = first.date || '';
+        album.location = first.location || '';
+        album.description = getGalleryCardDescription(album);
+      });
+
+      return albums
+        .filter(album => album.images.length)
+        .sort((a, b) => {
+          const yearA = Number(a.year);
+          const yearB = Number(b.year);
+          if (Number.isFinite(yearA) && Number.isFinite(yearB) && yearA !== yearB) {
+            return yearB - yearA;
+          }
+          return a.order - b.order;
+        });
+    }
+
+    function renderGalleryCard(album) {
+      const modalId = `gallery-${gallerySlug(album.id)}-modal`;
+      const cover = album.images[0].imagePath;
+      return `
+            <div class="col-lg-6 mb-4">
+              <div class="card">
+                <div class="card-header">
+                  <img src="${escapeGalleryHtml(cover)}" alt="${escapeGalleryHtml(album.title)}"
+                       style="width: 100%; height: 200px; object-fit: cover;" class="img-responsive">
+                </div>
+                <div class="card-body">
+                  <h5>${escapeGalleryHtml(album.title)}</h5>
+                  ${renderGalleryMeta(album.date, album.location, 'gallery-card-meta')}
+                  <p class="gallery-card-description">${escapeGalleryHtml(album.description)}</p>
+                  <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#${modalId}">
+                    <i class="fas fa-images"></i> View Photos
+                  </button>
+                </div>
+              </div>
+            </div>`;
+    }
+
+    function renderGallerySections(albums) {
+      const years = [];
+      const byYear = {};
+      albums.forEach(album => {
+        if (!byYear[album.year]) {
+          byYear[album.year] = [];
+          years.push(album.year);
+        }
+        byYear[album.year].push(album);
+      });
+
+      return years.map(year => `
+      <div class="row mb-5">
+        <div class="col-12">
+          <h2>${escapeGalleryHtml(year)}</h2>
+          <div class="row">
+${byYear[year].map(renderGalleryCard).join('\n')}
+          </div>
+        </div>
+      </div>`).join('\n');
+    }
+
+    function renderGalleryPhoto(item, album, index) {
+      const detailHtml = [
+        renderGalleryMeta(item.date, item.location, 'gallery-photo-meta'),
+        isFilledGalleryValue(item.description)
+          ? `<p class="gallery-photo-description">${escapeGalleryHtml(item.description)}</p>`
+          : ''
+      ].filter(Boolean).join('');
+
+      return `
+          <div class="col-md-6 mb-3">
+            <img src="${escapeGalleryHtml(item.imagePath)}" class="img-fluid" alt="${escapeGalleryHtml(`${album.title} ${index + 1}`)}">
+            ${detailHtml ? `<div class="gallery-photo-info">${detailHtml}</div>` : ''}
+          </div>`;
+    }
+
+    function renderGalleryModal(album) {
+      const modalId = `gallery-${gallerySlug(album.id)}-modal`;
+      return `
+<div class="modal fade" id="${modalId}" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">${escapeGalleryHtml(album.title)}</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+${album.images.map((item, index) => renderGalleryPhoto(item, album, index)).join('\n')}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+    }
+
+    function getGalleryModalRoot() {
+      let root = document.getElementById('gallery-dynamic-modals');
+      if (!root) {
+        root = document.createElement('div');
+        root.id = 'gallery-dynamic-modals';
+        document.body.appendChild(root);
+      }
+      return root;
+    }
+
+    async function renderGalleryFromSheet() {
+      try {
+        if (typeof getGallery !== 'function') return;
+        const rows = await getGallery();
+        const albums = buildGalleryAlbums(rows);
+        if (!albums.length) return;
+
+        const content = document.getElementById('gallery-content');
+        if (!content) return;
+
+        content.innerHTML = renderGallerySections(albums);
+        getGalleryModalRoot().innerHTML = albums.map(renderGalleryModal).join('\n');
+      } catch (err) {
+        console.error('Failed to render gallery from sheet:', err);
+      }
+    }
+
+    renderGalleryFromSheet();
+  </script>
 
   <div class="container">
     <footer class="site-footer">
