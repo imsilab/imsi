@@ -1,9 +1,37 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-06-22T05:11:20.576275Z",
+  "updated_at": "2026-06-29T04:46:35.222155Z",
   "count": 6,
   "items": [
+    {
+      "title": "[김영서] CNN 역사1 (2012~2015)",
+      "link": "https://lambdacourse.tistory.com/55",
+      "pub_date": "Sat, 27 Jun 2026 11:29:13 +0900",
+      "iso_date": "2026-06-27T02:29:13Z",
+      "excerpt": "Paper AlexNet : ImageNet Classification with Deep Convolutional Neural Networks ( https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf ) RCNN : Rich feature hierarchies for accurate object..."
+    },
+    {
+      "title": "[정율의] GRU",
+      "link": "https://lambdacourse.tistory.com/54",
+      "pub_date": "Sat, 27 Jun 2026 08:09:56 +0900",
+      "iso_date": "2026-06-26T23:09:56Z",
+      "excerpt": "논문: Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling (NIPs, 2014) 저자: Chung, J., Gulcehre, C., Cho, K., & Bengio, Y. (2014). 링크: https://arxiv.org/pdf/1412.3555 시퀀스 데이터는 관측값의 순서가 중요한 데이터이다. 문장, 음악, 음성, 센서 데이터..."
+    },
+    {
+      "title": "[정윤선] GoogLeNet",
+      "link": "https://lambdacourse.tistory.com/53",
+      "pub_date": "Sat, 27 Jun 2026 04:37:12 +0900",
+      "iso_date": "2026-06-26T19:37:12Z",
+      "excerpt": "https://arxiv.org/pdf/1409.4842 1. Introduction 최근 image recognition & object detection 성능 발전 - ConvNet이 있었다 정확도만 높이는 모델이 아닌, 계산량을 효율적으로 유지하는 architecture을 목표로 한다 -> Inception artichitecture 제안 ILSVRC 대회에서 기존 SOTA보다 좋은 성능을 냈다. 2. Related..."
+    },
+    {
+      "title": "[박재형] Deep Residual Learning for Image Recognition",
+      "link": "https://lambdacourse.tistory.com/52",
+      "pub_date": "Thu, 25 Jun 2026 23:33:25 +0900",
+      "iso_date": "2026-06-25T14:33:25Z",
+      "excerpt": "Paper: Deep Residual Learning for Image Recognition Authors: Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun Affiliation: Microsoft Research Keywords: ResNet, residual learning, shortcut connection, degradation problem, ImageNet..."
+    },
     {
       "title": "[김원혁] Multimodal Unsupervised Image-to-Image Translation",
       "link": "https://lambdacourse.tistory.com/51",
@@ -17,34 +45,6 @@
       "pub_date": "Sat, 16 May 2026 11:59:18 +0900",
       "iso_date": "2026-05-16T02:59:18Z",
       "excerpt": "논문명: Flow Matching for Generative Modeling https://arxiv.org/abs/2210.02747 Flow Matching for Generative Modeling We introduce a new paradigm for generative modeling built on Continuous Normalizing Flows (CNFs), allowing us to train CNFs..."
-    },
-    {
-      "title": "[김태균] PointNet",
-      "link": "https://lambdacourse.tistory.com/49",
-      "pub_date": "Fri, 15 May 2026 15:27:31 +0900",
-      "iso_date": "2026-05-15T06:27:31Z",
-      "excerpt": "논문명: PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation 학회: CVPR 2017 링크: https://arxiv.org/abs/1612.00593 PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation Point cloud is an important..."
-    },
-    {
-      "title": "[정광민] DemoFusion",
-      "link": "https://lambdacourse.tistory.com/48",
-      "pub_date": "Thu, 14 May 2026 16:42:31 +0900",
-      "iso_date": "2026-05-14T07:42:31Z",
-      "excerpt": "MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] }}; 논문명: DemoFusion: Democratising High-Resolution Image Generation With No $$$ 저자: Ruoyi Du, Dongliang Chang, Timothy Hospedales, Yi-Zhe Song, Zhanyu Ma 학회: CVPR 2024..."
-    },
-    {
-      "title": "[한서연] FlexControl",
-      "link": "https://lambdacourse.tistory.com/47",
-      "pub_date": "Sat, 9 May 2026 12:03:03 +0900",
-      "iso_date": "2026-05-09T03:03:03Z",
-      "excerpt": "논문명: FlexControl: Computation-Aware ControlNet with Differentiable Router forText-to-Image Generation 학회: CVPR 2025 저자: Zheng Fang, Lichuan Xiang, Xu Cai, Kaicheng Zhou, Hongkai Wen 소속: University of Warwick, Collov Labs 1. 연구 배경 및 문제 의식..."
-    },
-    {
-      "title": "[정율의] CornerNet",
-      "link": "https://lambdacourse.tistory.com/46",
-      "pub_date": "Sat, 9 May 2026 10:37:08 +0900",
-      "iso_date": "2026-05-09T01:37:08Z",
-      "excerpt": "논문명: CornerNet: Detecting Objects as Paired Keypoints 학회: ECCV 2018, European Conference on Computer Vision 저자: Hei Law, Jia Deng 소속: University of Michigan, Ann Arbor 1. 요약 CornerNet은 객체 검출 방식을 새롭게 정의한 모델이다. 기존의 one-stage detector들은 보통..."
     }
   ]
 }
