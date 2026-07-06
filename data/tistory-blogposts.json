@@ -1,50 +1,50 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-06-29T04:46:35.222155Z",
+  "updated_at": "2026-07-06T04:13:54.115558Z",
   "count": 6,
   "items": [
+    {
+      "title": "[이진아] Faster R-CNN",
+      "link": "https://lambdacourse.tistory.com/60",
+      "pub_date": "Sat, 4 Jul 2026 12:06:25 +0900",
+      "iso_date": "2026-07-04T03:06:25Z",
+      "excerpt": "저자: Shaoqing Ren, Kaiming He, Ross Girshick, Jian Sun (Microsoft Research / USTC / Facebook AI Research) 등재 학회: NIPS 2015 (학술지 버전: TPAMI) 한줄 요약: Region Proposal Network(RPN)를 도입해, detection network와 conv feature를 공유함으로써 region proposal 생성을..."
+    },
+    {
+      "title": "[황인성] Sequence to Sequence Learning with Neural Networks",
+      "link": "https://lambdacourse.tistory.com/59",
+      "pub_date": "Sat, 4 Jul 2026 11:57:19 +0900",
+      "iso_date": "2026-07-04T02:57:19Z",
+      "excerpt": "제목: Sequence to Sequence Learning with Neural Networks 저자: Ilya Sutskever(AlexNet 개발자), Oriol Vinyals, Quoc V. Le 소속: Google 학회지: NeurIPS(Neural Information Processing Systems) 2014 1. Abstract & Introduction DNN이 어려운 과제들에 대해 훌륭한 성과를 걷었음에도..."
+    },
+    {
+      "title": "[이다은] Adam AdamW",
+      "link": "https://lambdacourse.tistory.com/58",
+      "pub_date": "Sat, 4 Jul 2026 11:23:01 +0900",
+      "iso_date": "2026-07-04T02:23:01Z",
+      "excerpt": "Paper : Adam : A Method for Stochastic Optimization Authors : Diederik P. Kingma, Jimmy Lei Ba Institution : University of Amsterdam, OpenAI / University of Toronto, Canada Conference : ICLR 2015 (International Conference on Learning..."
+    },
+    {
+      "title": "[정율의] SqueezeNet &amp; ShuffleNet",
+      "link": "https://lambdacourse.tistory.com/57",
+      "pub_date": "Sat, 4 Jul 2026 02:01:36 +0900",
+      "iso_date": "2026-07-03T17:01:36Z",
+      "excerpt": "0. 논문 정보 논문명 SqueezeNet: AlexNet-level Accuracy with 50x Fewer Parameters and 저자 Forrest N. Iandola, Song Han, Matthew W. Moskewicz, Khalid Ashraf, William J. Dally, Kurt Keutzer 학회 ICLR 2017 한 줄 요약 SqueezeNet은 1x1 convolution과..."
+    },
+    {
+      "title": "[최승혁] Learning representations by back-propagating errors, RNN, LSTM",
+      "link": "https://lambdacourse.tistory.com/56",
+      "pub_date": "Wed, 1 Jul 2026 19:24:34 +0900",
+      "iso_date": "2026-07-01T10:24:34Z",
+      "excerpt": "Paper : Learning lepresentations by back-propagating errors Authors : David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams Institution : Cognitive Science, C-015, University of California, San Diego, La Jolla, California 92093, USA..."
+    },
     {
       "title": "[김영서] CNN 역사1 (2012~2015)",
       "link": "https://lambdacourse.tistory.com/55",
       "pub_date": "Sat, 27 Jun 2026 11:29:13 +0900",
       "iso_date": "2026-06-27T02:29:13Z",
       "excerpt": "Paper AlexNet : ImageNet Classification with Deep Convolutional Neural Networks ( https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf ) RCNN : Rich feature hierarchies for accurate object..."
-    },
-    {
-      "title": "[정율의] GRU",
-      "link": "https://lambdacourse.tistory.com/54",
-      "pub_date": "Sat, 27 Jun 2026 08:09:56 +0900",
-      "iso_date": "2026-06-26T23:09:56Z",
-      "excerpt": "논문: Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling (NIPs, 2014) 저자: Chung, J., Gulcehre, C., Cho, K., & Bengio, Y. (2014). 링크: https://arxiv.org/pdf/1412.3555 시퀀스 데이터는 관측값의 순서가 중요한 데이터이다. 문장, 음악, 음성, 센서 데이터..."
-    },
-    {
-      "title": "[정윤선] GoogLeNet",
-      "link": "https://lambdacourse.tistory.com/53",
-      "pub_date": "Sat, 27 Jun 2026 04:37:12 +0900",
-      "iso_date": "2026-06-26T19:37:12Z",
-      "excerpt": "https://arxiv.org/pdf/1409.4842 1. Introduction 최근 image recognition & object detection 성능 발전 - ConvNet이 있었다 정확도만 높이는 모델이 아닌, 계산량을 효율적으로 유지하는 architecture을 목표로 한다 -> Inception artichitecture 제안 ILSVRC 대회에서 기존 SOTA보다 좋은 성능을 냈다. 2. Related..."
-    },
-    {
-      "title": "[박재형] Deep Residual Learning for Image Recognition",
-      "link": "https://lambdacourse.tistory.com/52",
-      "pub_date": "Thu, 25 Jun 2026 23:33:25 +0900",
-      "iso_date": "2026-06-25T14:33:25Z",
-      "excerpt": "Paper: Deep Residual Learning for Image Recognition Authors: Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun Affiliation: Microsoft Research Keywords: ResNet, residual learning, shortcut connection, degradation problem, ImageNet..."
-    },
-    {
-      "title": "[김원혁] Multimodal Unsupervised Image-to-Image Translation",
-      "link": "https://lambdacourse.tistory.com/51",
-      "pub_date": "Sat, 16 May 2026 14:50:38 +0900",
-      "iso_date": "2026-05-16T05:50:38Z",
-      "excerpt": "Multimodal Unsupervised Image-to-Image Translation (MUNIT) https://arxiv.org/pdf/1804.04732 저자: Xun Huang, Ming-Yu Liu, Serge Belongie, Jan Kautz 1. Introduction Unsupervised Image-to-Image Translation (UNIT)..."
-    },
-    {
-      "title": "[소유진] Flow Matching",
-      "link": "https://lambdacourse.tistory.com/50",
-      "pub_date": "Sat, 16 May 2026 11:59:18 +0900",
-      "iso_date": "2026-05-16T02:59:18Z",
-      "excerpt": "논문명: Flow Matching for Generative Modeling https://arxiv.org/abs/2210.02747 Flow Matching for Generative Modeling We introduce a new paradigm for generative modeling built on Continuous Normalizing Flows (CNFs), allowing us to train CNFs..."
     }
   ]
 }
