@@ -3091,6 +3091,13 @@ At <strong>IMSI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
         return result;
       }
 
+      function formatLinkedVenueHtml(venue, venueLink, escapeFn) {
+        const venueHtml = formatHighlightedVenueHtml(venue, escapeFn);
+        const link = String(venueLink || '').trim();
+        if (!venueHtml || !link) return venueHtml;
+        return `<a href="${escapeFn(link)}" target="_blank" rel="noopener">${venueHtml}</a>`;
+      }
+
       function buildHomePublicationItem(row) {
         const pubId = getRowValue(row, ['Pub_ID', 'Pub ID', 'pub_id', 'Column_0']);
         const year = getRowValue(row, ['Year', 'year', 'Column_1']);
@@ -3098,6 +3105,7 @@ At <strong>IMSI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
         const venueName = getRowValue(row, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']);
         const authors = getRowValue(row, ['Authors', 'authors', 'Column_4']);
         const paperLink = getRowValue(row, ['Paper_Link', 'Paper Link', 'paper_link', 'Column_5']);
+        const venueLink = getRowValue(row, ['Venue_Link', 'Venue Link', 'venue_link', 'Column_6']);
         const codeLink = getRowValue(row, ['Code', 'code', 'Code_Link', 'Code Link', 'code_link', 'Column_8']);
         const posterLink = getRowValue(row, ['Poster_Link', 'Poster Link', 'poster_link', 'Column_9']);
         const slidesLink = getRowValue(row, ['Slides_Link', 'Slides Link', 'slides_link', 'Slide_Link', 'Slide Link', 'slide_link', 'Column_10']);
@@ -3107,7 +3115,7 @@ At <strong>IMSI (Imaging-driven Medical SuperIntelligence) Lab</strong>, we acce
         const normalizedPubId = normalizePublicationId(pubId);
         const localPdfUrl = normalizedPubId ? `/imsi/publication/${encodeURIComponent(normalizedPubId)}/paper.pdf` : '';
         const pdfUrl = String(paperLink || localPdfUrl || '').trim();
-        const venueHtml = formatHighlightedVenueHtml(venueName, escapeHtml);
+        const venueHtml = formatLinkedVenueHtml(venueName, venueLink, escapeHtml);
         const secondaryMetaHtml = [venueHtml, year ? escapeHtml(year) : ''].filter(Boolean).join(' | ');
         const titleHtml = `${escapeHtml(title)}`;
         const pdfButtonHtml = pdfUrl

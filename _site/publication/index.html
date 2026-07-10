@@ -1848,6 +1848,13 @@
         return result;
       }
 
+      function formatLinkedVenueHtml(venue, venueLink, escapeFn) {
+        const venueHtml = formatHighlightedVenueHtml(venue, escapeFn);
+        const link = String(venueLink || '').trim();
+        if (!venueHtml || !link) return venueHtml;
+        return `<a href="${escapeFn(link)}" target="_blank" rel="noopener">${venueHtml}</a>`;
+      }
+
       function buildPublicationCard(row) {
         const pubId = getPubValue(row, ['Pub_ID', 'Pub ID', 'pub_id', 'Column_0']);
         const year = getPubValue(row, ['Year', 'year', 'Column_1']);
@@ -1856,6 +1863,7 @@
         const authorsRaw = getPubValue(row, ['Authors', 'authors', 'Column_4']);
         const authors = formatPublicationAuthors(authorsRaw);
         const paperLink = getPubValue(row, ['Paper_Link', 'Paper Link', 'paper_link', 'Column_5']);
+        const venueLink = getPubValue(row, ['Venue_Link', 'Venue Link', 'venue_link', 'Column_6']);
         const codeLink = getPubValue(row, ['Code', 'code', 'Code_Link', 'Code Link', 'code_link', 'Column_8']);
         const posterLink = getPubValue(row, ['Poster_Link', 'Poster Link', 'poster_link', 'Column_9']);
         const slidesLink = getPubValue(row, ['Slides_Link', 'Slides Link', 'slides_link', 'Slide_Link', 'Slide Link', 'slide_link', 'Column_10']);
@@ -1878,7 +1886,7 @@
         }
         actions.push(`<button type="button" class="btn btn-outline-primary btn-sm js-pub-cite-modal" data-title="${escapePubHtml(title)}" data-authors="${escapePubHtml(authorsRaw)}" data-year="${escapePubHtml(year)}">Cite</button>`);
         const actionsHtml = actions.length ? `<div class="pub-card-actions">${actions.join('')}</div>` : '';
-        const venueHtml = formatHighlightedVenueHtml(venue, escapePubHtml);
+        const venueHtml = formatLinkedVenueHtml(venue, venueLink, escapePubHtml);
         const metaHtml = [venueHtml, year ? escapePubHtml(year) : ''].filter(Boolean).join(', ');
 
         return `
