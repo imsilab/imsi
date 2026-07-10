@@ -3055,6 +3055,20 @@
         .replace(/'/g, '&#39;');
     }
 
+    function encodeDataValue(value) {
+      return encodeURIComponent(String(value || ''));
+    }
+
+    function decodeDataValue(value) {
+      const raw = String(value || '');
+      if (!raw) return '';
+      try {
+        return decodeURIComponent(raw);
+      } catch (error) {
+        return raw;
+      }
+    }
+
     function slugClass(value) {
       return String(value || '')
         .trim()
@@ -3174,14 +3188,14 @@
 
     let homePublicationCiteBlobUrl = null;
 
-    function openHomePublicationCiteModal(title, authors, year) {
+    function openHomePublicationCiteModal(title, authors, year, cite) {
       if (!window.jQuery) return;
       const $ = window.jQuery;
       const $modal = $('#modal');
       const $code = $modal.find('.modal-body code');
       const $download = $modal.find('.js-download-cite');
 
-      const citeText = buildPublicationBibText(title, authors, year);
+      const citeText = String(cite || '').trim() || buildPublicationBibText(title, authors, year);
       $code.text(citeText);
       $('#modal-error').text('');
 
@@ -3208,7 +3222,8 @@
         openHomePublicationCiteModal(
           button.getAttribute('data-title') || '',
           button.getAttribute('data-authors') || '',
-          button.getAttribute('data-year') || ''
+          button.getAttribute('data-year') || '',
+          decodeDataValue(button.getAttribute('data-cite') || '')
         );
       });
     }
@@ -3250,6 +3265,7 @@
       const codeLink = getRowValue(row, ['Code', 'code', 'Code_Link', 'Code Link', 'code_link', 'Column_8']);
       const posterLink = getRowValue(row, ['Poster_Link', 'Poster Link', 'poster_link', 'Column_9']);
       const slidesLink = getRowValue(row, ['Slides_Link', 'Slides Link', 'slides_link', 'Slide_Link', 'Slide Link', 'slide_link', 'Column_10']);
+      const citeText = getRowValue(row, ['Cite', 'cite', 'Citation', 'citation', 'BibTeX', 'Bibtex', 'bibtex', 'Column_11']);
 
       if (!title) return '';
 
@@ -3271,7 +3287,7 @@
       const slidesButtonHtml = slidesLink
         ? `<a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="${escapeHtml(String(slidesLink).trim())}" target="_blank" rel="noopener">SLIDES</a>`
         : '';
-      const citeButtonHtml = `<button type="button" class="btn btn-outline-primary my-1 mr-1 btn-sm js-home-cite-modal" data-title="${escapeHtml(title)}" data-authors="${escapeHtml(authors)}" data-year="${escapeHtml(year)}">Cite</button>`;
+      const citeButtonHtml = `<button type="button" class="btn btn-outline-primary my-1 mr-1 btn-sm js-home-cite-modal" data-title="${escapeHtml(title)}" data-authors="${escapeHtml(authors)}" data-year="${escapeHtml(year)}" data-cite="${encodeDataValue(citeText)}">Cite</button>`;
 
       return `
 <div class="media stream-item">

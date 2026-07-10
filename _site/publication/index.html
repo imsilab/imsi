@@ -1732,6 +1732,20 @@
           .replace(/'/g, '&#39;');
       }
 
+      function encodePubDataValue(value) {
+        return encodeURIComponent(String(value || ''));
+      }
+
+      function decodePubDataValue(value) {
+        const raw = String(value || '');
+        if (!raw) return '';
+        try {
+          return decodeURIComponent(raw);
+        } catch (error) {
+          return raw;
+        }
+      }
+
       function formatPublicationAuthors(rawAuthors) {
         const raw = String(rawAuthors || '').trim();
         if (!raw) return '';
@@ -1790,14 +1804,14 @@
 
       let publicationCiteBlobUrl = null;
 
-      function openPublicationCiteModal(title, authors, year) {
+      function openPublicationCiteModal(title, authors, year, cite) {
         if (!window.jQuery) return;
         const $ = window.jQuery;
         const $modal = $('#modal');
         const $code = $modal.find('.modal-body code');
         const $download = $modal.find('.js-download-cite');
 
-        const citeText = buildPublicationBibText(title, authors, year);
+        const citeText = String(cite || '').trim() || buildPublicationBibText(title, authors, year);
         $code.text(citeText);
         $('#modal-error').text('');
 
@@ -1824,7 +1838,8 @@
           openPublicationCiteModal(
             button.getAttribute('data-title') || '',
             button.getAttribute('data-authors') || '',
-            button.getAttribute('data-year') || ''
+            button.getAttribute('data-year') || '',
+            decodePubDataValue(button.getAttribute('data-cite') || '')
           );
         });
       }
@@ -1867,6 +1882,7 @@
         const codeLink = getPubValue(row, ['Code', 'code', 'Code_Link', 'Code Link', 'code_link', 'Column_8']);
         const posterLink = getPubValue(row, ['Poster_Link', 'Poster Link', 'poster_link', 'Column_9']);
         const slidesLink = getPubValue(row, ['Slides_Link', 'Slides Link', 'slides_link', 'Slide_Link', 'Slide Link', 'slide_link', 'Column_10']);
+        const citeText = getPubValue(row, ['Cite', 'cite', 'Citation', 'citation', 'BibTeX', 'Bibtex', 'bibtex', 'Column_11']);
         if (!title) return '';
 
         const normalizedPubId = normalizePublicationId(pubId);
@@ -1884,7 +1900,7 @@
         if (slidesLink) {
           actions.push(`<a class="btn btn-outline-primary btn-sm" href="${escapePubHtml(String(slidesLink).trim())}" target="_blank" rel="noopener">SLIDES</a>`);
         }
-        actions.push(`<button type="button" class="btn btn-outline-primary btn-sm js-pub-cite-modal" data-title="${escapePubHtml(title)}" data-authors="${escapePubHtml(authorsRaw)}" data-year="${escapePubHtml(year)}">Cite</button>`);
+        actions.push(`<button type="button" class="btn btn-outline-primary btn-sm js-pub-cite-modal" data-title="${escapePubHtml(title)}" data-authors="${escapePubHtml(authorsRaw)}" data-year="${escapePubHtml(year)}" data-cite="${encodePubDataValue(citeText)}">Cite</button>`);
         const actionsHtml = actions.length ? `<div class="pub-card-actions">${actions.join('')}</div>` : '';
         const venueHtml = formatLinkedVenueHtml(venue, venueLink, escapePubHtml);
         const metaHtml = [venueHtml, year ? escapePubHtml(year) : ''].filter(Boolean).join(', ');

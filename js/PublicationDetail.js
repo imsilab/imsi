@@ -276,6 +276,7 @@
       const venueName = getValue(row, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']);
       const venueLink = getValue(row, ['Venue_Link', 'Venue Link', 'venue_link', 'Column_6']);
       const notes = getValue(row, ['Notes', 'notes', 'Column_7']);
+      const citeText = getValue(row, ['Cite', 'cite', 'Citation', 'citation', 'BibTeX', 'Bibtex', 'bibtex', 'Column_11']);
 
       if (title) {
         setTextById('pub-title', title);
@@ -312,7 +313,7 @@
         }
       }
 
-      attachCitationModal(buildSimpleBib({ title, authors, year }));
+      attachCitationModal(citeText || buildSimpleBib({ title, authors, year }));
     } finally {
       hideSkeleton(article, skeleton);
     }
