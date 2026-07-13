@@ -1,9 +1,30 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-07-06T04:13:54.115558Z",
+  "updated_at": "2026-07-13T03:38:52.907463Z",
   "count": 6,
   "items": [
+    {
+      "title": "[황기성] NasNet &amp; MnasNet",
+      "link": "https://lambdacourse.tistory.com/64",
+      "pub_date": "Sat, 11 Jul 2026 09:04:13 +0900",
+      "iso_date": "2026-07-11T00:04:13Z",
+      "excerpt": "Learning Transferable Architectures for Scalable Image Recognition 저자: Barret Zoph, Vijay Vasudevan, Jonathon Shlens, Quoc V. Le 소속: Google Brain 학회: CVPR 2018 링크 : https://arxiv.org/abs/1707.07012 (2018) 한 줄 요약 CIFAR-10에서 강화학습 기반 Neural..."
+    },
+    {
+      "title": "[서윤진] Transformer_Attention Is All You Need",
+      "link": "https://lambdacourse.tistory.com/63",
+      "pub_date": "Sat, 11 Jul 2026 01:54:39 +0900",
+      "iso_date": "2026-07-10T16:54:39Z",
+      "excerpt": "- 논문 정보- 제목: Attention Is All You Need 저자: Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin 학회: NIPS 2017 / 31st Conference on Neural Information Processing Systems..."
+    },
+    {
+      "title": "[최윤호] GAN, Conditional GAN",
+      "link": "https://lambdacourse.tistory.com/61",
+      "pub_date": "Fri, 10 Jul 2026 15:44:08 +0900",
+      "iso_date": "2026-07-10T06:44:08Z",
+      "excerpt": "제목: Generative Adversarial Nets 저자: Ian J. Goodfellow et al. 학회: NeurIPS 2014 소속: Universite de Montreal, MILA 계열 연구진 1. Abstract & Introduction GAN이 다른 모델들과 다른 점은 Generative model과 Discriminative model을 모두 학습한다는 것이다. GAN에서 Generative..."
+    },
     {
       "title": "[이진아] Faster R-CNN",
       "link": "https://lambdacourse.tistory.com/60",
@@ -24,27 +45,6 @@
       "pub_date": "Sat, 4 Jul 2026 11:23:01 +0900",
       "iso_date": "2026-07-04T02:23:01Z",
       "excerpt": "Paper : Adam : A Method for Stochastic Optimization Authors : Diederik P. Kingma, Jimmy Lei Ba Institution : University of Amsterdam, OpenAI / University of Toronto, Canada Conference : ICLR 2015 (International Conference on Learning..."
-    },
-    {
-      "title": "[정율의] SqueezeNet &amp; ShuffleNet",
-      "link": "https://lambdacourse.tistory.com/57",
-      "pub_date": "Sat, 4 Jul 2026 02:01:36 +0900",
-      "iso_date": "2026-07-03T17:01:36Z",
-      "excerpt": "0. 논문 정보 논문명 SqueezeNet: AlexNet-level Accuracy with 50x Fewer Parameters and 저자 Forrest N. Iandola, Song Han, Matthew W. Moskewicz, Khalid Ashraf, William J. Dally, Kurt Keutzer 학회 ICLR 2017 한 줄 요약 SqueezeNet은 1x1 convolution과..."
-    },
-    {
-      "title": "[최승혁] Learning representations by back-propagating errors, RNN, LSTM",
-      "link": "https://lambdacourse.tistory.com/56",
-      "pub_date": "Wed, 1 Jul 2026 19:24:34 +0900",
-      "iso_date": "2026-07-01T10:24:34Z",
-      "excerpt": "Paper : Learning lepresentations by back-propagating errors Authors : David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams Institution : Cognitive Science, C-015, University of California, San Diego, La Jolla, California 92093, USA..."
-    },
-    {
-      "title": "[김영서] CNN 역사1 (2012~2015)",
-      "link": "https://lambdacourse.tistory.com/55",
-      "pub_date": "Sat, 27 Jun 2026 11:29:13 +0900",
-      "iso_date": "2026-06-27T02:29:13Z",
-      "excerpt": "Paper AlexNet : ImageNet Classification with Deep Convolutional Neural Networks ( https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf ) RCNN : Rich feature hierarchies for accurate object..."
     }
   ]
 }
