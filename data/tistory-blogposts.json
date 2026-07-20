@@ -1,9 +1,37 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-07-13T03:38:52.907463Z",
+  "updated_at": "2026-07-20T03:54:02.417708Z",
   "count": 6,
   "items": [
+    {
+      "title": "[황인성] Semi-Supervised Classification with Graph Convolutional Networks",
+      "link": "https://lambdacourse.tistory.com/69",
+      "pub_date": "Sat, 18 Jul 2026 12:04:14 +0900",
+      "iso_date": "2026-07-18T03:04:14Z",
+      "excerpt": "제목: Semi-Supervised Classification with Graph Convolutional Networks 저자: Thomas N. Kipf(현재 구글 딥마인드 선임 수석 연구 과학자), Max Welling 소속: University of Amsterdam 학회지: ICLR 2017 0. Abstract 본 논문은 그래프 구조의 데이터에서 반지도 학습을 수행할 수 있는 확장성 높은 모델을 제안한다. 해당..."
+    },
+    {
+      "title": "[서윤진] DN-DETR",
+      "link": "https://lambdacourse.tistory.com/68",
+      "pub_date": "Sat, 18 Jul 2026 03:51:59 +0900",
+      "iso_date": "2026-07-17T18:51:59Z",
+      "excerpt": "- 논문 정보- 제목: DN-DETR: Accelerate DETR Training by Introducing Query DeNoising 저자: Feng Li ∗ , Hao Zhang ∗ , Shilong Liu, Jian Guo, Lionel M. Ni, and Lei Zhang 학회: IEEE/CVF Conference on Computer Vision and Pattern Recognition 2022 -논문 내용-..."
+    },
+    {
+      "title": "[박재형] An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale",
+      "link": "https://lambdacourse.tistory.com/67",
+      "pub_date": "Sat, 18 Jul 2026 03:25:47 +0900",
+      "iso_date": "2026-07-17T18:25:47Z",
+      "excerpt": "논문명: An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale 저자: Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn, Xiaohua Zhai, Thomas Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg..."
+    },
+    {
+      "title": "[최윤호] EfficientNet",
+      "link": "https://lambdacourse.tistory.com/66",
+      "pub_date": "Fri, 17 Jul 2026 22:42:24 +0900",
+      "iso_date": "2026-07-17T13:42:24Z",
+      "excerpt": "https://satin-warbler-474.notion.site/EfficientNet-39beb78d94768036953dcc82a05058b5 EfficientNet | Notion https://arxiv.org/pdf/1905.11946 satin-warbler-474.notion.site 위 notion글에 발표자료 업로드해두었습니다."
+    },
     {
       "title": "[황기성] NasNet &amp; MnasNet",
       "link": "https://lambdacourse.tistory.com/64",
@@ -17,34 +45,6 @@
       "pub_date": "Sat, 11 Jul 2026 01:54:39 +0900",
       "iso_date": "2026-07-10T16:54:39Z",
       "excerpt": "- 논문 정보- 제목: Attention Is All You Need 저자: Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin 학회: NIPS 2017 / 31st Conference on Neural Information Processing Systems..."
-    },
-    {
-      "title": "[최윤호] GAN, Conditional GAN",
-      "link": "https://lambdacourse.tistory.com/61",
-      "pub_date": "Fri, 10 Jul 2026 15:44:08 +0900",
-      "iso_date": "2026-07-10T06:44:08Z",
-      "excerpt": "제목: Generative Adversarial Nets 저자: Ian J. Goodfellow et al. 학회: NeurIPS 2014 소속: Universite de Montreal, MILA 계열 연구진 1. Abstract & Introduction GAN이 다른 모델들과 다른 점은 Generative model과 Discriminative model을 모두 학습한다는 것이다. GAN에서 Generative..."
-    },
-    {
-      "title": "[이진아] Faster R-CNN",
-      "link": "https://lambdacourse.tistory.com/60",
-      "pub_date": "Sat, 4 Jul 2026 12:06:25 +0900",
-      "iso_date": "2026-07-04T03:06:25Z",
-      "excerpt": "저자: Shaoqing Ren, Kaiming He, Ross Girshick, Jian Sun (Microsoft Research / USTC / Facebook AI Research) 등재 학회: NIPS 2015 (학술지 버전: TPAMI) 한줄 요약: Region Proposal Network(RPN)를 도입해, detection network와 conv feature를 공유함으로써 region proposal 생성을..."
-    },
-    {
-      "title": "[황인성] Sequence to Sequence Learning with Neural Networks",
-      "link": "https://lambdacourse.tistory.com/59",
-      "pub_date": "Sat, 4 Jul 2026 11:57:19 +0900",
-      "iso_date": "2026-07-04T02:57:19Z",
-      "excerpt": "제목: Sequence to Sequence Learning with Neural Networks 저자: Ilya Sutskever(AlexNet 개발자), Oriol Vinyals, Quoc V. Le 소속: Google 학회지: NeurIPS(Neural Information Processing Systems) 2014 1. Abstract & Introduction DNN이 어려운 과제들에 대해 훌륭한 성과를 걷었음에도..."
-    },
-    {
-      "title": "[이다은] Adam AdamW",
-      "link": "https://lambdacourse.tistory.com/58",
-      "pub_date": "Sat, 4 Jul 2026 11:23:01 +0900",
-      "iso_date": "2026-07-04T02:23:01Z",
-      "excerpt": "Paper : Adam : A Method for Stochastic Optimization Authors : Diederik P. Kingma, Jimmy Lei Ba Institution : University of Amsterdam, OpenAI / University of Toronto, Canada Conference : ICLR 2015 (International Conference on Learning..."
     }
   ]
 }
