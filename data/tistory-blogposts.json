@@ -1,9 +1,30 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-07-20T03:54:02.417708Z",
+  "updated_at": "2026-07-27T03:47:18.311470Z",
   "count": 6,
   "items": [
+    {
+      "title": "[최윤호] GAN, Conditional GAN",
+      "link": "https://lambdacourse.tistory.com/72",
+      "pub_date": "Sat, 25 Jul 2026 11:53:22 +0900",
+      "iso_date": "2026-07-25T02:53:22Z",
+      "excerpt": "https://satin-warbler-474.notion.site/GAN-Conditional-GAN-3a4eb78d94768015b302c8e0f2eda83d?source=copy_link"
+    },
+    {
+      "title": "[정광민] CornerNet &amp; CenterNet",
+      "link": "https://lambdacourse.tistory.com/71",
+      "pub_date": "Sat, 25 Jul 2026 01:18:59 +0900",
+      "iso_date": "2026-07-24T16:18:59Z",
+      "excerpt": "논문제목: CornerNet: Detecting Objects as Paired Keypoints 논문저자: Hei Law, Jia Deng 제출학회: ECCV 2018 논문링크: https://arxiv.org/abs/1808.01244 CornerNet: Detecting Objects as Paired Keypoints We propose CornerNet, a new approach to object detection..."
+    },
+    {
+      "title": "[강민혁] Transformer_Attention Is All You Need",
+      "link": "https://lambdacourse.tistory.com/70",
+      "pub_date": "Fri, 24 Jul 2026 22:37:58 +0900",
+      "iso_date": "2026-07-24T13:37:58Z",
+      "excerpt": "논문정보 제목: Attention Is All You Need 저자: Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin 학회: NIPS 2017 Attention Is All You Need는2017년 Google연구진의 논문으로, RNN과 CNN을 없애고..."
+    },
     {
       "title": "[황인성] Semi-Supervised Classification with Graph Convolutional Networks",
       "link": "https://lambdacourse.tistory.com/69",
@@ -24,27 +45,6 @@
       "pub_date": "Sat, 18 Jul 2026 03:25:47 +0900",
       "iso_date": "2026-07-17T18:25:47Z",
       "excerpt": "논문명: An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale 저자: Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn, Xiaohua Zhai, Thomas Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg..."
-    },
-    {
-      "title": "[최윤호] EfficientNet",
-      "link": "https://lambdacourse.tistory.com/66",
-      "pub_date": "Fri, 17 Jul 2026 22:42:24 +0900",
-      "iso_date": "2026-07-17T13:42:24Z",
-      "excerpt": "https://satin-warbler-474.notion.site/EfficientNet-39beb78d94768036953dcc82a05058b5 EfficientNet | Notion https://arxiv.org/pdf/1905.11946 satin-warbler-474.notion.site 위 notion글에 발표자료 업로드해두었습니다."
-    },
-    {
-      "title": "[황기성] NasNet &amp; MnasNet",
-      "link": "https://lambdacourse.tistory.com/64",
-      "pub_date": "Sat, 11 Jul 2026 09:04:13 +0900",
-      "iso_date": "2026-07-11T00:04:13Z",
-      "excerpt": "Learning Transferable Architectures for Scalable Image Recognition 저자: Barret Zoph, Vijay Vasudevan, Jonathon Shlens, Quoc V. Le 소속: Google Brain 학회: CVPR 2018 링크 : https://arxiv.org/abs/1707.07012 (2018) 한 줄 요약 CIFAR-10에서 강화학습 기반 Neural..."
-    },
-    {
-      "title": "[서윤진] Transformer_Attention Is All You Need",
-      "link": "https://lambdacourse.tistory.com/63",
-      "pub_date": "Sat, 11 Jul 2026 01:54:39 +0900",
-      "iso_date": "2026-07-10T16:54:39Z",
-      "excerpt": "- 논문 정보- 제목: Attention Is All You Need 저자: Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin 학회: NIPS 2017 / 31st Conference on Neural Information Processing Systems..."
     }
   ]
 }
