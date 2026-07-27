@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="title">
+  <title id="title">Notion</title>
+  <rect x="5" y="5" width="38" height="38" rx="7" fill="#fff" stroke="#111" stroke-width="3"/>
+  <path fill="#111" d="M14 14.5h8.7l10.1 15.1V18.2l-3-1v-2.7H38v2.7l-3 1V35h-5.5L18.1 18v12.3l3.7 1V34H13v-2.7l2.8-1V18.1L14 17.2z"/>
+</svg>

@@ -73,6 +73,10 @@ async function getGallery() {
     return await fetchSheetData('WEB_Gallery');
 }
 
+async function getTeams() {
+    return await fetchSheetData('DB_Teams');
+}
+
 let authorProfilesPromise;
 async function getAuthorProfiles() {
     if (!authorProfilesPromise) {

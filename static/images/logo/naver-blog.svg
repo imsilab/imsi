@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="title">
+  <title id="title">Naver Blog</title>
+  <rect width="48" height="48" rx="12" fill="#03c75a"/>
+  <path fill="#fff" d="M12 11h9.3l7.5 11.2V11H36v26h-8.9l-7.9-11.8V37H12z"/>
+</svg>
