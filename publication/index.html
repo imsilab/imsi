@@ -286,6 +286,25 @@
       padding: 0.2rem 0.6rem;
     }
 
+    #publication-dynamic-list .pub-author-link {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: rgba(41, 98, 255, 0.35);
+      text-underline-offset: 2px;
+    }
+
+    #publication-dynamic-list .pub-oral-badge {
+      display: inline-block;
+      margin-left: 0.35rem;
+      padding: 0.1rem 0.5rem;
+      border-radius: 999px;
+      background: #d32f2f;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
     @media (max-width: 576px) {
       #publication-dynamic-root .filter-search {
         min-width: 0;
@@ -1746,11 +1765,21 @@
         }
       }
 
+      let publicationAuthorProfiles = {};
+
       function formatPublicationAuthors(rawAuthors) {
         const raw = String(rawAuthors || '').trim();
         if (!raw) return '';
         const authors = raw.split(',').map(v => v.trim()).filter(Boolean);
-        return authors.join(', ');
+        return authors.map(markedName => {
+          const name = markedName.replace(/[\*†‡]+$/g, '').trim();
+          const suffix = markedName.slice(name.length);
+          const href = publicationAuthorProfiles[name];
+          const label = escapePubHtml(name);
+          return href
+            ? `<a class="pub-author-link" href="${escapePubHtml(href)}">${label}</a>${escapePubHtml(suffix)}`
+            : `${label}${escapePubHtml(suffix)}`;
+        }).join(', ');
       }
 
       function toYearNumber(value) {
@@ -1854,7 +1883,7 @@
 
         raw.replace(pattern, (match, offset) => {
           result += escapeFn(raw.slice(lastIndex, offset));
-          result += `<strong style="color:#1f2937;">${escapeFn(match)}</strong>`;
+          result += `<span class="pub-oral-badge">${escapeFn(match)}</span>`;
           lastIndex = offset + match.length;
           return match;
         });
@@ -1908,7 +1937,7 @@
         return `
 <article class="pub-card">
   <h3 class="pub-card-title">${escapePubHtml(title)}</h3>
-  ${authors ? `<p class="pub-card-authors">${escapePubHtml(authors)}</p>` : ''}
+  ${authors ? `<p class="pub-card-authors">${authors}</p>` : ''}
   ${metaHtml ? `<p class="pub-card-meta">${metaHtml}</p>` : ''}
   ${actionsHtml}
 </article>`;
@@ -2026,7 +2055,11 @@
             legacyRow.remove();
           }
 
-          const rows = await getPublications();
+          const [rows, authorProfiles] = await Promise.all([
+            getPublications(),
+            typeof getAuthorProfiles === 'function' ? getAuthorProfiles() : Promise.resolve({})
+          ]);
+          publicationAuthorProfiles = authorProfiles || {};
           if (!Array.isArray(rows) || rows.length === 0) {
             root.innerHTML = '<div class="article-style"><p>No publications found.</p></div>';
             return;
@@ -2172,7 +2205,6 @@
 
 </body>
 </html>
-
 
 
 

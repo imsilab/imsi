@@ -52,6 +52,17 @@
 
   <title>Kyeonghun Kim | IMSI Research Lab</title>
 
+  <style>
+    .kh-pub-list { list-style: none; padding: 0; }
+    .kh-pub-list li { padding: .75rem 0; border-bottom: 1px solid #e8edf2; }
+    .kh-pub-list small { display: block; color: #66717d; margin-top: .2rem; }
+    .kh-oral { display: inline-block; margin-left: .35rem; padding: .1rem .5rem; border-radius: 999px; background: #d32f2f; color: #fff; font-size: .72rem; font-weight: 700; }
+    .kh-credential-group { margin: 1.2rem 0; }
+    .kh-credential-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: .65rem; }
+    .kh-credential { border: 1px solid #e3e9ef; border-radius: 10px; padding: .8rem; }
+    .kh-credential strong, .kh-credential span, .kh-credential small { display: block; }
+    .kh-credential small { color: #66717d; }
+  </style>
 </head>
 
 <body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
@@ -248,18 +259,9 @@
     </div>
 
     <h3>Recent Publications</h3>
-    <ul>
-      <li><strong>3D-LLDM: Label-Guided 3D Latent Diffusion Model</strong>, IEEE ISBI 2026 <span style="background-color:#e53935;color:white;font-size:0.75em;font-weight:bold;padding:2px 6px;border-radius:4px;vertical-align:middle;">Oral Presentation</span></li>
-      <li><strong>LOSA-NET: Localized and Scale-Adaptive Network</strong>, IEEE ISBI 2026 <span style="background-color:#e53935;color:white;font-size:0.75em;font-weight:bold;padding:2px 6px;border-radius:4px;vertical-align:middle;">Oral Presentation</span></li>
-      <li><strong>MMA-FORMER: Multi-Window Attention Transformer</strong>, IEEE ISBI 2026 <span style="background-color:#e53935;color:white;font-size:0.75em;font-weight:bold;padding:2px 6px;border-radius:4px;vertical-align:middle;">Oral Presentation</span></li>
-      <li><strong>NeoNet: Neoplastic End-to-End Original 3D MRI-Based Deep Learning Framework</strong>, AAAI 2026 Workshop <span style="background-color:#e53935;color:white;font-size:0.75em;font-weight:bold;padding:2px 6px;border-radius:4px;vertical-align:middle;">Oral Presentation</span></li>
-      <li><strong>CATATPAD: Context-Aware Transfer Adaptation for Trajectory Prediction in Autonomous Driving</strong>, IEEE ICEIC 2026</li>
-      <li><strong>MAESIL: Masked Autoencoder for Enhanced Self-supervised Medical Image Learning</strong>, IEEE ICEIC 2026</li>
-      <li><strong>CIPHER: Counterfeit Image Pattern High-level Examination via Representation</strong>, IEEE ICCE-Asia 2025</li>
-      <li><strong>FOSCU: Feasibility of Synthetic MRI Generation via Duo-Diffusion Models</strong>, IEEE APCCAS 2025</li>
-      <li><strong>Boundary Guidance for Efficient 3D CT Vision??袁⑸즵?荑팮uage Reasoning</strong>, MICCAI 2025 Workshop</li>
-      <li><strong>Automated Dental Caries Segmentation in Panoramic Radiographs Using Dual-Stage Deep Learning</strong>, MICCAI 2025 Workshop</li>
-    </ul>
+    <p>This list is updated automatically from the IMSI publication spreadsheet.</p>
+    <ul id="kh-publications" class="kh-pub-list"><li>Loading publications…</li></ul>
+    <p><a href="/imsi/publication/">View and search all publications →</a></p>
 
     <h3>Professional Experience</h3>
     <ul>
@@ -276,13 +278,16 @@
 
     <h3>Latest</h3>
     <ul>
-      <li><strong>February 2026:</strong> Selected for presentation at IEEE ICEIC 2026</li>
-      <li><strong>January 2026:</strong> Accepted paper on MAESIL for enhanced self-supervised medical image learning</li>
-      <li><strong>December 2025:</strong> Collaboration started with Samsung Medical Center on AI-driven radiology solutions</li>
-      <li><strong>November 2025:</strong> 3D-LLDM paper accepted at IEEE ISBI 2025</li>
-      <li><strong>October 2025:</strong> Joined GNEWSOFT as AI Researcher</li>
-      <li><strong>September 2025:</strong> FOSCU paper accepted at IEEE APCCAS 2025</li>
+      <li><strong>July 2026:</strong> Presented 3D-LLDM, LoSA-Net, and MMA-Former as oral papers at IEEE ISBI 2026</li>
+      <li><strong>July 2026:</strong> Released new arXiv work on medical imaging, PNI prediction, and multimodal learning</li>
+      <li><strong>March 2026:</strong> Presented RAPIDS and GRAVEX at NVIDIA GTC 2026</li>
+      <li><strong>February 2026:</strong> Presented MAESIL at IEEE ICEIC 2026</li>
+      <li><strong>September 2025:</strong> Presented FOSCU at IEEE APCCAS 2025</li>
+      <li><strong>October 2024:</strong> Joined GNEWSOFT as an AI Researcher</li>
     </ul>
+
+    <h3>Certifications &amp; Licenses</h3>
+    <div id="kh-credentials"><p>Loading credentials…</p></div>
 
     <h3>Key Achievements</h3>
     <ul>
@@ -339,6 +344,64 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
   <script src="/imsi/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+  <script src="/imsi/js/SheetServices.js"></script>
+  <script>
+    (function () {
+      const escapeHtml = value => String(value || '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      const value = (row, keys) => {
+        for (const key of keys) {
+          if (row[key] !== undefined && row[key] !== null && String(row[key]).trim()) return String(row[key]).trim();
+        }
+        return '';
+      };
+      const pubNumber = row => Number((value(row, ['Pub_ID', 'Column_0']).match(/\d+/g) || [0]).pop());
+
+      async function renderKyeonghunPublications() {
+        const root = document.getElementById('kh-publications');
+        try {
+          const rows = (await getPublications())
+            .filter(row => value(row, ['Authors', 'Column_4']).includes('Kyeonghun Kim'))
+            .sort((a, b) => Number(value(b, ['Year', 'Column_1'])) - Number(value(a, ['Year', 'Column_1'])) || pubNumber(b) - pubNumber(a))
+            .slice(0, 15);
+          root.innerHTML = rows.map(row => {
+            const title = value(row, ['Title', 'Column_2']);
+            const paper = value(row, ['Paper_Link', 'Column_5']);
+            const venue = value(row, ['Venue_Name', 'Column_3']);
+            const year = value(row, ['Year', 'Column_1']);
+            const linkedTitle = paper && paper !== '-'
+              ? `<a href="${escapeHtml(paper)}" target="_blank" rel="noopener"><strong>${escapeHtml(title)}</strong></a>`
+              : `<strong>${escapeHtml(title)}</strong>`;
+            const oral = /oral presentation/i.test(venue) ? '<span class="kh-oral">Oral Presentation</span>' : '';
+            return `<li>${linkedTitle}${oral}<small>${escapeHtml(venue)} · ${escapeHtml(year)}</small></li>`;
+          }).join('') || '<li>No publications found.</li>';
+        } catch (error) {
+          root.innerHTML = '<li>Publication data is temporarily unavailable.</li>';
+        }
+      }
+
+      async function renderCredentials() {
+        const root = document.getElementById('kh-credentials');
+        try {
+          const response = await fetch('/imsi/data/kyeonghun-credentials.json');
+          const rows = await response.json();
+          const categories = [...new Set(rows.map(row => row.category))];
+          root.innerHTML = categories.map(category => `<section class="kh-credential-group">
+            <h4>${escapeHtml(category)}</h4><div class="kh-credential-grid">
+            ${rows.filter(row => row.category === category).map(row => `<article class="kh-credential">
+              <strong>${escapeHtml(row.name)}</strong><span>${escapeHtml(row.level)}</span>
+              <small>${escapeHtml(row.issuer)} · ${escapeHtml(row.date)}</small>
+            </article>`).join('')}</div></section>`).join('');
+        } catch (error) {
+          root.innerHTML = '<p>Credential data is temporarily unavailable.</p>';
+        }
+      }
+
+      renderKyeonghunPublications();
+      renderCredentials();
+    })();
+  </script>
 
   <div class="container">
     <footer class="site-footer">
@@ -397,4 +460,3 @@
 
 </body>
 </html>
-

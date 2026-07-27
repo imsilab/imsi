@@ -72,3 +72,19 @@ async function getNews() {
 async function getGallery() {
     return await fetchSheetData('WEB_Gallery');
 }
+
+let authorProfilesPromise;
+async function getAuthorProfiles() {
+    if (!authorProfilesPromise) {
+        authorProfilesPromise = fetch('/imsi/data/author-profiles.json')
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return response.json();
+            })
+            .catch(error => {
+                console.error('Author profile map load failed:', error);
+                return {};
+            });
+    }
+    return await authorProfilesPromise;
+}

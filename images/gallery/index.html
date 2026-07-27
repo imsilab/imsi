@@ -190,6 +190,19 @@
                 </div>
               </div>
             </div>
+
+            <div class="col-lg-6 mb-4">
+              <div class="card">
+                <div class="card-header">
+                  <img src="/imsi/static/images/gallery/2026/pni/team-pni-2026-07-27.png" alt="Team PNI, July 27, 2026"
+                       style="width: 100%; height: 200px; object-fit: cover;" class="img-responsive">
+                </div>
+                <div class="card-body">
+                  <h5>Team PNI</h5>
+                  <p>Team PNI photo after Professor Nam-Joon Kim’s Introduction to AI final exam. From the top, clockwise: Yului Jung, Hyunsu Go, and Jinyong Jun.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -456,6 +469,7 @@
       'SINGAPORE-2026': 'Research collaboration and academic exchange in Singapore',
       'USA-2026': 'GTC Poster presentations and NVIDIA, Salesforce, and Google Cloud meetings in the United States',
       'IEIE-2026': 'Summer Annual Conference of IEIE in Jeju',
+      'TEAM-PNI-2026': 'Team PNI photo after Professor Nam-Joon Kim’s Introduction to AI final exam. From the top, clockwise: Yului Jung, Hyunsu Go, and Jinyong Jun.',
       'GONJIAM-2025': 'Annual lab retreat and team building activities',
       'BUSAN-2025': 'IEEE Asia Pacific Conference on Circuits and Systems in Busan'
     };
@@ -616,6 +630,18 @@ ${album.images.map((item, index) => renderGalleryPhoto(item, album, index)).join
       try {
         if (typeof getGallery !== 'function') return;
         const rows = await getGallery();
+        if (!rows.some(row => getGalleryValue(row, ['Gallery_ID', 'Column_0']) === 'TEAM-PNI-2026')) {
+          rows.push({
+            Gallery_ID: 'TEAM-PNI-2026',
+            Year: '2026',
+            Title: 'Team PNI',
+            Image_Path: '/imsi/static/images/gallery/2026/pni/team-pni-2026-07-27.png',
+            Date: '2026-07-27',
+            Location: 'Seoul, Korea',
+            Gallery_Description: 'Team PNI photo after Professor Nam-Joon Kim’s Introduction to AI final exam. From the top, clockwise: Yului Jung, Hyunsu Go, and Jinyong Jun.',
+            Description: 'Yului Jung, Hyunsu Go, and Jinyong Jun (clockwise from the top).'
+          });
+        }
         const albums = buildGalleryAlbums(rows);
         if (!albums.length) return;
 
@@ -662,4 +688,3 @@ ${album.images.map((item, index) => renderGalleryPhoto(item, album, index)).join
 
 </body>
 </html>
-
