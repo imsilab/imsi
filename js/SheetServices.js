@@ -57,8 +57,12 @@ async function getPeople() {
     return await fetchSheetData('WEB_People');
 }
 
+let publicationsPromise;
 async function getPublications() {
-    return await fetchSheetData('WEB_Publications');
+    if (!publicationsPromise) {
+        publicationsPromise = fetchSheetData('WEB_Publications');
+    }
+    return await publicationsPromise;
 }
 
 async function getProjects() {
