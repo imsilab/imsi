@@ -54,3 +54,4 @@ function render(template,data){let key,find,re;for(key in data){find='\\{\\{\\s*
 return template;}
 if(typeof Fuse==='function'){$.getJSON(search_config.indexURI,function(search_index){let fuse=new Fuse(search_index,fuseOptions);if(query=getSearchQuery('q')){$("body").addClass('searching');$('.search-results').css({opacity:0,visibility:"visible"}).animate({opacity:1},200);$("#search-query").val(query);$("#search-query").focus();initSearch(true,fuse);}
 $('#search-query').keyup(function(e){clearTimeout($.data(this,'searchTimer'));if(e.keyCode==13){initSearch(true,fuse);}else{$(this).data('searchTimer',setTimeout(function(){initSearch(false,fuse);},250));}});});}
+;(function(){if(!document.getElementById("profile-page")||document.querySelector('script[data-profile-social-links]'))return;let script=document.createElement("script");script.src="/imsi/js/profile-social-links.js";script.dataset.profileSocialLinks="true";document.head.appendChild(script);})();
