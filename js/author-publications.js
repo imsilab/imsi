@@ -62,8 +62,10 @@
           publicationNumber(b) - publicationNumber(a)
         )
         .slice(0, 15);
+      const emptyMessage = root.dataset.emptyMessage ||
+        'No publications found in WEB_Publications.';
       root.innerHTML = rows.map(publicationItem).join('') ||
-        '<li>No publications found in WEB_Publications.</li>';
+        `<li>${escapeHtml(emptyMessage)}</li>`;
     } catch (error) {
       console.error(`${authorName} publication load failed:`, error);
       root.innerHTML = '<li>Publication data is temporarily unavailable.</li>';
