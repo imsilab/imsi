@@ -1,9 +1,30 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-07-27T03:47:18.311470Z",
+  "updated_at": "2026-08-03T03:37:33.161396Z",
   "count": 6,
   "items": [
+    {
+      "title": "[권도현] YOLOv5, YOLOv9, YOLOv11",
+      "link": "https://lambdacourse.tistory.com/75",
+      "pub_date": "Sat, 1 Aug 2026 11:54:47 +0900",
+      "iso_date": "2026-08-01T02:54:47Z",
+      "excerpt": "모델 논문 제3자 분석 논문 핵심 의미 YOLOv5 ❌ 없음 ✅ 있음 PyTorch 기반의 사용하기 쉬운 실용 YOLO 생태계를 널리 확산 YOLOv9 ✅ 있음, ECCV 2024 ✅ 추가 분석 논문도 있음 PGI와 GELAN을 통해 학습 중 정보 손실과 gradient 문제를 연구 YOLO11 ❌ 없음 ✅ 있음 C3k2, C2PSA, 가벼운 head로 YOLOv8의 정확도·효율·배포성을 개선 YOLOv5 YOLOv5는..."
+    },
+    {
+      "title": "[서정우] U-Net/U-Net++",
+      "link": "https://lambdacourse.tistory.com/74",
+      "pub_date": "Sat, 1 Aug 2026 07:49:24 +0900",
+      "iso_date": "2026-07-31T22:49:24Z",
+      "excerpt": "U-Net: Convolutional Networks for Biomedical Image Segmentation 저자: Olaf Ronneberger, Philip Fischer, and Thomas Brox 소속: University of Freiburg 학회: MICCAI 2015 http://arxiv.org/abs/1505.04597 U-Net: Convolutional Networks for Biomedical..."
+    },
+    {
+      "title": "[조민재] DCGAN, Cycle GAN, LSGAN",
+      "link": "https://lambdacourse.tistory.com/73",
+      "pub_date": "Sat, 1 Aug 2026 06:43:06 +0900",
+      "iso_date": "2026-07-31T21:43:06Z",
+      "excerpt": "UNSUPERVISED REPRESENTATION LEARNING WITH DEEP CONVOLUTIONAL GENERATIVE ADVERSARIAL NETWORKS 논문명: Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks 저자: Alec Radford, Luke Metz, Soumith Chintala..."
+    },
     {
       "title": "[최윤호] GAN, Conditional GAN",
       "link": "https://lambdacourse.tistory.com/72",
@@ -24,27 +45,6 @@
       "pub_date": "Fri, 24 Jul 2026 22:37:58 +0900",
       "iso_date": "2026-07-24T13:37:58Z",
       "excerpt": "논문정보 제목: Attention Is All You Need 저자: Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin 학회: NIPS 2017 Attention Is All You Need는2017년 Google연구진의 논문으로, RNN과 CNN을 없애고..."
-    },
-    {
-      "title": "[황인성] Semi-Supervised Classification with Graph Convolutional Networks",
-      "link": "https://lambdacourse.tistory.com/69",
-      "pub_date": "Sat, 18 Jul 2026 12:04:14 +0900",
-      "iso_date": "2026-07-18T03:04:14Z",
-      "excerpt": "제목: Semi-Supervised Classification with Graph Convolutional Networks 저자: Thomas N. Kipf(현재 구글 딥마인드 선임 수석 연구 과학자), Max Welling 소속: University of Amsterdam 학회지: ICLR 2017 0. Abstract 본 논문은 그래프 구조의 데이터에서 반지도 학습을 수행할 수 있는 확장성 높은 모델을 제안한다. 해당..."
-    },
-    {
-      "title": "[서윤진] DN-DETR",
-      "link": "https://lambdacourse.tistory.com/68",
-      "pub_date": "Sat, 18 Jul 2026 03:51:59 +0900",
-      "iso_date": "2026-07-17T18:51:59Z",
-      "excerpt": "- 논문 정보- 제목: DN-DETR: Accelerate DETR Training by Introducing Query DeNoising 저자: Feng Li ∗ , Hao Zhang ∗ , Shilong Liu, Jian Guo, Lionel M. Ni, and Lei Zhang 학회: IEEE/CVF Conference on Computer Vision and Pattern Recognition 2022 -논문 내용-..."
-    },
-    {
-      "title": "[박재형] An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale",
-      "link": "https://lambdacourse.tistory.com/67",
-      "pub_date": "Sat, 18 Jul 2026 03:25:47 +0900",
-      "iso_date": "2026-07-17T18:25:47Z",
-      "excerpt": "논문명: An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale 저자: Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn, Xiaohua Zhai, Thomas Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg..."
     }
   ]
 }
