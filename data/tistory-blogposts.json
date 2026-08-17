@@ -1,9 +1,30 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-08-10T02:20:36.630814Z",
+  "updated_at": "2026-08-17T01:43:58.649216Z",
   "count": 6,
   "items": [
+    {
+      "title": "[황인성] DDIM",
+      "link": "https://lambdacourse.tistory.com/79",
+      "pub_date": "Sat, 15 Aug 2026 12:47:13 +0900",
+      "iso_date": "2026-08-15T03:47:13Z",
+      "excerpt": "저자: Jiaming Song, Chenlin Meng & Stefano Ermon 소속: Stanford University 학회: ICLR 2021 1. Abstract & Introduction DDPM은 우수한 성능을 보이지만 denoising을 위해 모든 timestep을 그대로 거쳐야 해서 시간이 오래 걸린다는 단점이 존재한다. 이에 본 논문에서는 1) DDPM과 동일한 학습 과정을 거치면서, 2) forward..."
+    },
+    {
+      "title": "[김윤수] TCN",
+      "link": "https://lambdacourse.tistory.com/77",
+      "pub_date": "Sat, 15 Aug 2026 05:01:31 +0900",
+      "iso_date": "2026-08-14T20:01:31Z",
+      "excerpt": "대부분의 연구자들은 시간 순서가 있는 데이터 처리를 RNN/LSTM이라고 생각했음 but 최근 연구에서 recurrent network보다 더 좋은 성능을 보인다는 결과 나옴 ⇒ 새로운 sequence modeling 문제나 데이터셋이 주어졌을때 어떤 architecture을 사용해야하는가? TCN이 LSTM같은 대표적인 recurrent network보다 좋은 성능 보이고 TCN이 effective memory도 더 길게..."
+    },
+    {
+      "title": "[한서연] WRN",
+      "link": "https://lambdacourse.tistory.com/76",
+      "pub_date": "Thu, 13 Aug 2026 21:08:10 +0900",
+      "iso_date": "2026-08-13T12:08:10Z",
+      "excerpt": "제목: Wide Residual Networks 저자: Sergey Zagoruyko, Nikos Komodakis 소속: Université Paris-Est, École des Ponts ParisTech 학회지: BMVC 2016 0. Abstract Deep residual network는 수천 층까지 확장 가능하고 층을 늘릴수록 성능이 계속 좋아진다고 알려져 있었다. 하지만 정확도를 조금 올리기 위해 층수를 거의 두..."
+    },
     {
       "title": "[권도현] YOLOv5, YOLOv9, YOLOv11",
       "link": "https://lambdacourse.tistory.com/75",
@@ -24,27 +45,6 @@
       "pub_date": "Sat, 1 Aug 2026 06:43:06 +0900",
       "iso_date": "2026-07-31T21:43:06Z",
       "excerpt": "UNSUPERVISED REPRESENTATION LEARNING WITH DEEP CONVOLUTIONAL GENERATIVE ADVERSARIAL NETWORKS 논문명: Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks 저자: Alec Radford, Luke Metz, Soumith Chintala..."
-    },
-    {
-      "title": "[최윤호] GAN, Conditional GAN",
-      "link": "https://lambdacourse.tistory.com/72",
-      "pub_date": "Sat, 25 Jul 2026 11:53:22 +0900",
-      "iso_date": "2026-07-25T02:53:22Z",
-      "excerpt": "https://satin-warbler-474.notion.site/GAN-Conditional-GAN-3a4eb78d94768015b302c8e0f2eda83d?source=copy_link"
-    },
-    {
-      "title": "[정광민] CornerNet &amp; CenterNet",
-      "link": "https://lambdacourse.tistory.com/71",
-      "pub_date": "Sat, 25 Jul 2026 01:18:59 +0900",
-      "iso_date": "2026-07-24T16:18:59Z",
-      "excerpt": "논문제목: CornerNet: Detecting Objects as Paired Keypoints 논문저자: Hei Law, Jia Deng 제출학회: ECCV 2018 논문링크: https://arxiv.org/abs/1808.01244 CornerNet: Detecting Objects as Paired Keypoints We propose CornerNet, a new approach to object detection..."
-    },
-    {
-      "title": "[강민혁] Transformer_Attention Is All You Need",
-      "link": "https://lambdacourse.tistory.com/70",
-      "pub_date": "Fri, 24 Jul 2026 22:37:58 +0900",
-      "iso_date": "2026-07-24T13:37:58Z",
-      "excerpt": "논문정보 제목: Attention Is All You Need 저자: Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin 학회: NIPS 2017 Attention Is All You Need는2017년 Google연구진의 논문으로, RNN과 CNN을 없애고..."
     }
   ]
 }
