@@ -49,6 +49,30 @@
       font-size: 0.9rem;
       margin-bottom: 0;
     }
+    .gallery-attendees {
+      color: #555;
+      font-size: 0.88rem;
+      margin: 0.7rem 0;
+    }
+    .gallery-attendees a { font-weight: 600; }
+    .gallery-like-button {
+      background: #fff;
+      border: 1px solid #e83e8c;
+      border-radius: 999px;
+      color: #c2185b;
+      cursor: pointer;
+      font-weight: 700;
+      margin-left: 0.45rem;
+      padding: 0.32rem 0.8rem;
+      transition: transform 120ms ease, background-color 120ms ease;
+    }
+    .gallery-like-button:hover,
+    .gallery-like-button:focus { background: #fff0f6; transform: translateY(-1px); }
+    .gallery-like-button:disabled { cursor: wait; opacity: 0.7; }
+    .gallery-like-button.is-popped { animation: gallery-heart-pop 240ms ease; }
+    @keyframes gallery-heart-pop {
+      50% { transform: scale(1.12); }
+    }
   </style>
 
   <link rel="manifest" href="/imsi/index.webmanifest">
@@ -143,6 +167,34 @@
         <div class="col-12">
           <h2>2026</h2>
           <div class="row">
+            <div class="col-lg-6 mb-4" id="bdot-yului-5000">
+              <div class="card">
+                <div class="card-header">
+                  <img src="/imsi/static/images/gallery/2026/bdot-yului-5000/yule_01.jpg" alt="Yului Jeong celebrating 5,000 Instagram followers at a Team BDOT meeting"
+                       style="width: 100%; height: 200px; object-fit: cover;" class="img-responsive">
+                </div>
+                <div class="card-body">
+                  <h5>BDOT Meeting: Celebrating 5,000 Followers</h5>
+                  <div class="gallery-card-meta">
+                    <span><i class="far fa-calendar-alt"></i>August 20, 2026 · 8:30 p.m.</span>
+                    <span><i class="fas fa-map-marker-alt"></i>Online Team BDOT Meeting</span>
+                  </div>
+                  <p>During Team BDOT’s Thursday evening meeting, ONE HERO surprised Yului Jeong with a cake to celebrate Yulgongii—the creator and influencer behind @growth_yule—reaching 5,000 Instagram followers.</p>
+                  <p class="gallery-attendees"><strong>Attendees:</strong>
+                    <a href="/imsi/authors/research_assistants/kyeonghun-kim/">Kyeonghun Kim</a>,
+                    <a href="/imsi/authors/undergraduate_interns/yului-jeong/">Yului Jeong</a>,
+                    <a href="/imsi/authors/research_assistants/youngung-han/">Youngung Han</a>, Yunjin Seo, and Heegun Yoon.
+                  </p>
+                  <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#gallery-bdot-yului-5000-modal">
+                    <i class="fas fa-images"></i> View Photos
+                  </button>
+                  <button class="gallery-like-button" type="button" data-gallery-like aria-label="Like this gallery event">
+                    ❤️ Likes <span data-gallery-like-count>5,073</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <div class="col-lg-6 mb-4">
               <div class="card">
                 <div class="card-header">
@@ -199,7 +251,7 @@
                 </div>
                 <div class="card-body">
                   <h5>Team PNI</h5>
-                  <p>Team PNI photo after Professor Nam-Joon Kim’s Introduction to AI final exam. From the top, clockwise: Yului Jung, Hyunsu Go, and Jinyong Jun.</p>
+                  <p>Team PNI photo after Professor Nam-Joon Kim’s Introduction to AI final exam. From the top, clockwise: Yului Jeong, Hyunsu Go, and Jinyong Jun.</p>
                 </div>
               </div>
             </div>
@@ -247,6 +299,35 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<!-- Team BDOT celebration modal -->
+<div class="modal fade" id="gallery-bdot-yului-5000-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">BDOT Meeting: Celebrating 5,000 Followers</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <p>During Team BDOT’s meeting on Thursday, August 20, 2026, at 8:30 p.m., ONE HERO surprised Yului Jeong with a cake to celebrate Yulgongii—the creator and influencer behind <strong>@growth_yule</strong>—reaching 5,000 Instagram followers.</p>
+        <p class="gallery-attendees"><strong>Attendees:</strong>
+          <a href="/imsi/authors/research_assistants/kyeonghun-kim/">Kyeonghun Kim</a>,
+          <a href="/imsi/authors/undergraduate_interns/yului-jeong/">Yului Jeong</a>,
+          <a href="/imsi/authors/research_assistants/youngung-han/">Youngung Han</a>, Yunjin Seo, and Heegun Yoon.
+        </p>
+        <button class="gallery-like-button mb-3" type="button" data-gallery-like aria-label="Like this gallery event">
+          ❤️ Likes <span data-gallery-like-count>5,073</span>
+        </button>
+        <div class="row">
+          <div class="col-md-6 mb-3"><img src="/imsi/static/images/gallery/2026/bdot-yului-5000/yule_01.jpg" class="img-fluid" alt="Yului Jeong with the 5,000-followers celebration cake"></div>
+          <div class="col-md-6 mb-3"><img src="/imsi/static/images/gallery/2026/bdot-yului-5000/yule_02.jpg" class="img-fluid" alt="The Team BDOT celebration cake for Yulgongii"></div>
+          <div class="col-md-6 mb-3"><img src="/imsi/static/images/gallery/2026/bdot-yului-5000/yule_03.jpg" class="img-fluid" alt="Team BDOT celebrating Yului Jeong’s social-media milestone"></div>
+          <div class="col-md-6 mb-3"><img src="/imsi/static/images/gallery/2026/bdot-yului-5000/yule_04.jpg" class="img-fluid" alt="Yului Jeong and Team BDOT at the August 20 meeting"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -466,13 +547,42 @@
     }
 
     const GALLERY_CARD_DESCRIPTIONS = {
+      'BDOT-YULUI-5000': 'During Team BDOT’s Thursday evening meeting, ONE HERO surprised Yului Jeong with a cake to celebrate Yulgongii—the creator and influencer behind @growth_yule—reaching 5,000 Instagram followers.',
       'SINGAPORE-2026': 'Research collaboration and academic exchange in Singapore',
       'USA-2026': 'GTC Poster presentations and NVIDIA, Salesforce, and Google Cloud meetings in the United States',
       'IEIE-2026': 'Summer Annual Conference of IEIE in Jeju',
-      'TEAM-PNI-2026': 'Team PNI photo after Professor Nam-Joon Kim’s Introduction to AI final exam. From the top, clockwise: Yului Jung, Hyunsu Go, and Jinyong Jun.',
+      'TEAM-PNI-2026': 'Team PNI photo after Professor Nam-Joon Kim’s Introduction to AI final exam. From the top, clockwise: Yului Jeong, Hyunsu Go, and Jinyong Jun.',
       'GONJIAM-2025': 'Annual lab retreat and team building activities',
       'BUSAN-2025': 'IEEE Asia Pacific Conference on Circuits and Systems in Busan'
     };
+
+    const GALLERY_ATTENDEES = {
+      'BDOT-YULUI-5000': [
+        { name: 'Kyeonghun Kim', url: '/imsi/authors/research_assistants/kyeonghun-kim/' },
+        { name: 'Yului Jeong', url: '/imsi/authors/undergraduate_interns/yului-jeong/' },
+        { name: 'Youngung Han', url: '/imsi/authors/research_assistants/youngung-han/' },
+        { name: 'Yunjin Seo' },
+        { name: 'Heegun Yoon' }
+      ]
+    };
+
+    function renderGalleryAttendees(album) {
+      const attendees = GALLERY_ATTENDEES[album.id] || [];
+      if (!attendees.length) return '';
+      const names = attendees.map(person => person.url
+        ? `<a href="${escapeGalleryHtml(person.url)}">${escapeGalleryHtml(person.name)}</a>`
+        : escapeGalleryHtml(person.name));
+      const last = names.pop();
+      const list = names.length ? `${names.join(', ')}, and ${last}` : last;
+      return `<p class="gallery-attendees"><strong>Attendees:</strong> ${list}.</p>`;
+    }
+
+    function renderGalleryLikeButton(album) {
+      if (album.id !== 'BDOT-YULUI-5000') return '';
+      return `<button class="gallery-like-button" type="button" data-gallery-like aria-label="Like this gallery event">
+        ❤️ Likes <span data-gallery-like-count>5,073</span>
+      </button>`;
+    }
 
     function getGalleryCardDescription(album) {
       const sheetDescription = album.images
@@ -539,7 +649,7 @@
       const modalId = `gallery-${gallerySlug(album.id)}-modal`;
       const cover = album.images[0].imagePath;
       return `
-            <div class="col-lg-6 mb-4">
+            <div class="col-lg-6 mb-4" id="${escapeGalleryHtml(gallerySlug(album.id))}">
               <div class="card">
                 <div class="card-header">
                   <img src="${escapeGalleryHtml(cover)}" alt="${escapeGalleryHtml(album.title)}"
@@ -549,9 +659,11 @@
                   <h5>${escapeGalleryHtml(album.title)}</h5>
                   ${renderGalleryMeta(album.date, album.location, 'gallery-card-meta')}
                   <p class="gallery-card-description">${escapeGalleryHtml(album.description)}</p>
+                  ${renderGalleryAttendees(album)}
                   <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#${modalId}">
                     <i class="fas fa-images"></i> View Photos
                   </button>
+                  ${renderGalleryLikeButton(album)}
                 </div>
               </div>
             </div>`;
@@ -607,6 +719,9 @@ ${byYear[year].map(renderGalleryCard).join('\n')}
         </button>
       </div>
       <div class="modal-body">
+        <p class="gallery-card-description">${escapeGalleryHtml(album.description)}</p>
+        ${renderGalleryAttendees(album)}
+        ${renderGalleryLikeButton(album)}
         <div class="row">
 ${album.images.map((item, index) => renderGalleryPhoto(item, album, index)).join('\n')}
         </div>
@@ -626,6 +741,68 @@ ${album.images.map((item, index) => renderGalleryPhoto(item, album, index)).join
       return root;
     }
 
+    const GALLERY_LIKE_API = 'https://my-own-counter-api-production.up.railway.app';
+    const GALLERY_LIKE_NAMESPACE = 'imsilab-github-io';
+    const GALLERY_LIKE_KEY = 'yului-5000-followers-8f3c91a7';
+    const GALLERY_LIKE_START = 5073;
+    let galleryLikeValue = GALLERY_LIKE_START;
+    let galleryLikeBusy = false;
+
+    function updateGalleryLikeDisplays(value) {
+      galleryLikeValue = Math.max(GALLERY_LIKE_START, Number(value) || GALLERY_LIKE_START);
+      document.querySelectorAll('[data-gallery-like-count]').forEach(node => {
+        node.textContent = galleryLikeValue.toLocaleString('en-US');
+      });
+    }
+
+    async function requestGalleryLike(readOnly) {
+      const operation = readOnly ? 'get' : 'hit';
+      const url = `${GALLERY_LIKE_API}/${operation}/${GALLERY_LIKE_NAMESPACE}/${GALLERY_LIKE_KEY}?_=${Date.now()}`;
+      const response = await fetch(url, {
+        method: readOnly ? 'GET' : 'POST',
+        cache: 'no-store'
+      });
+      if (!response.ok) throw new Error(`Like counter HTTP ${response.status}`);
+      const payload = await response.json();
+      if (!Number.isFinite(Number(payload.count))) throw new Error('Invalid like counter response');
+      return Number(payload.count);
+    }
+
+    function bindGalleryLikeButtons() {
+      document.querySelectorAll('[data-gallery-like]').forEach(button => {
+        if (button.dataset.likeBound === 'true') return;
+        button.dataset.likeBound = 'true';
+        button.addEventListener('click', async () => {
+          if (galleryLikeBusy) return;
+          galleryLikeBusy = true;
+          document.querySelectorAll('[data-gallery-like]').forEach(item => { item.disabled = true; });
+          try {
+            updateGalleryLikeDisplays(await requestGalleryLike(false));
+          } catch (error) {
+            console.warn('Shared like counter unavailable; using this browser’s count.', error);
+            updateGalleryLikeDisplays(galleryLikeValue + 1);
+          } finally {
+            document.querySelectorAll('[data-gallery-like]').forEach(item => {
+              item.disabled = false;
+              item.classList.add('is-popped');
+              window.setTimeout(() => item.classList.remove('is-popped'), 260);
+            });
+            galleryLikeBusy = false;
+          }
+        });
+      });
+      updateGalleryLikeDisplays(galleryLikeValue);
+    }
+
+    async function initializeGalleryLikes() {
+      bindGalleryLikeButtons();
+      try {
+        updateGalleryLikeDisplays(await requestGalleryLike(true));
+      } catch (error) {
+        console.warn('Shared like count unavailable; showing the initial count.', error);
+      }
+    }
+
     async function renderGalleryFromSheet() {
       try {
         if (typeof getGallery !== 'function') return;
@@ -638,9 +815,29 @@ ${album.images.map((item, index) => renderGalleryPhoto(item, album, index)).join
             Image_Path: '/imsi/static/images/gallery/2026/pni/team-pni-2026-07-27.png',
             Date: '2026-07-27',
             Location: 'Seoul, Korea',
-            Gallery_Description: 'Team PNI photo after Professor Nam-Joon Kim’s Introduction to AI final exam. From the top, clockwise: Yului Jung, Hyunsu Go, and Jinyong Jun.',
-            Description: 'Yului Jung, Hyunsu Go, and Jinyong Jun (clockwise from the top).'
+            Gallery_Description: 'Team PNI photo after Professor Nam-Joon Kim’s Introduction to AI final exam. From the top, clockwise: Yului Jeong, Hyunsu Go, and Jinyong Jun.',
+            Description: 'Yului Jeong, Hyunsu Go, and Jinyong Jun (clockwise from the top).'
           });
+        }
+        if (!rows.some(row => getGalleryValue(row, ['Gallery_ID', 'Column_0']) === 'BDOT-YULUI-5000')) {
+          const common = {
+            Gallery_ID: 'BDOT-YULUI-5000',
+            Year: '2026',
+            Title: 'BDOT Meeting: Celebrating 5,000 Followers',
+            Date: '2026-08-20 8:30 p.m.',
+            Location: 'Online Team BDOT Meeting',
+            Gallery_Description: GALLERY_CARD_DESCRIPTIONS['BDOT-YULUI-5000']
+          };
+          [
+            ['yule_01.jpg', 'Yului Jeong with the 5,000-followers celebration cake.'],
+            ['yule_02.jpg', 'The cake presented by ONE HERO to celebrate the milestone.'],
+            ['yule_03.jpg', 'Team BDOT celebrating together during the Thursday evening meeting.'],
+            ['yule_04.jpg', 'A memorable moment from the August 20 Team BDOT meeting.']
+          ].forEach(([file, description]) => rows.push({
+            ...common,
+            Image_Path: `/imsi/static/images/gallery/2026/bdot-yului-5000/${file}`,
+            Description: description
+          }));
         }
         const albums = buildGalleryAlbums(rows);
         if (!albums.length) return;
@@ -650,11 +847,16 @@ ${album.images.map((item, index) => renderGalleryPhoto(item, album, index)).join
 
         content.innerHTML = renderGallerySections(albums);
         getGalleryModalRoot().innerHTML = albums.map(renderGalleryModal).join('\n');
+        bindGalleryLikeButtons();
+        if (window.location.hash === '#bdot-yului-5000' && window.jQuery) {
+          window.setTimeout(() => window.jQuery('#gallery-bdot-yului-5000-modal').modal('show'), 100);
+        }
       } catch (err) {
         console.error('Failed to render gallery from sheet:', err);
       }
     }
 
+    initializeGalleryLikes();
     renderGalleryFromSheet();
   </script>
 
