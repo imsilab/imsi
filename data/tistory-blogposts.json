@@ -1,50 +1,50 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-08-17T01:43:58.649216Z",
+  "updated_at": "2026-08-24T01:46:02.946693Z",
   "count": 6,
   "items": [
+    {
+      "title": "[권도현] Towards Robust Vision Transformer",
+      "link": "https://lambdacourse.tistory.com/84",
+      "pub_date": "Sat, 22 Aug 2026 11:48:05 +0900",
+      "iso_date": "2026-08-22T02:48:05Z",
+      "excerpt": "https://openaccess.thecvf.com/content/CVPR2022/papers/Mao_Towards_Robust_Vision_Transformer_CVPR_2022_paper.pdf CVPR 2022 저자 Alibaba Group 배경 ViT가 CNN보다 상대적으로 robust하다는 관찰은 있었지만 그 원인이 명확하지 않았고, 당시 ViT 변형들의 구조 설계도 주로 clean accuracy만 보고..."
+    },
+    {
+      "title": "[김민정] Scalable Diffusion Models with Transformers",
+      "link": "https://lambdacourse.tistory.com/83",
+      "pub_date": "Sat, 22 Aug 2026 11:34:41 +0900",
+      "iso_date": "2026-08-22T02:34:41Z",
+      "excerpt": "1. Intro - 제목: Scalable Diffusion Models with Transformers (DiT) - William Peebles, Saining Xie / ICCV 2023 (Oral, Best Paper), IEEE 2023 -8623 Citations - https://arxiv.org/abs/2212.09748 - 김민정, 260822 발표 One Liner CNN을 Transformer로 변경한..."
+    },
+    {
+      "title": "[서윤진] High-Resolution Image Synthesis with Latent Diffusion Models",
+      "link": "https://lambdacourse.tistory.com/82",
+      "pub_date": "Sat, 22 Aug 2026 04:34:48 +0900",
+      "iso_date": "2026-08-21T19:34:48Z",
+      "excerpt": "제목: High-Resolution Image Synthesis with Latent Diffusion Models 저자: Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, Björn Ommer 학회: CVPR 2022 — IEEE/CVF Conference on Computer Vision and Pattern Recognition 발표 연도: 2022년..."
+    },
+    {
+      "title": "[정율의] SRCNN, SRGAN, ESRGAN",
+      "link": "https://lambdacourse.tistory.com/81",
+      "pub_date": "Sat, 22 Aug 2026 01:56:47 +0900",
+      "iso_date": "2026-08-21T16:56:47Z",
+      "excerpt": "SRCNN 제목: Learning a Deep Convolutional Network for Image Super-Resolution 저자: Chao Dong 외 3명 학회: ECCV 2014 논문 링크: SRCNN 논문 보기 SRGAN 제목: Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network 저자: Christian..."
+    },
+    {
+      "title": "[박재형] Swin Transformer: Hierarchical Vision Transformer using Shifted Windows",
+      "link": "https://lambdacourse.tistory.com/80",
+      "pub_date": "Fri, 21 Aug 2026 13:06:38 +0900",
+      "iso_date": "2026-08-21T04:06:38Z",
+      "excerpt": "논문 정보 제목: Swin Transformer: Hierarchical Vision Transformer Using Shifted Windows 저자: Ze Liu 외 7명 학회: ICCV 2021 핵심 목적: Transformer를 image classification뿐만 아니라 object detection과 semantic segmentation에도 사용할 수 있는 general-purpose vision..."
+    },
     {
       "title": "[황인성] DDIM",
       "link": "https://lambdacourse.tistory.com/79",
       "pub_date": "Sat, 15 Aug 2026 12:47:13 +0900",
       "iso_date": "2026-08-15T03:47:13Z",
       "excerpt": "저자: Jiaming Song, Chenlin Meng & Stefano Ermon 소속: Stanford University 학회: ICLR 2021 1. Abstract & Introduction DDPM은 우수한 성능을 보이지만 denoising을 위해 모든 timestep을 그대로 거쳐야 해서 시간이 오래 걸린다는 단점이 존재한다. 이에 본 논문에서는 1) DDPM과 동일한 학습 과정을 거치면서, 2) forward..."
-    },
-    {
-      "title": "[김윤수] TCN",
-      "link": "https://lambdacourse.tistory.com/77",
-      "pub_date": "Sat, 15 Aug 2026 05:01:31 +0900",
-      "iso_date": "2026-08-14T20:01:31Z",
-      "excerpt": "대부분의 연구자들은 시간 순서가 있는 데이터 처리를 RNN/LSTM이라고 생각했음 but 최근 연구에서 recurrent network보다 더 좋은 성능을 보인다는 결과 나옴 ⇒ 새로운 sequence modeling 문제나 데이터셋이 주어졌을때 어떤 architecture을 사용해야하는가? TCN이 LSTM같은 대표적인 recurrent network보다 좋은 성능 보이고 TCN이 effective memory도 더 길게..."
-    },
-    {
-      "title": "[한서연] WRN",
-      "link": "https://lambdacourse.tistory.com/76",
-      "pub_date": "Thu, 13 Aug 2026 21:08:10 +0900",
-      "iso_date": "2026-08-13T12:08:10Z",
-      "excerpt": "제목: Wide Residual Networks 저자: Sergey Zagoruyko, Nikos Komodakis 소속: Université Paris-Est, École des Ponts ParisTech 학회지: BMVC 2016 0. Abstract Deep residual network는 수천 층까지 확장 가능하고 층을 늘릴수록 성능이 계속 좋아진다고 알려져 있었다. 하지만 정확도를 조금 올리기 위해 층수를 거의 두..."
-    },
-    {
-      "title": "[권도현] YOLOv5, YOLOv9, YOLOv11",
-      "link": "https://lambdacourse.tistory.com/75",
-      "pub_date": "Sat, 1 Aug 2026 11:54:47 +0900",
-      "iso_date": "2026-08-01T02:54:47Z",
-      "excerpt": "모델 논문 제3자 분석 논문 핵심 의미 YOLOv5 ❌ 없음 ✅ 있음 PyTorch 기반의 사용하기 쉬운 실용 YOLO 생태계를 널리 확산 YOLOv9 ✅ 있음, ECCV 2024 ✅ 추가 분석 논문도 있음 PGI와 GELAN을 통해 학습 중 정보 손실과 gradient 문제를 연구 YOLO11 ❌ 없음 ✅ 있음 C3k2, C2PSA, 가벼운 head로 YOLOv8의 정확도·효율·배포성을 개선 YOLOv5 YOLOv5는..."
-    },
-    {
-      "title": "[서정우] U-Net/U-Net++",
-      "link": "https://lambdacourse.tistory.com/74",
-      "pub_date": "Sat, 1 Aug 2026 07:49:24 +0900",
-      "iso_date": "2026-07-31T22:49:24Z",
-      "excerpt": "U-Net: Convolutional Networks for Biomedical Image Segmentation 저자: Olaf Ronneberger, Philip Fischer, and Thomas Brox 소속: University of Freiburg 학회: MICCAI 2015 http://arxiv.org/abs/1505.04597 U-Net: Convolutional Networks for Biomedical..."
-    },
-    {
-      "title": "[조민재] DCGAN, Cycle GAN, LSGAN",
-      "link": "https://lambdacourse.tistory.com/73",
-      "pub_date": "Sat, 1 Aug 2026 06:43:06 +0900",
-      "iso_date": "2026-07-31T21:43:06Z",
-      "excerpt": "UNSUPERVISED REPRESENTATION LEARNING WITH DEEP CONVOLUTIONAL GENERATIVE ADVERSARIAL NETWORKS 논문명: Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks 저자: Alec Radford, Luke Metz, Soumith Chintala..."
     }
   ]
 }
