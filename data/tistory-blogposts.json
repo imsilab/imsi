@@ -1,9 +1,30 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-08-24T01:46:02.946693Z",
+  "updated_at": "2026-08-31T05:06:44.085012Z",
   "count": 6,
   "items": [
+    {
+      "title": "[정율의] Finding tiny faces",
+      "link": "https://lambdacourse.tistory.com/87",
+      "pub_date": "Sat, 29 Aug 2026 10:01:10 +0900",
+      "iso_date": "2026-08-29T01:01:10Z",
+      "excerpt": "논문 제목: Finding tiny faces 저자: Peiyun Hu, Deva Ramanan( Carnegie Mellon University ) 학회: CVPR 2017 링크: 1612.04402 1) Introduction 기존 object detection 왈 “같은 객체라면 크기가 달라도 동일하게 인식할 수 있어야 한다.” ( scale invariance 를 중시 ) Peiyun Hu, Deva Ramanan 왈..."
+    },
+    {
+      "title": "[김윤수] SwinUNet",
+      "link": "https://lambdacourse.tistory.com/86",
+      "pub_date": "Sat, 29 Aug 2026 09:59:20 +0900",
+      "iso_date": "2026-08-29T00:59:20Z",
+      "excerpt": "ECCV 2022 Workshops (ECCVW 2022) U-Net의 U-shaped 구조는 유지하면서 CNN 기반 연산을 Swin Transformer 기반으로 바꿔보자! 1. Segmentation task : Medical image segmentation - 각 픽셀이 어떤 장기나 조직에 해당하는지를 분류하는 문제 ⇒ 정확히 어디에 있는가 (위치와 경계를 정확하게 표현해야함) 2. U-Net구조 Encoder →..."
+    },
+    {
+      "title": "[최윤호] CoCa",
+      "link": "https://lambdacourse.tistory.com/85",
+      "pub_date": "Thu, 27 Aug 2026 16:10:51 +0900",
+      "iso_date": "2026-08-27T07:10:51Z",
+      "excerpt": "https://satin-warbler-474.notion.site/260826-CoCa-3c4eb78d947680b3a3d7ec56eb546a96?pvs=74 [260826] CoCa | Notion arxiv.org satin-warbler-474.notion.site"
+    },
     {
       "title": "[권도현] Towards Robust Vision Transformer",
       "link": "https://lambdacourse.tistory.com/84",
@@ -16,7 +37,7 @@
       "link": "https://lambdacourse.tistory.com/83",
       "pub_date": "Sat, 22 Aug 2026 11:34:41 +0900",
       "iso_date": "2026-08-22T02:34:41Z",
-      "excerpt": "1. Intro - 제목: Scalable Diffusion Models with Transformers (DiT) - William Peebles, Saining Xie / ICCV 2023 (Oral, Best Paper), IEEE 2023 -8623 Citations - https://arxiv.org/abs/2212.09748 - 김민정, 260822 발표 One Liner CNN을 Transformer로 변경한..."
+      "excerpt": "0. Intro - 제목: Scalable Diffusion Models with Transformers (DiT) - William Peebles, Saining Xie / ICCV 2023 (Oral, Best Paper), IEEE 2023 -8623 Citations - https://arxiv.org/abs/2212.09748 - 김민정, 260829 발표 One Liner 디퓨전 모델의 U-Net(CNN)을..."
     },
     {
       "title": "[서윤진] High-Resolution Image Synthesis with Latent Diffusion Models",
@@ -24,27 +45,6 @@
       "pub_date": "Sat, 22 Aug 2026 04:34:48 +0900",
       "iso_date": "2026-08-21T19:34:48Z",
       "excerpt": "제목: High-Resolution Image Synthesis with Latent Diffusion Models 저자: Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, Björn Ommer 학회: CVPR 2022 — IEEE/CVF Conference on Computer Vision and Pattern Recognition 발표 연도: 2022년..."
-    },
-    {
-      "title": "[정율의] SRCNN, SRGAN, ESRGAN",
-      "link": "https://lambdacourse.tistory.com/81",
-      "pub_date": "Sat, 22 Aug 2026 01:56:47 +0900",
-      "iso_date": "2026-08-21T16:56:47Z",
-      "excerpt": "SRCNN 제목: Learning a Deep Convolutional Network for Image Super-Resolution 저자: Chao Dong 외 3명 학회: ECCV 2014 논문 링크: SRCNN 논문 보기 SRGAN 제목: Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network 저자: Christian..."
-    },
-    {
-      "title": "[박재형] Swin Transformer: Hierarchical Vision Transformer using Shifted Windows",
-      "link": "https://lambdacourse.tistory.com/80",
-      "pub_date": "Fri, 21 Aug 2026 13:06:38 +0900",
-      "iso_date": "2026-08-21T04:06:38Z",
-      "excerpt": "논문 정보 제목: Swin Transformer: Hierarchical Vision Transformer Using Shifted Windows 저자: Ze Liu 외 7명 학회: ICCV 2021 핵심 목적: Transformer를 image classification뿐만 아니라 object detection과 semantic segmentation에도 사용할 수 있는 general-purpose vision..."
-    },
-    {
-      "title": "[황인성] DDIM",
-      "link": "https://lambdacourse.tistory.com/79",
-      "pub_date": "Sat, 15 Aug 2026 12:47:13 +0900",
-      "iso_date": "2026-08-15T03:47:13Z",
-      "excerpt": "저자: Jiaming Song, Chenlin Meng & Stefano Ermon 소속: Stanford University 학회: ICLR 2021 1. Abstract & Introduction DDPM은 우수한 성능을 보이지만 denoising을 위해 모든 timestep을 그대로 거쳐야 해서 시간이 오래 걸린다는 단점이 존재한다. 이에 본 논문에서는 1) DDPM과 동일한 학습 과정을 거치면서, 2) forward..."
     }
   ]
 }
