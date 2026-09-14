@@ -1,9 +1,37 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-09-07T04:10:04.182588Z",
+  "updated_at": "2026-09-14T04:32:11.612685Z",
   "count": 6,
   "items": [
+    {
+      "title": "[황인성]Knowledge Transfer Via Distillation",
+      "link": "https://lambdacourse.tistory.com/96",
+      "pub_date": "Sat, 12 Sep 2026 12:56:41 +0900",
+      "iso_date": "2026-09-12T03:56:41Z",
+      "excerpt": "논문 제목: Knowledge Transfer via Distillation of Activation Boundaries Formed by Hidden Neurons 저자: Byeongho Heo, Minsik Lee, Sangdoo Yun, Jin Young Choi 소속: 서울대학교, 한양대학교, 네이버 학회: AAAI 2019 1. 해결하고자 하는 문제 딥러닝 모델은 학습을 위해 많은 시간과 컴퓨팅 자원의 소모를..."
+    },
+    {
+      "title": "[hgyoon] ControlNet: Adding Conditional Control to Text-to-Image Diffusion Models",
+      "link": "https://lambdacourse.tistory.com/95",
+      "pub_date": "Sat, 12 Sep 2026 12:52:39 +0900",
+      "iso_date": "2026-09-12T03:52:39Z",
+      "excerpt": "논문: Adding Conditional Control to Text-to-Image Diffusion Models 저자: Lvmin Zhang, Anyi Rao, Maneesh Agrawala (Stanford University, 2023) 원문: arXiv:2302.05543v3 텍스트만으로는 어려운 구도 제어를 ControlNet이 조건 이미지로 수행한다 Stable Diffusion은 무작위 노이즈에서 출발해..."
+    },
+    {
+      "title": "[이택규] Masked Autoencoders Are Scalable Vision Learners",
+      "link": "https://lambdacourse.tistory.com/94",
+      "pub_date": "Sat, 12 Sep 2026 11:57:36 +0900",
+      "iso_date": "2026-09-12T02:57:36Z",
+      "excerpt": "• 논문명: Masked Autoencoders Are Scalable Vision Learners • 저자: Kaiming He, Xinlei Chen, Saining Xie, Yanghao Li, Piotr Dollár, Ross Girshick • 소속: Facebook AI Research (FAIR) • 학회: ( CVPR 2022) 한줄 요약 이미지 패치의 약 75%를 무작위로 제거 후, 남아 있는 25%의 패치만..."
+    },
+    {
+      "title": "[이다은] NF",
+      "link": "https://lambdacourse.tistory.com/93",
+      "pub_date": "Sat, 12 Sep 2026 09:43:57 +0900",
+      "iso_date": "2026-09-12T00:43:57Z",
+      "excerpt": "논문명 : Variational Inference with Normalizing Flows 저자 : Danilo Jimenez Rezende, Shakir Mohamed (Google DeepMind, London) 학회 : Proceedings of the 32nd International Conference on Machine Learning (ICML 2015), Lille, France — JMLR: W&CP..."
+    },
     {
       "title": "[hg yoon] RoFormer: Enhanced Transformer with Rotary Position Embedding",
       "link": "https://lambdacourse.tistory.com/92",
@@ -17,34 +45,6 @@
       "pub_date": "Sat, 5 Sep 2026 12:02:00 +0900",
       "iso_date": "2026-09-05T03:02:00Z",
       "excerpt": "논문 제목: Segment Anything (SAM) 저자: Alexander Kirillov, Eric Mintun, Nikhila Ravi, Hanzi Mao, Chloe Rolland, Laura Gustafson, Tete Xiao, Spencer Whitehead, Alexander C. Berg, Wan-Yen Lo, Piotr Dollár, Ross Girshick 소속: Meta AI Research..."
-    },
-    {
-      "title": "[서정우] SR3",
-      "link": "https://lambdacourse.tistory.com/89",
-      "pub_date": "Sat, 5 Sep 2026 10:54:48 +0900",
-      "iso_date": "2026-09-05T01:54:48Z",
-      "excerpt": "논문 제목 Image Super-Resolution via Iterative Refinement 저자 Chitwan Saharia, Jonathan Ho, William Chan, Tim Salimans, David J.Fleet, Momhammad Norouzi 소속 Google Research, Brain Team 학회 ICCV 2021 https://arxiv.org/pdf/2104.07636 Motivation Fig..."
-    },
-    {
-      "title": "[서윤진] LoRA:LOW-RANK ADAPTATION OF LARGE LAN- GUAGE MODELS",
-      "link": "https://lambdacourse.tistory.com/90",
-      "pub_date": "Sat, 5 Sep 2026 08:56:23 +0900",
-      "iso_date": "2026-09-04T23:56:23Z",
-      "excerpt": "논문명: LoRA: Low-Rank Adaptation of Large Language Models 저자: Edward J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, Weizhu Chen 학회: ICLR 2022 — International Conference on Learning Representations 발표..."
-    },
-    {
-      "title": "[강민혁] GQA : Training Generalized Multi-Query Transformer Models fromMulti-Head Checkpoints",
-      "link": "https://lambdacourse.tistory.com/88",
-      "pub_date": "Sat, 5 Sep 2026 02:00:16 +0900",
-      "iso_date": "2026-09-04T17:00:16Z",
-      "excerpt": "논문 제목: GQA 저자: Joshua Ainslie, James Lee-Thorp, Michiel de Jong, Yury Zemlyanskiy, Federico Lebrón, Sumit Sanghai 소속: Google Research 학회: EMNLP 2023(Conference on Empirical Methods in Natural Language Processing) 링크..."
-    },
-    {
-      "title": "[정율의] Finding tiny faces",
-      "link": "https://lambdacourse.tistory.com/87",
-      "pub_date": "Sat, 29 Aug 2026 10:01:10 +0900",
-      "iso_date": "2026-08-29T01:01:10Z",
-      "excerpt": "논문 제목: Finding tiny faces 저자: Peiyun Hu, Deva Ramanan( Carnegie Mellon University ) 학회: CVPR 2017 링크: 1612.04402 1) Introduction 기존 object detection 왈 “같은 객체라면 크기가 달라도 동일하게 인식할 수 있어야 한다.” ( scale invariance 를 중시 ) Peiyun Hu, Deva Ramanan 왈..."
     }
   ]
 }
