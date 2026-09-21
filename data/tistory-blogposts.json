@@ -1,9 +1,23 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-09-14T04:32:11.612685Z",
+  "updated_at": "2026-09-21T04:32:23.568375Z",
   "count": 6,
   "items": [
+    {
+      "title": "[이택규] Generative Adversarial Nets",
+      "link": "https://lambdacourse.tistory.com/98",
+      "pub_date": "Sat, 19 Sep 2026 10:53:33 +0900",
+      "iso_date": "2026-09-19T01:53:33Z",
+      "excerpt": "•논문명: Generative Adversarial Nets • 저자: Ian J. Goodfellow et al . • 학회: NIPS 2014 • 소속: Université de Montréal . 요약 Generator는 가짜 데이터를 만들고, Discriminator는 진짜와 가짜를 구분. 두 모델을 경쟁시키면서 Generator가 실제 데이터 분포를 학습하도록 만든 모델. GAN의 핵심 구조 random noise..."
+    },
+    {
+      "title": "[김나연] CLIP",
+      "link": "https://lambdacourse.tistory.com/97",
+      "pub_date": "Wed, 16 Sep 2026 23:06:37 +0900",
+      "iso_date": "2026-09-16T14:06:37Z",
+      "excerpt": "논문 제목: Learning Transferable Visual Models From Natural Language Supervision 저자: Alec Radford, Jong Wook Kim, Chris Hallacy, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, Gretchen Krueger, Ilya Sutskever (OpenAI) 학회: ICML 2021..."
+    },
     {
       "title": "[황인성]Knowledge Transfer Via Distillation",
       "link": "https://lambdacourse.tistory.com/96",
@@ -31,20 +45,6 @@
       "pub_date": "Sat, 12 Sep 2026 09:43:57 +0900",
       "iso_date": "2026-09-12T00:43:57Z",
       "excerpt": "논문명 : Variational Inference with Normalizing Flows 저자 : Danilo Jimenez Rezende, Shakir Mohamed (Google DeepMind, London) 학회 : Proceedings of the 32nd International Conference on Machine Learning (ICML 2015), Lille, France — JMLR: W&CP..."
-    },
-    {
-      "title": "[hg yoon] RoFormer: Enhanced Transformer with Rotary Position Embedding",
-      "link": "https://lambdacourse.tistory.com/92",
-      "pub_date": "Sat, 5 Sep 2026 12:51:47 +0900",
-      "iso_date": "2026-09-05T03:51:47Z",
-      "excerpt": "논문의 핵심 기여 이 논문의 기여는 다음 다섯 가지로 정리할 수 있다. Query와 Key를 회전시키는 Rotary Position Embedding, RoPE를 제안했다. 각 토큰에는 절대 위치를 반영하면서, attention score에는 상대 거리 n−m가 남는다는 수학적 설명 을 제시했다. 상대 거리가 멀어질수록 위치 기반 결합이 전반적으로 약해지는 long-term decay 성질 을 논의했다. RoPE를..."
-    },
-    {
-      "title": "[한서연] SAM",
-      "link": "https://lambdacourse.tistory.com/91",
-      "pub_date": "Sat, 5 Sep 2026 12:02:00 +0900",
-      "iso_date": "2026-09-05T03:02:00Z",
-      "excerpt": "논문 제목: Segment Anything (SAM) 저자: Alexander Kirillov, Eric Mintun, Nikhila Ravi, Hanzi Mao, Chloe Rolland, Laura Gustafson, Tete Xiao, Spencer Whitehead, Alexander C. Berg, Wan-Yen Lo, Piotr Dollár, Ross Girshick 소속: Meta AI Research..."
     }
   ]
 }
