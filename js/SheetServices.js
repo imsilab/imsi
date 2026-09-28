@@ -69,8 +69,34 @@ async function getProjects() {
     return await fetchSheetData('WEB_Projects');
 }
 
+let newsPromise;
 async function getNews() {
-    return await fetchSheetData('WEB_NEWS');
+    if (!newsPromise) {
+        const sheetNewsPromise = fetchSheetData('WEB_NEWS');
+        const localNewsPromise = fetch('/imsi/data/news-local.json', {cache: 'no-store'})
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return response.json();
+            })
+            .catch(error => {
+                console.error('Local news load failed:', error);
+                return [];
+            });
+
+        newsPromise = Promise.all([sheetNewsPromise, localNewsPromise])
+            .then(([sheetNews, localNews]) => {
+                const merged = new Map();
+                [...sheetNews, ...localNews].forEach(item => {
+                    const id = String(item?.News_ID || item?.Column_0 || '')
+                        .trim()
+                        .replace(/_/g, '-')
+                        .toUpperCase();
+                    if (id) merged.set(id, item);
+                });
+                return Array.from(merged.values());
+            });
+    }
+    return await newsPromise;
 }
 
 async function getGallery() {
