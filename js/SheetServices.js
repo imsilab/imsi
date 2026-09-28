@@ -143,7 +143,16 @@ async function getPeople() {
 let publicationsPromise;
 async function getPublications() {
     if (!publicationsPromise) {
-        publicationsPromise = fetchSheetData('WEB_Publications');
+        publicationsPromise = fetchSheetData('WEB_Publications').then(rows => {
+            const Publications = globalThis.IMSI?.Publications;
+            if (!Publications) {
+                throw new Error('Publication data adapter is unavailable');
+            }
+            return rows
+                .map(row => Publications.normalize(row))
+                .filter(publication => publication.title)
+                .filter(publication => Publications.isLabPublication(publication));
+        });
     }
     return await publicationsPromise;
 }
