@@ -30,6 +30,14 @@ class RequestedSiteContentTests(unittest.TestCase):
         self.assertIn("Publications.actions", source)
         self.assertNotIn("'Paper_Link', 'Paper Link', 'paper_link', 'Column_5'", source)
 
+    def test_advisor_profiles_link_to_official_hospital_pages(self):
+        pa_hong = (ROOT / "authors/advisors/pa-hong/index.html").read_text(encoding="utf-8")
+        won_jae = (ROOT / "authors/advisors/won-jae-lee/index.html").read_text(encoding="utf-8")
+        self.assertIn("https://smc.skku.edu/doctor/main/main.do?mId=1&amp;medDrSeq=274", pa_hong)
+        self.assertIn("https://smc.skku.edu/doctor/main/main.do?mId=1&amp;medDrSeq=286", won_jae)
+        self.assertIn("Official hospital profile", pa_hong)
+        self.assertIn("Official hospital profile", won_jae)
+
     def test_local_news_is_merged_with_sheet_news(self):
         service = (ROOT / "js" / "SheetServices.js").read_text(encoding="utf-8")
         self.assertIn("/imsi/data/news-local.json", service)
