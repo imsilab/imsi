@@ -34,14 +34,56 @@ class RequestedSiteContentTests(unittest.TestCase):
         self.assertIn("Auditing Capsule Vision 2024", neurips)
         self.assertIn("Eunseob Choi", neurips)
         self.assertIn("Nam-Joon Kim", neurips)
+        self.assertNotIn("Nam-Joon Kim†", neurips)
         self.assertIn("1nDVguFzOGEUAD3mXIiqLD5wUfmn01ipk", neurips)
         self.assertIn("1WR75Het4xBgIfQZe_TeRUDbAVgiTyYD3", neurips)
+        for route in [
+            "/imsi/authors/undergraduate_interns/eunseob-choi/",
+            "/imsi/authors/research_assistants/kyeonghun-kim/",
+            "/imsi/authors/investigators/hyukjae-lee/",
+            "/imsi/authors/investigators/nam-joon-kim/",
+        ]:
+            self.assertIn(route, neurips)
 
         self.assertIn("2026년 12월 4일", interview)
         self.assertIn("참석 확정자에게 별도 안내", interview)
         self.assertIn("70편 이상", interview)
         self.assertIn("MICCAI", interview)
         self.assertIn("ISBI", interview)
+        self.assertIn("http://capp.snu.ac.kr/imsi/", interview)
+        for activity in [
+            "2026년 10월 28–30일",
+            "2026년 11월 18–19일",
+            "2026년 11월 27–28일",
+            "2027년 3월 12–18일",
+        ]:
+            self.assertIn(activity, interview)
+        for institution in [
+            "KBS",
+            "NVIDIA Korea",
+            "NVIDIA Singapore",
+            "NVIDIA San Jose",
+            "Google",
+            "Salesforce",
+            "Uber",
+            "Microsoft",
+            "Stanford University",
+            "UC Berkeley",
+            "Samsung Medical Center",
+        ]:
+            self.assertIn(institution, interview)
+        for achievement in [
+            "MICCAI Workshop 논문 2편",
+            "ISBI 구두 발표 논문 3편",
+            "NeurIPS 2026 채택 논문 2편",
+            "CVPR 논문 1편",
+            "IEEE MedAI 논문 1편",
+            "AICAS 논문 4편",
+            "APCCAS 논문 4편",
+            "GTC 포스터 5편",
+            "AAAI Workshop 논문 1편",
+        ]:
+            self.assertIn(achievement, interview)
         self.assertNotIn("입구비번", interview)
         self.assertNotIn("2층입구비번", interview)
         self.assertEqual(1, interview.count("출입 비밀번호는 참석 확정자에게 별도 안내"))

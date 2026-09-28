@@ -167,7 +167,7 @@ class BrowserSmokeTests(unittest.TestCase):
               const content = document.getElementById('news-content');
               const text = content?.innerText || '';
               if (title.includes('NeurIPS 2026') && text.includes('Auditing Capsule Vision 2024')) {
-                done({title, text, links: [...content.querySelectorAll('a')].map(a => a.href)});
+                done({title, text, links: [...content.querySelectorAll('a')].map(a => a.getAttribute('href'))});
               } else if (Date.now() > deadline) {
                 done({error: 'detail timed out', title, text});
               } else {
@@ -178,6 +178,13 @@ class BrowserSmokeTests(unittest.TestCase):
         )
         self.assertNotIn("error", detail_result)
         self.assertTrue(any("1nDVguFzOGEUAD3mXIiqLD5wUfmn01ipk" in link for link in detail_result["links"]))
+        for route in [
+            "/imsi/authors/undergraduate_interns/eunseob-choi/",
+            "/imsi/authors/research_assistants/kyeonghun-kim/",
+            "/imsi/authors/investigators/hyukjae-lee/",
+            "/imsi/authors/investigators/nam-joon-kim/",
+        ]:
+            self.assertIn(route, detail_result["links"])
 
         self._navigate("news/NEWS-006/")
         interview_result = self._execute_async(
@@ -187,7 +194,7 @@ class BrowserSmokeTests(unittest.TestCase):
             (function poll() {
               const text = document.getElementById('news-content')?.innerText || '';
               if (text.includes('참석 확정자에게 별도 안내')) {
-                done({text});
+                done({text, links: [...document.querySelectorAll('#news-content a')].map(a => a.getAttribute('href'))});
               } else if (Date.now() > deadline) {
                 done({error: 'interview timed out', text});
               } else {
@@ -199,6 +206,8 @@ class BrowserSmokeTests(unittest.TestCase):
         self.assertNotIn("error", interview_result)
         self.assertNotIn("입구비번", interview_result["text"])
         self.assertNotIn("2층입구비번", interview_result["text"])
+        self.assertIn("http://capp.snu.ac.kr/imsi/", interview_result["links"])
+        self.assertIn("NVIDIA San Jose", interview_result["text"])
 
     def test_people_order_and_yului_profile_render(self):
         self._navigate("/")

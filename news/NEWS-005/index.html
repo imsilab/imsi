@@ -441,14 +441,16 @@
 
     function formatNewsInline(rawText) {
       const source = String(rawText || '');
-      const linkPattern = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+      const linkPattern = /\[([^\]]+)\]\(((?:https?:\/\/|\/)[^\s)]+)\)/g;
       let html = '';
       let cursor = 0;
       let match;
 
       while ((match = linkPattern.exec(source)) !== null) {
         html += escapeNewsHtml(source.slice(cursor, match.index));
-        html += `<a href="${escapeNewsHtml(match[2])}" target="_blank" rel="noopener">${escapeNewsHtml(match[1])}</a>`;
+        const isExternal = /^https?:\/\//i.test(match[2]);
+        const externalAttrs = isExternal ? ' target="_blank" rel="noopener"' : '';
+        html += `<a href="${escapeNewsHtml(match[2])}"${externalAttrs}>${escapeNewsHtml(match[1])}</a>`;
         cursor = match.index + match[0].length;
       }
       return html + escapeNewsHtml(source.slice(cursor));
