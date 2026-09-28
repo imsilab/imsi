@@ -52,9 +52,93 @@ async function fetchSheetData(sheetName) {
     }
 }
 
+const PEOPLE_COLUMNS = [
+    'Person_ID', 'Category', 'Name_EN_FULL', 'Org_EN', 'Dept_EN', 'Sub_Org_EN',
+    'Email_Paper', 'Education', 'Experience', 'Github', 'Blog', 'Linkedin',
+    'Tags', 'PhotoUrl'
+];
+
+function normalizePersonName(value) {
+    return String(value || '').trim().replace(/\s+/g, ' ').toLowerCase();
+}
+
+function previousPersonId(value) {
+    const match = String(value || '').trim().match(/^P_(\d+)$/i);
+    if (!match) return String(value || '').trim();
+    const number = Math.max(0, Number(match[1]) - 1);
+    return `P_${String(number).padStart(match[1].length, '0')}`;
+}
+
+/**
+ * Normalize WEB_People rows from either a canonical header or the current
+ * malformed export, where the first person row became the gviz header.
+ */
+function normalizePeopleRows(rows) {
+    if (!Array.isArray(rows) || rows.length === 0) return [];
+
+    const first = rows[0] || {};
+    const malformedShape = !Object.prototype.hasOwnProperty.call(first, 'Person_ID') &&
+        Object.prototype.hasOwnProperty.call(first, 'P_0001') &&
+        Object.prototype.hasOwnProperty.call(first, 'Professor') &&
+        Object.prototype.hasOwnProperty.call(first, 'Name_EN_FULL') &&
+        Object.prototype.hasOwnProperty.call(first, 'Column_0');
+
+    return rows.map(row => {
+        if (malformedShape) {
+            const normalized = {};
+            PEOPLE_COLUMNS.forEach((field, index) => {
+                normalized[field] = String(row?.[`Column_${index}`] ?? '').trim();
+            });
+            normalized._SheetPerson_ID = normalized.Person_ID;
+            normalized.Person_ID = previousPersonId(normalized.Person_ID);
+            return normalized;
+        }
+
+        const normalized = {...row};
+        PEOPLE_COLUMNS.forEach(field => {
+            normalized[field] = String(normalized[field] ?? '').trim();
+        });
+        normalized._SheetPerson_ID = String(normalized._SheetPerson_ID || normalized.Person_ID || '').trim();
+        return normalized;
+    }).filter(person => {
+        const isPseudoHeader = person.Name_EN_FULL === 'Name_EN_FULL' &&
+            person.Org_EN === 'Org_EN' && person.Dept_EN === 'Dept_EN';
+        return !isPseudoHeader && Boolean(person.Name_EN_FULL);
+    });
+}
+
+function createPeopleLookup(people) {
+    const lookup = {
+        byId: new Map(),
+        byShiftedId: new Map(),
+        byName: new Map()
+    };
+
+    (people || []).forEach(person => {
+        const id = String(person?.Person_ID || '').trim();
+        const sheetId = String(person?._SheetPerson_ID || '').trim();
+        const name = normalizePersonName(person?.Name_EN_FULL || person?.Name_KR);
+        if (id && !lookup.byId.has(id)) lookup.byId.set(id, person);
+        if (sheetId && sheetId !== id && !lookup.byShiftedId.has(sheetId)) {
+            lookup.byShiftedId.set(sheetId, person);
+        }
+        if (name && !lookup.byName.has(name)) lookup.byName.set(name, person);
+    });
+    return lookup;
+}
+
+function resolveTeamPerson(membership, lookup) {
+    if (!membership || !lookup) return null;
+    const id = String(membership.Person_ID || membership.PersonID || '').trim();
+    if (id && lookup.byId?.has(id)) return lookup.byId.get(id);
+    if (id && lookup.byShiftedId?.has(id)) return lookup.byShiftedId.get(id);
+    const name = normalizePersonName(membership.Name_EN_FULL || membership.Name_EN || membership.Name);
+    return name && lookup.byName?.has(name) ? lookup.byName.get(name) : null;
+}
+
 // Wrapper functions for specific sheets
 async function getPeople() {
-    return await fetchSheetData('WEB_People');
+    return normalizePeopleRows(await fetchSheetData('WEB_People'));
 }
 
 let publicationsPromise;
@@ -121,4 +205,18 @@ async function getAuthorProfiles() {
             });
     }
     return await authorProfilesPromise;
+}
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.normalizePeopleRows = normalizePeopleRows;
+    globalThis.createPeopleLookup = createPeopleLookup;
+    globalThis.resolveTeamPerson = resolveTeamPerson;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        normalizePeopleRows,
+        createPeopleLookup,
+        resolveTeamPerson
+    };
 }

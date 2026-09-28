@@ -317,6 +317,91 @@ class BrowserSmokeTests(unittest.TestCase):
         )
         self.assertTrue(youngung_orcid)
 
+    def test_people_sheet_normalization_contract(self):
+        self._navigate("/")
+        result = self._execute_async(
+            """
+            const done = arguments[arguments.length - 1];
+            if (typeof normalizePeopleRows !== 'function' ||
+                typeof createPeopleLookup !== 'function' ||
+                typeof resolveTeamPerson !== 'function') {
+              done({error: 'normalization API missing'});
+              return;
+            }
+
+            const malformed = [
+              {
+                P_0001: 'P_0002', Professor: 'Researcher', Name_EN_FULL: 'Nam-Joon Kim',
+                Column_0: 'P_0002', Column_1: 'Researcher', Column_2: 'Nam-Joon Kim',
+                Column_3: '', Column_4: '', Column_5: '', Column_6: 'knj01@snu.ac.kr'
+              },
+              {
+                P_0001: 'P_0003', Professor: 'Researcher', Name_EN_FULL: 'Kyeonghun Kim',
+                Column_0: 'P_0003', Column_1: 'Researcher', Column_2: 'Kyeonghun Kim',
+                Column_3: 'OUTTA', Column_4: 'AI Research', Column_5: '',
+                Column_6: 'kyeonghun.kim@outta.ai', Column_9: 'https://github.com/khkim1729'
+              },
+              {P_0001: '', Professor: '', Name_EN_FULL: '', Column_0: '', Column_1: '', Column_2: ''}
+            ];
+            const normalized = normalizePeopleRows(malformed);
+            const valid = normalizePeopleRows([
+              {Person_ID: 'P_0099', Category: 'Alumni', Name_EN_FULL: 'Valid Person'}
+            ]);
+            const lookup = createPeopleLookup(normalized);
+            const exact = resolveTeamPerson({Person_ID: 'P_0002'}, lookup);
+            const fallback = resolveTeamPerson({Person_ID: 'P_0003'}, lookup);
+            const byName = resolveTeamPerson({Name_EN_FULL: '  kyeonghun   kim '}, lookup);
+            done({
+              normalized,
+              valid,
+              exact: exact?.Name_EN_FULL || '',
+              fallback: fallback?.Name_EN_FULL || '',
+              byName: byName?.Name_EN_FULL || ''
+            });
+            """
+        )
+        self.assertNotIn("error", result)
+        self.assertEqual(2, len(result["normalized"]))
+        self.assertEqual("P_0001", result["normalized"][0]["Person_ID"])
+        self.assertEqual("P_0002", result["normalized"][1]["Person_ID"])
+        self.assertEqual("P_0003", result["normalized"][1]["_SheetPerson_ID"])
+        self.assertEqual("P_0099", result["valid"][0]["Person_ID"])
+        self.assertEqual("Kyeonghun Kim", result["exact"])
+        self.assertEqual("Kyeonghun Kim", result["fallback"])
+        self.assertEqual("Kyeonghun Kim", result["byName"])
+
+    def test_teams_and_alumni_render_from_live_sheet(self):
+        self._navigate("alumni/")
+        result = self._execute_async(
+            """
+            const done = arguments[arguments.length - 1];
+            const deadline = Date.now() + 25000;
+            (function poll() {
+              const teams = document.getElementById('teams-people-row');
+              const alumni = document.getElementById('alumni-people-row');
+              const loadedLocalImages = teams
+                ? [...teams.querySelectorAll('img')].filter(img =>
+                    img.getAttribute('src')?.startsWith('/imsi/authors/') && img.complete && img.naturalWidth > 0
+                  )
+                : [];
+              const alumniText = alumni?.innerText || '';
+              if (loadedLocalImages.length && alumniText.includes('Youngung Han')) {
+                done({
+                  teamText: teams.innerText,
+                  alumniText,
+                  localImageCount: loadedLocalImages.length
+                });
+              } else if (Date.now() > deadline) {
+                done({error: 'Teams/Alumni timed out', teamText: teams?.innerText || '', alumniText});
+              } else setTimeout(poll, 100);
+            })();
+            """
+        )
+        self.assertNotIn("error", result)
+        self.assertGreater(result["localImageCount"], 0)
+        self.assertIn("Youngung Han", result["alumniText"])
+        self.assertNotIn("Name_EN_FULL", result["teamText"] + result["alumniText"])
+
 
 if __name__ == "__main__":
     unittest.main()

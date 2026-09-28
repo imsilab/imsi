@@ -432,6 +432,9 @@
     };
 
     function getPhoto(p, profileUrl) {
+      if (profileUrl && profileUrl.startsWith('/imsi/authors/')) {
+        return `${profileUrl.replace(/\/$/, '')}/avatar.png`;
+      }
       if (p.PhotoUrl && p.PhotoUrl.trim()) return p.PhotoUrl.trim();
       if (profileUrl) {
         const slug = profileUrl.replace(/\/$/, '').split('/').pop();
@@ -478,11 +481,14 @@
         .replace(/\s+/g, '-');
     }
 
+    let authorProfileDirectory = {};
+
     function profileUrl(p) {
       if (p.ProfileUrl && p.ProfileUrl.trim()) return p.ProfileUrl.trim();
+      const name = (p.Name_EN_FULL || '').trim();
+      if (name && authorProfileDirectory[name]) return authorProfileDirectory[name];
       // Auto-generate from Category + Name_EN_FULL
       const catFolder = CAT_FOLDER[(p.Category || '').trim()];
-      const name = (p.Name_EN_FULL || '').trim();
       if (catFolder && name) {
         return `/imsi/authors/${catFolder}/${toSlug(name)}/`;
       }
@@ -718,10 +724,11 @@
     /* ???? Main ???? */
     async function loadTeams() {
       try {
-        const [people, personTeamRows, teamRows] = await Promise.all([
+        const [people, personTeamRows, teamRows, authorProfiles] = await Promise.all([
           getPeople(),
           fetchSheetData('WEB_PersonTeam'),
-          getTeams()
+          getTeams(),
+          getAuthorProfiles()
         ]);
         document.getElementById('teams-loading').style.display = 'none';
         if (!people || !people.length) {
@@ -729,11 +736,8 @@
           return;
         }
 
-        /* Build Person_ID lookup */
-        const sampleP = people[0];
-        const idKey = ['Person_ID','PersonID','ID','id','person_id'].find(k => k in sampleP) || Object.keys(sampleP)[0];
-        const peopleById = {};
-        people.forEach(p => { const pid = (p[idKey]||'').trim(); if (pid) peopleById[pid] = p; });
+        authorProfileDirectory = authorProfiles || {};
+        const peopleLookup = createPeopleLookup(people);
 
         teamDirectory = {};
         (teamRows || []).forEach(row => {
@@ -762,7 +766,7 @@
             const role   = (row['Team_Role'] || '').trim();
             const period = (row['Active_Period'] || row['Period'] || row['period'] || row['Participation_Period'] || '').trim();
             if (!teamId) return;
-            const person = peopleById[pid];
+            const person = resolveTeamPerson(row, peopleLookup);
             if (!person || (person.Category || '').trim() === 'Alumni') return;
             if (!teamGroups[teamId]) teamGroups[teamId] = [];
             teamGroups[teamId].push({ ...person, _teamRole: role, _period: period });
@@ -776,7 +780,7 @@
         renderTeamsPeopleStyle(sortedTeamGroups, 'teams-people-row');
 
         switchTab('teams');
-        console.log('ID key:', idKey, '| Teams:', Object.keys(sortedTeamGroups).join(', '));
+        console.log('Teams:', Object.keys(sortedTeamGroups).join(', '));
 
       } catch (err) {
         console.error('Teams load error:', err);
