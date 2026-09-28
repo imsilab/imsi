@@ -351,12 +351,32 @@ class BrowserSmokeTests(unittest.TestCase):
             const exact = resolveTeamPerson({Person_ID: 'P_0002'}, lookup);
             const fallback = resolveTeamPerson({Person_ID: 'P_0003'}, lookup);
             const byName = resolveTeamPerson({Name_EN_FULL: '  kyeonghun   kim '}, lookup);
+
+            const transitionRows = [];
+            for (let number = 2; number <= 31; number += 1) {
+              const id = `P_${String(number).padStart(4, '0')}`;
+              const name = number === 31 ? 'Sehyun Kim' : `Person ${number}`;
+              transitionRows.push({
+                P_0001: id, Professor: 'Student', Name_EN_FULL: name,
+                Column_0: id, Column_1: 'Student', Column_2: name
+              });
+            }
+            transitionRows.push({
+              P_0001: '', Professor: '', Name_EN_FULL: 'Donghyun Seo',
+              Column_0: '', Column_1: '', Column_2: 'Donghyun Seo'
+            });
+            transitionRows.push({
+              P_0001: 'P_0032', Professor: 'Alumni', Name_EN_FULL: 'Wongyeong Lee',
+              Column_0: 'P_0032', Column_1: 'Alumni', Column_2: 'Wongyeong Lee'
+            });
+            const transition = normalizePeopleRows(transitionRows).slice(-3);
             done({
               normalized,
               valid,
               exact: exact?.Name_EN_FULL || '',
               fallback: fallback?.Name_EN_FULL || '',
-              byName: byName?.Name_EN_FULL || ''
+              byName: byName?.Name_EN_FULL || '',
+              transition
             });
             """
         )
@@ -369,6 +389,14 @@ class BrowserSmokeTests(unittest.TestCase):
         self.assertEqual("Kyeonghun Kim", result["exact"])
         self.assertEqual("Kyeonghun Kim", result["fallback"])
         self.assertEqual("Kyeonghun Kim", result["byName"])
+        self.assertEqual(
+            [
+                ("P_0030", "Sehyun Kim"),
+                ("P_0031", "Donghyun Seo"),
+                ("P_0032", "Wongyeong Lee"),
+            ],
+            [(person["Person_ID"], person["Name_EN_FULL"]) for person in result["transition"]],
+        )
 
     def test_teams_and_alumni_render_from_live_sheet(self):
         self._navigate("alumni/")
@@ -386,10 +414,25 @@ class BrowserSmokeTests(unittest.TestCase):
                 : [];
               const alumniText = alumni?.innerText || '';
               if (loadedLocalImages.length && alumniText.includes('Youngung Han')) {
+                const teamMembers = teamName => {
+                  const heading = [...teams.querySelectorAll('.col-md-12 h2')]
+                    .find(node => node.textContent.includes(teamName));
+                  const names = [];
+                  let card = heading?.parentElement?.nextElementSibling;
+                  while (card && !card.classList.contains('col-md-12')) {
+                    const name = card.querySelector('.portrait-title h2')?.textContent.trim();
+                    if (name) names.push(name);
+                    card = card.nextElementSibling;
+                  }
+                  return names;
+                };
                 done({
                   teamText: teams.innerText,
                   alumniText,
-                  localImageCount: loadedLocalImages.length
+                  localImageCount: loadedLocalImages.length,
+                  haedal: teamMembers('Team HAEDAL'),
+                  multimodal: teamMembers('Team MultiModal'),
+                  pni: teamMembers('Team PNI')
                 });
               } else if (Date.now() > deadline) {
                 done({error: 'Teams/Alumni timed out', teamText: teams?.innerText || '', alumniText});
@@ -401,6 +444,13 @@ class BrowserSmokeTests(unittest.TestCase):
         self.assertGreater(result["localImageCount"], 0)
         self.assertIn("Youngung Han", result["alumniText"])
         self.assertNotIn("Name_EN_FULL", result["teamText"] + result["alumniText"])
+        self.assertIn("Donghyun Seo", result["haedal"])
+        self.assertIn("Sehyun Kim", result["multimodal"])
+        self.assertIn("Dohyun Kweon", result["multimodal"])
+        self.assertNotIn("Wongyeong Lee", result["haedal"])
+        self.assertIn("Wongyeong Lee", result["alumniText"])
+        self.assertIn("Seongheon Choi", result["alumniText"])
+        self.assertIn("Jihyun Bang", result["alumniText"])
 
 
 if __name__ == "__main__":

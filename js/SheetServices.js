@@ -62,13 +62,6 @@ function normalizePersonName(value) {
     return String(value || '').trim().replace(/\s+/g, ' ').toLowerCase();
 }
 
-function previousPersonId(value) {
-    const match = String(value || '').trim().match(/^P_(\d+)$/i);
-    if (!match) return String(value || '').trim();
-    const number = Math.max(0, Number(match[1]) - 1);
-    return `P_${String(number).padStart(match[1].length, '0')}`;
-}
-
 /**
  * Normalize WEB_People rows from either a canonical header or the current
  * malformed export, where the first person row became the gviz header.
@@ -83,14 +76,20 @@ function normalizePeopleRows(rows) {
         Object.prototype.hasOwnProperty.call(first, 'Name_EN_FULL') &&
         Object.prototype.hasOwnProperty.call(first, 'Column_0');
 
-    return rows.map(row => {
+    const idWidth = String(rows.find(row => row?.Column_0)?.Column_0 || '').match(/^P_(\d+)$/i)?.[1]?.length || 4;
+
+    return rows.map((row, rowIndex) => {
         if (malformedShape) {
             const normalized = {};
             PEOPLE_COLUMNS.forEach((field, index) => {
                 normalized[field] = String(row?.[`Column_${index}`] ?? '').trim();
             });
             normalized._SheetPerson_ID = normalized.Person_ID;
-            normalized.Person_ID = previousPersonId(normalized.Person_ID);
+            // The first roster row was consumed as the malformed header. The
+            // relationship sheet still numbers people by physical roster row,
+            // including rows whose visible ID cell is blank, so row position is
+            // the only stable canonical ID across the offset transition.
+            normalized.Person_ID = `P_${String(rowIndex + 1).padStart(idWidth, '0')}`;
             return normalized;
         }
 
