@@ -305,7 +305,7 @@
 
     <h3>Recent Publications</h3>
     <p>This list is updated automatically from the IMSI publication spreadsheet.</p>
-    <ul id="kh-publications" class="kh-pub-list"><li>Loading publications…</li></ul>
+    <ul id="kh-publications" class="kh-pub-list profile-publications" data-author-publications="Kyeonghun Kim"><li>Loading publications…</li></ul>
     <p><a href="/imsi/publication/">View and search all publications →</a></p>
 
     <h3>Professional Experience</h3>
@@ -405,41 +405,12 @@
   <script src="/imsi/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
   <script src="/imsi/js/publication-data.js"></script>
   <script src="/imsi/js/SheetServices.js"></script>
+  <script src="/imsi/js/author-publications.js"></script>
   <script>
     (function () {
       const escapeHtml = value => String(value || '')
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-      const value = (row, keys) => {
-        for (const key of keys) {
-          if (row[key] !== undefined && row[key] !== null && String(row[key]).trim()) return String(row[key]).trim();
-        }
-        return '';
-      };
-      const pubNumber = row => Number((value(row, ['Pub_ID', 'Column_0']).match(/\d+/g) || [0]).pop());
-
-      async function renderKyeonghunPublications() {
-        const root = document.getElementById('kh-publications');
-        try {
-          const rows = (await getPublications())
-            .filter(row => value(row, ['Authors', 'Column_4']).includes('Kyeonghun Kim'))
-            .sort((a, b) => Number(value(b, ['Year', 'Column_1'])) - Number(value(a, ['Year', 'Column_1'])) || pubNumber(b) - pubNumber(a))
-            .slice(0, 15);
-          root.innerHTML = rows.map(row => {
-            const title = value(row, ['Title', 'Column_2']);
-            const paper = value(row, ['Paper_Link', 'Column_5']);
-            const venue = value(row, ['Venue_Name', 'Column_3']);
-            const year = value(row, ['Year', 'Column_1']);
-            const linkedTitle = paper && paper !== '-'
-              ? `<a href="${escapeHtml(paper)}" target="_blank" rel="noopener"><strong>${escapeHtml(title)}</strong></a>`
-              : `<strong>${escapeHtml(title)}</strong>`;
-            const oral = /oral presentation/i.test(venue) ? '<span class="kh-oral">Oral Presentation</span>' : '';
-            return `<li>${linkedTitle}${oral}<small>${escapeHtml(venue)} · ${escapeHtml(year)}</small></li>`;
-          }).join('') || '<li>No publications found.</li>';
-        } catch (error) {
-          root.innerHTML = '<li>Publication data is temporarily unavailable.</li>';
-        }
-      }
 
       async function renderCredentials() {
         const root = document.getElementById('kh-credentials');
@@ -458,7 +429,6 @@
         }
       }
 
-      renderKyeonghunPublications();
       renderCredentials();
     })();
   </script>

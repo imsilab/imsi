@@ -258,6 +258,13 @@ class RequestedSiteContentTests(unittest.TestCase):
             with image_path.open("rb") as image:
                 self.assertEqual(b"\x89PNG\r\n\x1a\n", image.read(8))
 
+    def test_kyeonghun_profile_uses_shared_normalized_publication_renderer(self):
+        profile = (ROOT / "authors/research_assistants/kyeonghun-kim/index.html").read_text(encoding="utf-8")
+        self.assertIn('data-author-publications="Kyeonghun Kim"', profile)
+        self.assertIn('/imsi/js/author-publications.js', profile)
+        self.assertNotIn("renderKyeonghunPublications", profile)
+        self.assertNotIn("['Authors', 'Column_4']", profile)
+
 
 if __name__ == "__main__":
     unittest.main()

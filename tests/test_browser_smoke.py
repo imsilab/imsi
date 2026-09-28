@@ -373,6 +373,29 @@ class BrowserSmokeTests(unittest.TestCase):
         )
         self.assertTrue(youngung_orcid)
 
+    def test_kyeonghun_profile_loads_recent_publications_from_sheet(self):
+        self._navigate("authors/research_assistants/kyeonghun-kim/")
+        result = self._execute_async(
+            """
+            const done = arguments[arguments.length - 1];
+            const deadline = Date.now() + 15000;
+            (function poll() {
+              const root = document.querySelector('[data-author-publications="Kyeonghun Kim"]');
+              const items = root ? [...root.querySelectorAll('li')] : [];
+              const text = root?.innerText || '';
+              if (items.length > 0 && !text.includes('Loading publications')) {
+                done({count: items.length, text, actions: root.querySelectorAll('.profile-publication-actions a').length});
+              } else if (Date.now() > deadline) {
+                done({error: 'publication profile timed out', text});
+              } else setTimeout(poll, 100);
+            })();
+            """
+        )
+        self.assertNotIn("error", result)
+        self.assertGreater(result["count"], 0)
+        self.assertNotIn("No publications found", result["text"])
+        self.assertGreater(result["actions"], 0)
+
     def test_people_sheet_normalization_contract(self):
         self._navigate("/")
         result = self._execute_async(
