@@ -227,7 +227,7 @@ class BrowserSmokeTests(unittest.TestCase):
             """
         )
         self.assertEqual(
-            ["Eunseob Choi", "Yului Jeong", "Hyunsu Go", "Jooyoung Bae", "Anna Jung", "Giseong Hwang"],
+            ["Eunseob Choi", "Yului Jeong", "Hyunsu Go", "Jooyoung Bae", "Anna Jung", "Minjun Yoo", "Giseong Hwang"],
             names,
         )
 
@@ -252,6 +252,70 @@ class BrowserSmokeTests(unittest.TestCase):
         self.assertEqual(512, profile["width"])
         self.assertIn("Global Track Silver Award", profile["text"])
         self.assertIn("Scheduled for October 26, 2026", profile["text"])
+
+    def test_new_and_updated_profiles_render_required_links_and_assets(self):
+        self._navigate("authors/undergraduate_interns/minjun-yoo/")
+        minjun = self._execute_async(
+            """
+            const done = arguments[arguments.length - 1];
+            const image = document.querySelector('#profile img.portrait');
+            const deadline = Date.now() + 10000;
+            (function poll() {
+              if (image?.complete && image.naturalWidth) {
+                done({
+                  width: image.naturalWidth,
+                  text: document.body.innerText,
+                  links: [...document.querySelectorAll('a')].map(a => a.getAttribute('href'))
+                });
+              } else if (Date.now() > deadline) {
+                done({error: 'Minjun profile image timed out'});
+              } else setTimeout(poll, 100);
+            })();
+            """
+        )
+        self.assertNotIn("error", minjun)
+        self.assertGreater(minjun["width"], 0)
+        self.assertIn("Geuneulro", minjun["text"])
+        self.assertTrue(any("apps.apple.com/kr/app/" in link for link in minjun["links"]))
+
+        for route in [
+            "authors/undergraduate_interns/eunseob-choi/",
+            "authors/research_assistants/kyeonghun-kim/",
+        ]:
+            self._navigate(route)
+            highlight = self._execute_async(
+                """
+                const done = arguments[arguments.length - 1];
+                const link = document.querySelector('a[href="/imsi/news/NEWS-005/"]');
+                done({text: document.body.innerText, href: link?.getAttribute('href') || ''});
+                """
+            )
+            self.assertEqual("/imsi/news/NEWS-005/", highlight["href"])
+            self.assertIn("Two NeurIPS 2026 Papers Accepted", highlight["text"])
+
+        self._navigate("authors/research_assistants/kyeonghun-kim/")
+        kyeonghun = self._execute_async(
+            """
+            const done = arguments[arguments.length - 1];
+            done({
+              text: document.body.innerText,
+              orcid: document.querySelector('a[href="https://orcid.org/0009-0002-9405-8424"]')?.href || '',
+              awards: [...document.querySelectorAll('[data-fancybox="blood-donation-awards"]')].map(a => a.getAttribute('href'))
+            });
+            """
+        )
+        self.assertTrue(kyeonghun["orcid"])
+        self.assertEqual(2, len(kyeonghun["awards"]))
+        self.assertIn("Teaching Experience", kyeonghun["text"])
+
+        self._navigate("authors/research_assistants/youngung-han/")
+        youngung_orcid = self._execute_async(
+            """
+            const done = arguments[arguments.length - 1];
+            done(Boolean(document.querySelector('a[href="https://orcid.org/0009-0008-0596-8367"]')));
+            """
+        )
+        self.assertTrue(youngung_orcid)
 
 
 if __name__ == "__main__":

@@ -62,6 +62,19 @@
     .kh-credential { border: 1px solid #e3e9ef; border-radius: 10px; padding: .8rem; }
     .kh-credential strong, .kh-credential span, .kh-credential small { display: block; }
     .kh-credential small { color: #66717d; }
+    .research-highlight { display:block; margin:1.35rem 0; padding:1rem 1.15rem; border-radius:12px; color:#fff !important; background:linear-gradient(135deg,#243b64,#2962ff); text-decoration:none !important; box-shadow:0 8px 20px rgba(41,98,255,.2); }
+    .research-highlight small, .research-highlight strong { display:block; }
+    .research-highlight small { opacity:.82; text-transform:uppercase; letter-spacing:.08em; font-weight:700; }
+    .research-highlight strong { margin-top:.3rem; font-size:1.08rem; }
+    .research-metrics { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:.65rem; margin:1rem 0 1.6rem; }
+    .research-metric { border:1px solid #e3e9ef; border-radius:10px; padding:.75rem .85rem; background:#fff; }
+    .research-metric strong { display:block; color:#243b64; }
+    .research-metric small { color:#66717d; }
+    .award-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:.85rem; margin:1rem 0 1.5rem; }
+    .award-card { display:block; border:1px solid #e3e9ef; border-radius:10px; padding:.65rem; text-decoration:none !important; background:#fff; }
+    .award-card img { width:100%; height:145px; object-fit:cover; border-radius:7px; }
+    .award-card strong, .award-card small { display:block; margin-top:.45rem; }
+    .award-card small { color:#66717d; }
   </style>
 </head>
 
@@ -212,6 +225,11 @@
           </a>
         </li>
         <li>
+          <a href="https://orcid.org/0009-0002-9405-8424" target="_blank" rel="noopener" aria-label="ORCID">
+            <i class="ai ai-orcid big-icon"></i>
+          </a>
+        </li>
+        <li>
           <a href="https://khkim1729.github.io" target="_blank" rel="noopener">
             <i class="fas fa-globe big-icon"></i>
           </a>
@@ -222,9 +240,31 @@
   </div>
   <div class="col-12 col-lg-8">
 
-    <p>Kyeonghun Kim is a Research Assistant at IMSI Research Lab, Seoul National University, specializing in medical imaging, generative AI, and multimodal deep learning applications. He leads the SUDAL Medical Imaging Team and has extensive experience in developing state-of-the-art AI solutions for medical image analysis, including 3D MRI synthesis, diffusion models, and vision-language models.</p>
+    <p>Kyeonghun Kim is a Research Assistant at IMSI Research Lab, Seoul National University, working across medical imaging, generative AI, and multimodal deep learning. He leads the SUDAL Medical Imaging Team and develops clinically grounded systems for 3D MRI synthesis, segmentation, diffusion modeling, and vision-language learning.</p>
 
-    <p>He is currently pursuing research on conditional abdominal MRI synthesis using segmentation-guided ControlNet pipelines and label-guided diffusion frameworks. His work involves close collaboration with Samsung Medical Center radiologists and NVIDIA researchers, focusing on clinically relevant AI applications in medical imaging.</p>
+    <p>He is the <strong>first author</strong> of <a href="https://arxiv.org/abs/2603.23845" target="_blank" rel="noopener">3D-LLDM</a>, a label-guided 3D latent diffusion framework for high-resolution synthetic liver MRI and downstream hepatic-structure segmentation. The work was presented as an oral paper at <strong>ISBI 2026</strong> and grew from collaboration spanning Stanford University, NVIDIA researchers, and clinical partners at Samsung Medical Center.</p>
+
+    <a class="research-highlight" href="/imsi/news/NEWS-005/">
+      <small>Research Highlight · NeurIPS 2026</small>
+      <strong>Two NeurIPS 2026 Papers Accepted</strong>
+      <span>Read about the lab's work on reproducibility, dataset auditing, and robust medical AI evaluation →</span>
+    </a>
+
+    <h3>Research at a Glance</h3>
+    <div class="research-metrics">
+      <div class="research-metric"><strong>NeurIPS 2026: 2</strong><small>Accepted papers</small></div>
+      <div class="research-metric"><strong>MICCAI Workshops: 2</strong><small>Workshop papers</small></div>
+      <div class="research-metric"><strong>AAAI Workshop: 1</strong><small>Workshop paper</small></div>
+      <div class="research-metric"><strong>ISBI oral papers: 3</strong><small>Oral presentations</small></div>
+      <div class="research-metric"><strong>IEEE MedAI: 1</strong><small>Conference paper</small></div>
+      <div class="research-metric"><strong>AICAS oral papers: 3</strong><small>Oral presentations</small></div>
+      <div class="research-metric"><strong>APCCAS papers: 4</strong><small>Including one oral paper</small></div>
+      <div class="research-metric"><strong>GTC posters: 3</strong><small>NVIDIA GTC presentations</small></div>
+      <div class="research-metric"><strong>AACL-IJCNLP: 1</strong><small>NLP conference paper</small></div>
+    </div>
+
+    <h3>Research &amp; Industry Exchange</h3>
+    <p>Representing IMSI Lab in a Silicon Valley technology programme, he coordinated and joined office tours and research exchanges at Google, NVIDIA, Salesforce, Uber, and Microsoft in San Jose and the wider Bay Area. These visits connected the lab's medical-AI work with production-scale AI infrastructure, research practice, and potential industry collaboration.</p>
 
     <div class="row">
 
@@ -281,27 +321,41 @@
       <li><strong>Junior Developer</strong> at <a href="https://www.astkorea.net/en" target="_blank" rel="noopener">AST Global</a> (Oct. 2020 ~ Apr. 2021)</li>
     </ul>
 
-    <h3>Latest</h3>
+    <h3>Intellectual Property</h3>
     <ul>
-      <li><strong>July 2026:</strong> Presented 3D-LLDM, LoSA-Net, and MMA-Former as oral papers at IEEE ISBI 2026</li>
-      <li><strong>July 2026:</strong> Released new arXiv work on medical imaging, PNI prediction, and multimodal learning</li>
-      <li><strong>March 2026:</strong> Presented RAPIDS and GRAVEX at NVIDIA GTC 2026</li>
-      <li><strong>February 2026:</strong> Presented MAESIL at IEEE ICEIC 2026</li>
-      <li><strong>September 2025:</strong> Presented FOSCU at IEEE APCCAS 2025</li>
-      <li><strong>October 2024:</strong> Joined GNEWSOFT as an AI Researcher</li>
+      <li><strong>Method for Refining Hyperspectral Images Using Deep Learning</strong> (딥러닝을 이용한 초분광이미지의 정제방법), Korean Patent Registration No. <a href="https://www.kipris.or.kr/khome/search/searchResult.do" target="_blank" rel="noopener">10-3010471-0000</a>.</li>
     </ul>
+
+    <h3>Teaching Experience</h3>
+    <p>His teaching spans fluid mechanics, introduction to mechanical engineering, foundational English, TOEFL, Python, deep learning, and machine learning. Selected professional programmes include:</p>
+    <ul>
+      <li><strong>SK Telecom:</strong> employee training on practical Stable Diffusion workflows.</li>
+      <li><strong>Seoul National University OUTTA:</strong> deep-learning bootcamp instruction.</li>
+      <li><strong>HUN Company, Ilsan:</strong> ChatGPT training for planners and product teams.</li>
+      <li><strong>KCA / Kyobo Life:</strong> AX insight education and foundational prompt-engineering skills.</li>
+      <li><strong>Busan Metropolitan City:</strong> public-data ideation and advanced prompt engineering for public officials.</li>
+      <li><strong>Kookmin University:</strong> AX-Startup bootcamp sessions on AI literacy and prompt engineering.</li>
+    </ul>
+
+    <h3>Volunteering</h3>
+    <ul>
+      <li><strong>Blood Donation Volunteer — <a href="https://www.redcross.or.kr/main/main.do" target="_blank" rel="noopener">Korean Red Cross Blood Services</a>:</strong> more than 50 donations since 2018; Blood Donation Merit Silver Award on October 8, 2020, and Gold Award on August 21, 2021.</li>
+      <li><strong>Recurring Donor — <a href="https://www.navercorp.com/en/main" target="_blank" rel="noopener">NAVER Corp</a>:</strong> ongoing giving through NAVER Happy Bean since 2015, beginning with rewards earned from blogging and expanding into recurring and direct donations supporting vulnerable communities.</li>
+    </ul>
+
+    <div class="award-grid" aria-label="Blood donation awards">
+      <a class="award-card" href="/imsi/authors/research_assistants/kyeonghun-kim/blood-donation-silver.png" data-fancybox="blood-donation-awards" data-caption="Korean Red Cross Blood Donation Merit Silver Award — October 8, 2020">
+        <img src="/imsi/authors/research_assistants/kyeonghun-kim/blood-donation-silver.png" alt="Korean Red Cross Blood Donation Merit Silver Award">
+        <strong>Silver Award</strong><small>October 8, 2020 · Click to enlarge</small>
+      </a>
+      <a class="award-card" href="/imsi/authors/research_assistants/kyeonghun-kim/blood-donation-gold.png" data-fancybox="blood-donation-awards" data-caption="Korean Red Cross Blood Donation Merit Gold Award — August 21, 2021">
+        <img src="/imsi/authors/research_assistants/kyeonghun-kim/blood-donation-gold.png" alt="Korean Red Cross Blood Donation Merit Gold Award">
+        <strong>Gold Award</strong><small>August 21, 2021 · Click to enlarge</small>
+      </a>
+    </div>
 
     <h3>Certifications &amp; Licenses</h3>
     <div id="kh-credentials"><p>Loading credentials…</p></div>
-
-    <h3>Key Achievements</h3>
-    <ul>
-      <li>Built the official IMSI Research Lab website from ground up</li>
-      <li>Developed HyperspectralMAE foundation model achieving SOTA performance</li>
-      <li>Led deep learning bootcamps for 450+ participants (2023) and 650+ participants (2024)</li>
-      <li>Collaboration with NVIDIA researchers on medical AI projects</li>
-      <li>Multiple publications in top-tier medical imaging conferences</li>
-    </ul>
 
   </div>
 </div>

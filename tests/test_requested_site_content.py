@@ -100,6 +100,7 @@ class RequestedSiteContentTests(unittest.TestCase):
                 "Hyunsu Go",
                 "Jooyoung Bae",
                 "Anna Jung",
+                "Minjun Yoo",
                 "Giseong Hwang",
             ],
             names,
@@ -136,6 +137,97 @@ class RequestedSiteContentTests(unittest.TestCase):
             self.assertEqual(b"IHDR", image.read(4))
             width, height = struct.unpack(">II", image.read(8))
         self.assertEqual((512, 512), (width, height))
+
+    def test_minjun_profile_has_canonical_route_projects_and_verified_media(self):
+        profile_path = ROOT / "authors" / "undergraduate_interns" / "minjun-yoo" / "index.html"
+        self.assertTrue(profile_path.exists())
+        profile = profile_path.read_text(encoding="utf-8")
+        required = [
+            "Minjun Yoo",
+            "yoodison@snu.ac.kr",
+            "Mathematics Education",
+            "March 2023",
+            "March 2028",
+            "Geuneulro",
+            "https://www.instagram.com/geuneulro/",
+            "https://play.google.com/store/apps/details?id=com.unmet.ttubeok",
+            "https://apps.apple.com/kr/app/",
+            "3bfa4fa76c2f81c49cfde2e17bfc43dd",
+            "youquizontheblock",
+            "news.sbs.co.kr",
+            "KBS",
+        ]
+        for text in required:
+            self.assertIn(text, profile)
+
+        mapping = json.loads((ROOT / "data" / "author-profiles.json").read_text(encoding="utf-8"))
+        self.assertEqual(
+            "/imsi/authors/undergraduate_interns/minjun-yoo/",
+            mapping["Minjun Yoo"],
+        )
+
+        portrait = ROOT / "authors" / "undergraduate_interns" / "minjun-yoo" / "avatar.png"
+        with portrait.open("rb") as image:
+            self.assertEqual(b"\x89PNG\r\n\x1a\n", image.read(8))
+
+    def test_research_profiles_have_highlights_orcid_and_service_sections(self):
+        eunseob = (ROOT / "authors" / "undergraduate_interns" / "eunseob-choi" / "index.html").read_text(encoding="utf-8")
+        kyeonghun = (ROOT / "authors" / "research_assistants" / "kyeonghun-kim" / "index.html").read_text(encoding="utf-8")
+        youngung = (ROOT / "authors" / "research_assistants" / "youngung-han" / "index.html").read_text(encoding="utf-8")
+
+        for profile in [eunseob, kyeonghun]:
+            self.assertIn("Two NeurIPS 2026 Papers Accepted", profile)
+            self.assertIn("/imsi/news/NEWS-005/", profile)
+
+        self.assertIn("https://orcid.org/0009-0002-9405-8424", kyeonghun)
+        self.assertIn("https://orcid.org/0009-0008-0596-8367", youngung)
+
+        required_kyeonghun = [
+            "3D-LLDM",
+            "first author",
+            "ISBI 2026",
+            "Stanford",
+            "NVIDIA",
+            "Samsung Medical Center",
+            "Google",
+            "Salesforce",
+            "Uber",
+            "Microsoft",
+            "NeurIPS 2026: 2",
+            "MICCAI Workshops: 2",
+            "AAAI Workshop: 1",
+            "ISBI oral papers: 3",
+            "IEEE MedAI: 1",
+            "AICAS oral papers: 3",
+            "APCCAS papers: 4",
+            "GTC posters: 3",
+            "AACL-IJCNLP: 1",
+            "10-3010471-0000",
+            "Teaching Experience",
+            "SK Telecom",
+            "OUTTA",
+            "HUN Company",
+            "Kyobo Life",
+            "Busan Metropolitan City",
+            "Kookmin University",
+            "Volunteering",
+            "Korean Red Cross Blood Services",
+            "https://www.redcross.or.kr/main/main.do",
+            "NAVER Happy Bean",
+            "https://www.navercorp.com/en/main",
+            "October 8, 2020",
+            "August 21, 2021",
+            "data-fancybox=\"blood-donation-awards\"",
+            "blood-donation-silver.png",
+            "blood-donation-gold.png",
+        ]
+        for text in required_kyeonghun:
+            self.assertIn(text, kyeonghun)
+
+        for filename in ["blood-donation-silver.png", "blood-donation-gold.png"]:
+            image_path = ROOT / "authors" / "research_assistants" / "kyeonghun-kim" / filename
+            with image_path.open("rb") as image:
+                self.assertEqual(b"\x89PNG\r\n\x1a\n", image.read(8))
 
 
 if __name__ == "__main__":
