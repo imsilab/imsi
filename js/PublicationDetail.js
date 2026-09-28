@@ -263,20 +263,12 @@
 
       const targetKey = normalizePubId(currentPublicationId);
       const row = rows.find((item) => {
-        const pubId = getValue(item, ['Pub_ID', 'Pub ID', 'pub_id', 'Column_0']);
-        return normalizePubId(pubId) === targetKey;
+        return normalizePubId(item.id) === targetKey;
       });
 
       if (!row) return;
 
-      const title = getValue(row, ['Title', 'title', 'Column_2']);
-      const year = getValue(row, ['Year', 'year', 'Column_1']);
-      const authors = getValue(row, ['Authors', 'authors', 'Column_4']);
-      const paperLink = getValue(row, ['Paper_Link', 'Paper Link', 'paper_link', 'Column_5']);
-      const venueName = getValue(row, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']);
-      const venueLink = getValue(row, ['Venue_Link', 'Venue Link', 'venue_link', 'Column_6']);
-      const notes = getValue(row, ['Notes', 'notes', 'Column_7']);
-      const citeText = getValue(row, ['Cite', 'cite', 'Citation', 'citation', 'BibTeX', 'Bibtex', 'bibtex', 'Column_11']);
+      const {title, year, authors, venue: venueName, venueUrl: venueLink, notes, cite: citeText} = row;
 
       if (title) {
         setTextById('pub-title', title);
@@ -292,10 +284,14 @@
       }
 
       const pdfLinkElement = document.getElementById('pub-pdf-link');
-      if (pdfLinkElement && paperLink) {
-        pdfLinkElement.setAttribute('href', paperLink);
-        pdfLinkElement.setAttribute('target', '_blank');
-        pdfLinkElement.setAttribute('rel', 'noopener');
+      if (pdfLinkElement) {
+        const linkActions = window.IMSI.Publications.actions(row).filter(action => action.kind !== 'cite');
+        const actionContainer = document.createElement('span');
+        actionContainer.id = 'pub-action-links';
+        actionContainer.innerHTML = linkActions.map(action =>
+          `<a class="btn btn-outline-primary my-1 mr-1 btn-sm" href="${escapeHtml(action.url)}" target="_blank" rel="noopener">${escapeHtml(action.label)}</a>`
+        ).join('');
+        pdfLinkElement.replaceWith(actionContainer);
       }
 
       if (notes) {

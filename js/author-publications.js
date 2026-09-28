@@ -8,44 +8,30 @@
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 
-  const value = (row, keys) => {
-    for (const key of keys) {
-      if (row[key] !== undefined && row[key] !== null && String(row[key]).trim()) {
-        return String(row[key]).trim();
-      }
-    }
-    return '';
-  };
-
   const normalizedAuthor = author => String(author || '')
     .replace(/[\s*†‡]+$/g, '')
     .trim()
     .toLowerCase();
 
-  const hasAuthor = (row, authorName) => value(row, ['Authors', 'Column_4'])
+  const hasAuthor = (row, authorName) => String(row.authors || '')
     .split(',')
     .some(author => normalizedAuthor(author) === normalizedAuthor(authorName));
 
   const publicationNumber = row => Number(
-    (value(row, ['Pub_ID', 'Column_0']).match(/\d+/g) || [0]).pop()
+    (String(row.id || '').match(/\d+/g) || [0]).pop()
   );
 
-  function statusBadge(row) {
-    const status = value(row, ['Status', 'Column_14']);
-    if (!status || /^published$/i.test(status)) return '';
-    return `<span class="profile-publication-status">${escapeHtml(status)}</span>`;
-  }
-
   function publicationItem(row) {
-    const title = value(row, ['Title', 'Column_2']);
-    const paper = value(row, ['Paper_Link', 'Column_5']);
-    const venue = value(row, ['Venue_Name', 'Column_3']);
-    const year = value(row, ['Year', 'Column_1']);
-    const titleHtml = paper && paper !== '-'
-      ? `<a href="${escapeHtml(paper)}" target="_blank" rel="noopener"><strong>${escapeHtml(title)}</strong></a>`
-      : `<strong>${escapeHtml(title)}</strong>`;
-    return `<li>${titleHtml}${statusBadge(row)}
+    const title = row.title;
+    const venue = row.venue;
+    const year = row.year;
+    const actions = window.IMSI.Publications.actions(row)
+      .filter(action => action.kind !== 'cite')
+      .map(action => `<a href="${escapeHtml(action.url)}" target="_blank" rel="noopener">${escapeHtml(action.label)}</a>`)
+      .join(' · ');
+    return `<li><strong>${escapeHtml(title)}</strong>
       <small>${escapeHtml([venue, year].filter(Boolean).join(' · '))}</small>
+      ${actions ? `<small class="profile-publication-actions">${actions}</small>` : ''}
     </li>`;
   }
 
@@ -58,7 +44,7 @@
       const rows = (await getPublications())
         .filter(row => hasAuthor(row, authorName))
         .sort((a, b) =>
-          Number(value(b, ['Year', 'Column_1'])) - Number(value(a, ['Year', 'Column_1'])) ||
+          Number(b.year) - Number(a.year) ||
           publicationNumber(b) - publicationNumber(a)
         )
         .slice(0, 15);
@@ -87,6 +73,9 @@
           color: #6c757d;
           display: block;
           margin-top: .2rem;
+        }
+        .profile-publications .profile-publication-actions a {
+          font-weight: 600;
         }
         .profile-publication-status {
           background: #f57c00;

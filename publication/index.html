@@ -1731,7 +1731,8 @@
     
     
     <script src="/imsi/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
-    <script src="/imsi/js/SheetServices.js"></script>
+    <script src="/imsi/js/publication-data.js"></script>
+  <script src="/imsi/js/SheetServices.js"></script>
     <script>
       function getPubValue(row, keys) {
         for (const key of keys) {
@@ -1804,7 +1805,7 @@
       }
 
       function publicationIdSortValue(row) {
-        const pubId = getPubValue(row, ['Pub_ID', 'Pub ID', 'pub_id', 'Column_0']);
+        const pubId = row.id;
         const matches = String(pubId).match(/\d+/g);
         if (!matches || matches.length === 0) return -1;
         const n = Number(matches[matches.length - 1]);
@@ -1900,38 +1901,20 @@
       }
 
       function buildPublicationCard(row) {
-        const pubId = getPubValue(row, ['Pub_ID', 'Pub ID', 'pub_id', 'Column_0']);
-        const year = getPubValue(row, ['Year', 'year', 'Column_1']);
-        const title = getPubValue(row, ['Title', 'title', 'Column_2']);
-        const venue = getPubValue(row, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']);
-        const authorsRaw = getPubValue(row, ['Authors', 'authors', 'Column_4']);
+        const Publications = window.IMSI.Publications;
+        const year = row.year;
+        const title = row.title;
+        const venue = row.venue;
+        const authorsRaw = row.authors;
         const authors = formatPublicationAuthors(authorsRaw);
-        const paperLink = getPubValue(row, ['Paper_Link', 'Paper Link', 'paper_link', 'Column_5']);
-        const venueLink = getPubValue(row, ['Venue_Link', 'Venue Link', 'venue_link', 'Column_6']);
-        const codeLink = getPubValue(row, ['Code', 'code', 'Code_Link', 'Code Link', 'code_link', 'Column_8']);
-        const posterLink = getPubValue(row, ['Poster_Link', 'Poster Link', 'poster_link', 'Column_9']);
-        const slidesLink = getPubValue(row, ['Slides_Link', 'Slides Link', 'slides_link', 'Slide_Link', 'Slide Link', 'slide_link', 'Column_10']);
-        const citeText = getPubValue(row, ['Cite', 'cite', 'Citation', 'citation', 'BibTeX', 'Bibtex', 'bibtex', 'Column_11']);
         if (!title) return '';
 
-        const normalizedPubId = normalizePublicationId(pubId);
-        const localPdfUrl = normalizedPubId ? `/imsi/publication/${encodeURIComponent(normalizedPubId)}/paper.pdf` : '';
-        const pdfUrl = paperLink || localPdfUrl;
-
-        const actions = [];
-        actions.push(`<a class="btn btn-outline-primary btn-sm" href="${escapePubHtml(pdfUrl)}" target="_blank" rel="noopener">PDF</a>`);
-        if (codeLink) {
-          actions.push(`<a class="btn btn-outline-primary btn-sm" href="${escapePubHtml(String(codeLink).trim())}" target="_blank" rel="noopener">Code</a>`);
-        }
-        if (posterLink) {
-          actions.push(`<a class="btn btn-outline-primary btn-sm" href="${escapePubHtml(String(posterLink).trim())}" target="_blank" rel="noopener">POSTER</a>`);
-        }
-        if (slidesLink) {
-          actions.push(`<a class="btn btn-outline-primary btn-sm" href="${escapePubHtml(String(slidesLink).trim())}" target="_blank" rel="noopener">SLIDES</a>`);
-        }
-        actions.push(`<button type="button" class="btn btn-outline-primary btn-sm js-pub-cite-modal" data-title="${escapePubHtml(title)}" data-authors="${escapePubHtml(authorsRaw)}" data-year="${escapePubHtml(year)}" data-cite="${encodePubDataValue(citeText)}">Cite</button>`);
+        const actions = Publications.actions(row).map(action => action.kind === 'cite'
+          ? `<button type="button" class="btn btn-outline-primary btn-sm js-pub-cite-modal" data-title="${escapePubHtml(title)}" data-authors="${escapePubHtml(authorsRaw)}" data-year="${escapePubHtml(year)}" data-cite="${encodePubDataValue(action.url)}">${action.label}</button>`
+          : `<a class="btn btn-outline-primary btn-sm" href="${escapePubHtml(action.url)}" target="_blank" rel="noopener">${escapePubHtml(action.label)}</a>`
+        );
         const actionsHtml = actions.length ? `<div class="pub-card-actions">${actions.join('')}</div>` : '';
-        const venueHtml = formatLinkedVenueHtml(venue, venueLink, escapePubHtml);
+        const venueHtml = formatLinkedVenueHtml(venue, row.venueUrl, escapePubHtml);
         const metaHtml = [venueHtml, year ? escapePubHtml(year) : ''].filter(Boolean).join(', ');
 
         return `
@@ -1949,20 +1932,20 @@
 
       function sortPublicationRows(rows) {
         return [...rows].sort((a, b) => {
-          const aUnderReview = isUnderReviewVenue(getPubValue(a, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']));
-          const bUnderReview = isUnderReviewVenue(getPubValue(b, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']));
+          const aUnderReview = isUnderReviewVenue(a.venue);
+          const bUnderReview = isUnderReviewVenue(b.venue);
           if (aUnderReview !== bUnderReview) return aUnderReview ? 1 : -1;
 
-          const ay = toYearNumber(getPubValue(a, ['Year', 'year', 'Column_1'])) ?? -1;
-          const by = toYearNumber(getPubValue(b, ['Year', 'year', 'Column_1'])) ?? -1;
+          const ay = toYearNumber(a.year) ?? -1;
+          const by = toYearNumber(b.year) ?? -1;
           if (ay !== by) return by - ay;
 
           const aid = publicationIdSortValue(a);
           const bid = publicationIdSortValue(b);
           if (aid !== bid) return bid - aid;
 
-          const at = getPubValue(a, ['Title', 'title', 'Column_2']).toLowerCase();
-          const bt = getPubValue(b, ['Title', 'title', 'Column_2']).toLowerCase();
+          const at = a.title.toLowerCase();
+          const bt = b.title.toLowerCase();
           return at.localeCompare(bt);
         });
       }
@@ -1970,7 +1953,7 @@
       function groupPublicationsByYear(rows) {
         const buckets = new Map();
         rows.forEach((row) => {
-          const year = getPubValue(row, ['Year', 'year', 'Column_1']) || 'Unknown';
+          const year = row.year || 'Unknown';
           if (!buckets.has(year)) buckets.set(year, []);
           buckets.get(year).push(row);
         });
@@ -1993,8 +1976,8 @@
           return;
         }
 
-        const regularRows = rows.filter((row) => !isUnderReviewVenue(getPubValue(row, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3'])));
-        const underReviewRows = rows.filter((row) => isUnderReviewVenue(getPubValue(row, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3'])));
+        const regularRows = rows.filter((row) => !isUnderReviewVenue(row.venue));
+        const underReviewRows = rows.filter((row) => isUnderReviewVenue(row.venue));
 
         const regularGroups = groupPublicationsByYear(regularRows);
         const underReviewGroups = groupPublicationsByYear(underReviewRows);
@@ -2074,7 +2057,7 @@
           };
 
           const years = [...new Set(sorted
-            .map(r => getPubValue(r, ['Year', 'year', 'Column_1']))
+            .map(r => r.year)
             .filter(Boolean))]
             .sort((a, b) => (toYearNumber(b) ?? 0) - (toYearNumber(a) ?? 0));
 
@@ -2090,31 +2073,33 @@
     </select>
   </div>
 </div>
+<p id="pub-result-count" class="pub-result-count" aria-live="polite"></p>
 <div id="publication-dynamic-list" class="pub-year-sections"></div>`;
 
           const listEl = document.getElementById('publication-dynamic-list');
           const searchInput = document.getElementById('pub-search-dynamic');
           const yearSelect = document.getElementById('pub-year-filter-dynamic');
+          const resultCount = document.getElementById('pub-result-count');
 
           const render = () => {
             const query = normalizeSearchText(state.query);
             const queryCompact = query.replace(/\s+/g, '');
             const filtered = state.all.filter((r) => {
-              if (state.year !== 'all' && getPubValue(r, ['Year', 'year', 'Column_1']) !== state.year) {
+              if (state.year !== 'all' && r.year !== state.year) {
                 return false;
               }
               if (!query) return true;
 
               const haystack = normalizeSearchText([
-                getPubValue(r, ['Title', 'title', 'Column_2']),
-                getPubValue(r, ['Authors', 'authors', 'Column_4']),
-                getPubValue(r, ['Venue_Name', 'Venue Name', 'venue_name', 'Column_3']),
-                getPubValue(r, ['Year', 'year', 'Column_1'])
+                r.title, r.authors, r.venue, r.year, r.notes, r.remarks
               ].join(' '));
               const haystackCompact = haystack.replace(/\s+/g, '');
               return haystack.includes(query) || haystackCompact.includes(queryCompact);
             });
 
+            resultCount.textContent = state.query || state.year !== 'all'
+              ? `${filtered.length} results`
+              : `${filtered.length} publications`;
             renderPublicationYearSections(listEl, filtered);
           };
 
@@ -2205,7 +2190,6 @@
 
 </body>
 </html>
-
 
 
 

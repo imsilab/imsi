@@ -253,6 +253,62 @@ class BrowserSmokeTests(unittest.TestCase):
         self.assertIn("Global Track Silver Award", profile["text"])
         self.assertIn("Scheduled for October 26, 2026", profile["text"])
 
+    def test_publication_search_reports_count_and_new_link_actions(self):
+        self._navigate("publication/")
+        initial = self._execute_async(
+            """
+            const done = arguments[arguments.length - 1];
+            const deadline = Date.now() + 20000;
+            (function poll() {
+              const count = document.getElementById('pub-result-count');
+              const cards = [...document.querySelectorAll('#publication-dynamic-list .pub-card')];
+              if (count && cards.length) {
+                done({
+                  count: count.innerText,
+                  cards: cards.length,
+                  labels: [...document.querySelectorAll('#publication-dynamic-list .pub-card-actions > *')]
+                    .map(node => node.innerText.trim())
+                });
+              } else if (Date.now() > deadline) {
+                done({error: 'publication archive timed out', body: document.body.innerText});
+              } else {
+                setTimeout(poll, 100);
+              }
+            })();
+            """
+        )
+        self.assertNotIn("error", initial)
+        self.assertIn(str(initial["cards"]), initial["count"])
+        self.assertIn("GDrive", initial["labels"])
+        self.assertIn("arXiv", initial["labels"])
+
+        zero = self._execute_async(
+            """
+            const done = arguments[arguments.length - 1];
+            const input = document.getElementById('pub-search-dynamic');
+            input.value = 'definitely-no-such-publication-928374';
+            input.dispatchEvent(new Event('input', {bubbles: true}));
+            setTimeout(() => done({
+              count: document.getElementById('pub-result-count')?.innerText || '',
+              cards: document.querySelectorAll('#publication-dynamic-list .pub-card').length
+            }), 100);
+            """
+        )
+        self.assertEqual(0, zero["cards"])
+        self.assertIn("0", zero["count"])
+
+        lab_filter = self._execute_async(
+            """
+            const done = arguments[arguments.length - 1];
+            done({
+              personal: IMSI.Publications.isLabPublication(IMSI.Publications.normalize({Remarks: 'PERSONAL'})),
+              lab: IMSI.Publications.isLabPublication(IMSI.Publications.normalize({Remarks: 'Lab'}))
+            });
+            """
+        )
+        self.assertFalse(lab_filter["personal"])
+        self.assertTrue(lab_filter["lab"])
+
     def test_new_and_updated_profiles_render_required_links_and_assets(self):
         self._navigate("authors/undergraduate_interns/minjun-yoo/")
         minjun = self._execute_async(

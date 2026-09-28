@@ -9,6 +9,27 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class RequestedSiteContentTests(unittest.TestCase):
+    def test_publication_pages_load_shared_adapter_before_sheet_service(self):
+        for path in ROOT.rglob("*.html"):
+            if "_site" in path.parts:
+                continue
+            source = path.read_text(encoding="utf-8")
+            if "/imsi/js/SheetServices.js" not in source:
+                continue
+            with self.subTest(path=path.relative_to(ROOT)):
+                self.assertIn("/imsi/js/publication-data.js", source)
+                self.assertLess(
+                    source.index("/imsi/js/publication-data.js"),
+                    source.index("/imsi/js/SheetServices.js"),
+                )
+
+    def test_publication_archive_has_result_count_and_shared_actions(self):
+        source = (ROOT / "publication" / "index.html").read_text(encoding="utf-8")
+        self.assertIn('id="pub-result-count"', source)
+        self.assertIn('aria-live="polite"', source)
+        self.assertIn("Publications.actions", source)
+        self.assertNotIn("'Paper_Link', 'Paper Link', 'paper_link', 'Column_5'", source)
+
     def test_local_news_is_merged_with_sheet_news(self):
         service = (ROOT / "js" / "SheetServices.js").read_text(encoding="utf-8")
         self.assertIn("/imsi/data/news-local.json", service)

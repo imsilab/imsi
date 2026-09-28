@@ -11,3 +11,9 @@
 .navbar-brand img {
   height: 90px !important;
 }
+.pub-result-count {
+  color: #5f6b7a;
+  font-size: .95rem;
+  font-weight: 600;
+  margin: -.5rem 0 1.25rem;
+}
