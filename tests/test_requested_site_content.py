@@ -45,11 +45,33 @@ class RequestedSiteContentTests(unittest.TestCase):
 
         records = json.loads((ROOT / "data" / "news-local.json").read_text(encoding="utf-8"))
         by_id = {row["News_ID"]: row for row in records}
-        self.assertEqual({"NEWS_005", "NEWS_006"}, set(by_id))
+        self.assertEqual({"NEWS_005", "NEWS_006", "NEWS_007", "NEWS_008"}, set(by_id))
         self.assertEqual("2026-09-28", by_id["NEWS_005"]["Date"])
         self.assertEqual("2026-10-01", by_id["NEWS_006"]["Date"])
         self.assertIn("NeurIPS 2026", by_id["NEWS_005"]["Title"])
         self.assertIn("2027년 1월", by_id["NEWS_006"]["Title"])
+
+    def test_niscis_and_internship_document_news_have_downloadable_attachments(self):
+        records = json.loads((ROOT / "data" / "news-local.json").read_text(encoding="utf-8"))
+        by_id = {row["News_ID"]: row for row in records}
+
+        niscis = by_id["NEWS_007"]
+        self.assertEqual("2026-10-02", niscis["Date"])
+        self.assertEqual("차세대반도체 혁신융합학회(NISCIS) 개최 안내", niscis["Title"])
+        self.assertIn("2026년 10월 23일(금) 18:00", niscis["Content"])
+        self.assertIn("https://www.disu.ac.kr/community/notice", niscis["Content"])
+        self.assertIn("export=download&id=1Tcc6k6ihFjLMeqrqmbc9JN5J3eIENp--", niscis["Content"])
+        self.assertIn("153DXOSVmakAMNEQSDJW3O2KI95zYM-XR/export?format=docx", niscis["Content"])
+
+        confirmation = by_id["NEWS_008"]
+        self.assertEqual("2026-10-05", confirmation["Date"])
+        self.assertEqual("2026학년도 차세대반도체 인턴십 근무확인서 발급 안내", confirmation["Title"])
+        self.assertIn("1학기·하계·2학기·동계", confirmation["Content"])
+        self.assertIn("export=download&id=1sjyScTF0As04PabNxT66LrrexFZAEk23", confirmation["Content"])
+
+        for news_id in ("NEWS-007", "NEWS-008"):
+            page = ROOT / "news" / news_id / "index.html"
+            self.assertTrue(page.is_file(), news_id)
 
     def test_news_detail_pages_have_required_content_and_no_access_codes(self):
         neurips = (ROOT / "news" / "NEWS-005" / "index.html").read_text(encoding="utf-8")

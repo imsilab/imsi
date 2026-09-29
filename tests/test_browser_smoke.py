@@ -135,6 +135,8 @@ class BrowserSmokeTests(unittest.TestCase):
         self.assertIn("NEWS-001", merged_ids, "Google Sheet news should be retained")
         self.assertIn("NEWS-005", merged_ids)
         self.assertIn("NEWS-006", merged_ids)
+        self.assertIn("NEWS-007", merged_ids)
+        self.assertIn("NEWS-008", merged_ids)
 
         home_result = self._execute_async(
             """
@@ -143,7 +145,8 @@ class BrowserSmokeTests(unittest.TestCase):
             (function poll() {
               const root = document.getElementById('home-news-list');
               const text = root ? root.innerText : '';
-              if (text.includes('NeurIPS 2026') && text.includes('2027년 1월')) {
+              if (text.includes('NeurIPS 2026') && text.includes('2027년 1월') &&
+                  text.includes('NISCIS') && text.includes('근무확인서')) {
                 done({text, hrefs: [...root.querySelectorAll('a')].map(a => a.getAttribute('href'))});
               } else if (Date.now() > deadline) {
                 done({error: 'home news timed out', text});
@@ -156,6 +159,8 @@ class BrowserSmokeTests(unittest.TestCase):
         self.assertNotIn("error", home_result)
         self.assertIn("/imsi/news/NEWS-005/index.html", home_result["hrefs"])
         self.assertIn("/imsi/news/NEWS-006/index.html", home_result["hrefs"])
+        self.assertIn("/imsi/news/NEWS-007/index.html", home_result["hrefs"])
+        self.assertIn("/imsi/news/NEWS-008/index.html", home_result["hrefs"])
 
         self._navigate("news/NEWS-005/")
         detail_result = self._execute_async(
@@ -208,6 +213,33 @@ class BrowserSmokeTests(unittest.TestCase):
         self.assertNotIn("2층입구비번", interview_result["text"])
         self.assertIn("http://capp.snu.ac.kr/imsi/", interview_result["links"])
         self.assertIn("NVIDIA San Jose", interview_result["text"])
+
+        for route, expected, attachment_id in [
+            ("news/NEWS-007/", "초록 제출 안내", "1Tcc6k6ihFjLMeqrqmbc9JN5J3eIENp--"),
+            ("news/NEWS-008/", "근무확인서 발급 절차", "1sjyScTF0As04PabNxT66LrrexFZAEk23"),
+        ]:
+            self._navigate(route)
+            result = self._execute_async(f"""
+                const done = arguments[arguments.length - 1];
+                const deadline = Date.now() + 10000;
+                (function poll() {{
+                  const content = document.getElementById('news-content');
+                  const text = content?.innerText || '';
+                  if (text.includes('{expected}')) {{
+                    done({{
+                      text,
+                      links: [...content.querySelectorAll('a')].map(a => a.href),
+                      navLinks: [...document.querySelectorAll('#navbar-main a')].map(a => a.getAttribute('href'))
+                    }});
+                  }} else if (Date.now() > deadline) {{
+                    done({{error: 'news detail timed out', text}});
+                  }} else setTimeout(poll, 50);
+                }})();
+            """)
+            self.assertNotIn("error", result)
+            self.assertTrue(any(attachment_id in link for link in result["links"]))
+            for href in ["/imsi/", "/imsi/publication", "/imsi/#people", "/imsi/alumni/"]:
+                self.assertIn(href, result["navLinks"])
 
     def test_people_order_and_yului_profile_render(self):
         self._navigate("/")
