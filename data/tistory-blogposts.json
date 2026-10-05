@@ -1,9 +1,37 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-09-28T04:58:27.100712Z",
+  "updated_at": "2026-10-05T05:12:47.590892Z",
   "count": 6,
   "items": [
+    {
+      "title": "[윤희건] Repaint : Inpainting using Denoising Diffusion Probabilistic Models",
+      "link": "https://lambdacourse.tistory.com/102",
+      "pub_date": "Sat, 3 Oct 2026 12:04:43 +0900",
+      "iso_date": "2026-10-03T03:04:43Z",
+      "excerpt": "RePaint: 여러 마스크에 대한 이미지의 자연스러운 생성 이미지에서 사람이나 물체를 지운 뒤 빈자리를 자연스럽게 채우려면 주변 색, 질감만 복사해서는 부족합니다. 얼굴의 일부가 사라졌다면 나머지 얼굴 구조와 맞아야 하고, 배경의 넓은 영역이 사라졌다면 장면 전체의 의미와 조명까지 어울려야 합니다. 즉 의미론적으로 유사해야 합니다. 2022년 CVPR 논문 「RePaint: Inpainting using Denoising..."
+    },
+    {
+      "title": "[김민정] Voxel Morph",
+      "link": "https://lambdacourse.tistory.com/101",
+      "pub_date": "Sat, 3 Oct 2026 11:21:18 +0900",
+      "iso_date": "2026-10-03T02:21:18Z",
+      "excerpt": "제목: VoxelMorph: A Learning Framework for Deformable Medical Image Registration 저자: Guha Balakrishnan, Amy Zhao, Mert R. Sabuncu, John Guttag, Adrian V. Dalca 학회: IEEE Transactions on Medical Imaging, 2019 arXiv: 1809.05231v3 VoxelMorph: A..."
+    },
+    {
+      "title": "[정율의] Image Inpainting for Irregular Holes Using Partial Convolutions",
+      "link": "https://lambdacourse.tistory.com/100",
+      "pub_date": "Sat, 3 Oct 2026 10:41:20 +0900",
+      "iso_date": "2026-10-03T01:41:20Z",
+      "excerpt": "논문명 : Image Inpainting for Irregular Holes Using Partial Convolutions 저자 : Guilin Liu, Fitsum A. Reda, Kevin J. Shih, Ting-Chun Wang, Andrew Tao, Bryan Catanzaro 학회 : European Conference on Computer Vision (ECCV), pp. 85–100 발표연도 : 2018년..."
+    },
+    {
+      "title": "[이다은] SRDiff",
+      "link": "https://lambdacourse.tistory.com/99",
+      "pub_date": "Sat, 3 Oct 2026 01:49:13 +0900",
+      "iso_date": "2026-10-02T16:49:13Z",
+      "excerpt": "논문명 : Single Image Super-Resolution with Diffusion Probabilistic Models 저자 : Haoying Li, Yifan Yang, Meng Chang, Shiqi Chen , Huajun Feng, Zhihai Xu, Qi Li, Yueting Chen 저널 : Neurocomputing , Volume 479, pp. 47–59 발표연도 : 2022년 논문 링크..."
+    },
     {
       "title": "[이택규] Generative Adversarial Nets",
       "link": "https://lambdacourse.tistory.com/98",
@@ -17,34 +45,6 @@
       "pub_date": "Wed, 16 Sep 2026 23:06:37 +0900",
       "iso_date": "2026-09-16T14:06:37Z",
       "excerpt": "논문 제목: Learning Transferable Visual Models From Natural Language Supervision 저자: Alec Radford, Jong Wook Kim, Chris Hallacy, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, Gretchen Krueger, Ilya Sutskever (OpenAI) 학회: ICML 2021..."
-    },
-    {
-      "title": "[황인성]Knowledge Transfer Via Distillation",
-      "link": "https://lambdacourse.tistory.com/96",
-      "pub_date": "Sat, 12 Sep 2026 12:56:41 +0900",
-      "iso_date": "2026-09-12T03:56:41Z",
-      "excerpt": "논문 제목: Knowledge Transfer via Distillation of Activation Boundaries Formed by Hidden Neurons 저자: Byeongho Heo, Minsik Lee, Sangdoo Yun, Jin Young Choi 소속: 서울대학교, 한양대학교, 네이버 학회: AAAI 2019 1. 해결하고자 하는 문제 딥러닝 모델은 학습을 위해 많은 시간과 컴퓨팅 자원의 소모를..."
-    },
-    {
-      "title": "[hgyoon] ControlNet: Adding Conditional Control to Text-to-Image Diffusion Models",
-      "link": "https://lambdacourse.tistory.com/95",
-      "pub_date": "Sat, 12 Sep 2026 12:52:39 +0900",
-      "iso_date": "2026-09-12T03:52:39Z",
-      "excerpt": "논문: Adding Conditional Control to Text-to-Image Diffusion Models 저자: Lvmin Zhang, Anyi Rao, Maneesh Agrawala (Stanford University, 2023) 원문: arXiv:2302.05543v3 텍스트만으로는 어려운 구도 제어를 ControlNet이 조건 이미지로 수행한다 Stable Diffusion은 무작위 노이즈에서 출발해..."
-    },
-    {
-      "title": "[이택규] Masked Autoencoders Are Scalable Vision Learners",
-      "link": "https://lambdacourse.tistory.com/94",
-      "pub_date": "Sat, 12 Sep 2026 11:57:36 +0900",
-      "iso_date": "2026-09-12T02:57:36Z",
-      "excerpt": "• 논문명: Masked Autoencoders Are Scalable Vision Learners • 저자: Kaiming He, Xinlei Chen, Saining Xie, Yanghao Li, Piotr Dollár, Ross Girshick • 소속: Facebook AI Research (FAIR) • 학회: ( CVPR 2022) 한줄 요약 이미지 패치의 약 75%를 무작위로 제거 후, 남아 있는 25%의 패치만..."
-    },
-    {
-      "title": "[이다은] NF",
-      "link": "https://lambdacourse.tistory.com/93",
-      "pub_date": "Sat, 12 Sep 2026 09:43:57 +0900",
-      "iso_date": "2026-09-12T00:43:57Z",
-      "excerpt": "논문명 : Variational Inference with Normalizing Flows 저자 : Danilo Jimenez Rezende, Shakir Mohamed (Google DeepMind, London) 학회 : Proceedings of the 32nd International Conference on Machine Learning (ICML 2015), Lille, France — JMLR: W&CP..."
     }
   ]
 }
