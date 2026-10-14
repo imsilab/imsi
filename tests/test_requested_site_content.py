@@ -94,8 +94,7 @@ class RequestedSiteContentTests(unittest.TestCase):
         self.assertIn("Eunseob Choi", neurips)
         self.assertIn("Nam-Joon Kim", neurips)
         self.assertNotIn("Nam-Joon Kim†", neurips)
-        self.assertIn("1nDVguFzOGEUAD3mXIiqLD5wUfmn01ipk", neurips)
-        self.assertIn("1WR75Het4xBgIfQZe_TeRUDbAVgiTyYD3", neurips)
+        self.assertNotIn("drive.google.com", neurips)
         for route in [
             "/imsi/authors/undergraduate_interns/eunseob-choi/",
             "/imsi/authors/research_assistants/kyeonghun-kim/",

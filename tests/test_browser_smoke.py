@@ -182,7 +182,8 @@ class BrowserSmokeTests(unittest.TestCase):
             """
         )
         self.assertNotIn("error", detail_result)
-        self.assertTrue(any("1nDVguFzOGEUAD3mXIiqLD5wUfmn01ipk" in link for link in detail_result["links"]))
+        self.assertIn("Auditing Correlated Failures in Frozen-Feature", detail_result["text"])
+        self.assertFalse(any("drive.google.com" in link for link in detail_result["links"]))
         for route in [
             "/imsi/authors/undergraduate_interns/eunseob-choi/",
             "/imsi/authors/research_assistants/kyeonghun-kim/",
