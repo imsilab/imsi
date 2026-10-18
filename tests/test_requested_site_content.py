@@ -287,6 +287,26 @@ class RequestedSiteContentTests(unittest.TestCase):
             with image_path.open("rb") as image:
                 self.assertEqual(b"\x89PNG\r\n\x1a\n", image.read(8))
 
+    def test_kyeonghun_profile_has_canonical_teaching_patent_and_sieun_link(self):
+        profile = (ROOT / "authors/research_assistants/kyeonghun-kim/index.html").read_text(encoding="utf-8")
+        plain_profile = re.sub(r"<[^>]+>", "", profile)
+        mapping = json.loads((ROOT / "data/author-profiles.json").read_text(encoding="utf-8"))
+
+        self.assertEqual("https://hyeonsieun.github.io/", mapping["Sieun Hyeon"])
+        required = [
+            "Registration date: August 27, 2026",
+            "October 23, 2026",
+            "Generative AI for Workplace Productivity and Public Administration",
+            "April 21, 2026",
+            "August 29 and September 1, 2026",
+            "June 1, 2024–August 30, 2026",
+            "March 2, 2018–Present",
+            "5,000+ learners",
+            "2,302,547 views",
+        ]
+        for text in required:
+            self.assertIn(text, plain_profile)
+
     def test_kyeonghun_profile_uses_shared_normalized_publication_renderer(self):
         profile = (ROOT / "authors/research_assistants/kyeonghun-kim/index.html").read_text(encoding="utf-8")
         self.assertIn('data-author-publications="Kyeonghun Kim"', profile)
