@@ -1,0 +1,418 @@
+<div data-guide="alphagpu-2026" style='max-width:860px;margin:0 auto;padding:12px 6px 52px;color:#334155;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;letter-spacing:-0.012em;word-break:keep-all;'><h1 style="font-size:32px;line-height:1.35;letter-spacing:-0.055em;font-weight:800;color:#172434;margin:0 0 24px;padding:0 0 14px;border-bottom:3px solid #3367d6;">IMSI Lab | alphagpu 서버 접속 및 Docker 개발 환경 구축 가이드</h1>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">작성자:</strong> 김경훈<br/>
+<strong style="color:#192d40;font-weight:750;">작성일:</strong> 2026-10-20<br/>
+<strong style="color:#192d40;font-weight:750;">대상:</strong> IMSI Lab 연구실 구성원<br/>
+<strong style="color:#192d40;font-weight:750;">환경:</strong> Ubuntu 26.04 LTS · NVIDIA GeForce RTX 5090 · GitHub · Docker Compose</p>
+<blockquote style="margin:24px 0;padding:17px 20px;border-left:4px solid #537fbc;border-radius:0 9px 9px 0;background:#f5f8fc;color:#304259;">
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">이 문서는 IMSI Lab의 공용 GPU 서버 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">alphagpu</code>에서 AI 연구 프로젝트를 일관된 방식으로 관리하고 실행하기 위한 가이드입니다. 핵심 원칙은 <strong style="color:#192d40;font-weight:750;">코드는 GitHub에서 관리하고, 프로젝트 실행은 Docker Compose로 통일하며, 각 사용자의 파일은 각자의 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">/home/&lt;username&gt;</code>에 보관하는 것</strong>입니다.</p>
+</blockquote>
+<h2 style="font-size:25px;line-height:1.42;letter-spacing:-0.045em;color:#172434;font-weight:800;margin:52px 0 19px;padding:0 0 10px;border-bottom:1px solid #d7e0ec;">목차</h2>
+<ol style="font-size:16px;line-height:1.85;color:#334155;margin:10px 0 22px;padding-left:26px; display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:5px 16px;list-style:none;padding:18px 22px;margin:0 0 30px;background:#f7f9fc;border:1px solid #dbe5f1;border-radius:12px;"><li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word; margin:0;list-style:none;font-size:15px;"><a href="#section-01" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">01. 개발 환경 운영 원칙</a></li><li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word; margin:0;list-style:none;font-size:15px;"><a href="#section-02" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">02. 권장 기술 스택 및 사전 점검</a></li><li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word; margin:0;list-style:none;font-size:15px;"><a href="#section-03" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">03. SSH로 alphagpu 서버 접속</a></li><li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word; margin:0;list-style:none;font-size:15px;"><a href="#section-04" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">04. 사용자별 작업공간과 네이밍 규칙</a></li><li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word; margin:0;list-style:none;font-size:15px;"><a href="#section-05" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">05. GitHub Organization에 프로젝트 생성</a></li><li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word; margin:0;list-style:none;font-size:15px;"><a href="#section-06" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">06. Docker 프로젝트 파일 구성</a></li><li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word; margin:0;list-style:none;font-size:15px;"><a href="#section-07" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">07. Dockerfile 작성 및 설명</a></li><li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word; margin:0;list-style:none;font-size:15px;"><a href="#section-08" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">08. compose.yaml 작성 및 설명</a></li><li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word; margin:0;list-style:none;font-size:15px;"><a href="#section-09" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">09. Docker Compose 실행 및 GPU 검증</a></li><li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word; margin:0;list-style:none;font-size:15px;"><a href="#section-10" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">10. 기존 프로젝트와 NAS 데이터 연결</a></li><li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word; margin:0;list-style:none;font-size:15px;"><a href="#section-11" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">11. 라이브러리 업데이트와 코드 관리</a></li><li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word; margin:0;list-style:none;font-size:15px;"><a href="#section-12" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">12. 선택 사항: JupyterLab 접속</a></li><li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word; margin:0;list-style:none;font-size:15px;"><a href="#section-13" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;">13. 자주 발생하는 문제와 체크리스트</a></li></ol>
+<hr style="border:0;border-top:1px solid #dce2ea;margin:34px 0;"/>
+<div style="border:1px solid #c9ddf6;background:#f5f9ff;border-radius:13px;padding:18px 20px;margin:20px 0;line-height:1.85;">
+<p style="font-size:18px;font-weight:800;color:#20375b;margin:0 0 8px;">처음이라면: Dockerfile과 Docker Compose의 차이</p>
+<p style="margin:7px 0"><b>Dockerfile = 개발 환경을 만드는 레시피.</b> NVIDIA CUDA·PyTorch가 들어 있는 기본 이미지에 필요한 Python 패키지를 설치합니다.</p>
+<p style="margin:7px 0"><b>Docker 이미지 = 레시피로 만든 실행 환경.</b> 프로젝트마다 패키지를 분리할 수 있습니다.</p>
+<p style="margin:7px 0"><b>Docker Compose (compose.yaml) = 실행 설정서.</b> 이미지를 빌드하고 GPU를 연결하며, 서버 폴더를 컨테이너에 연결하고 시작·종료합니다.</p>
+<p style="margin:9px 0 0"><b>실행 흐름:</b> GitHub에서 코드 받기 → 프로젝트 폴더로 <code>cd</code> → Dockerfile/Compose 준비 → <code>docker compose up -d --build</code> → GPU 검증 → 연구 코드 실행.</p>
+</div><h2 id="section-01" style="font-size:25px;line-height:1.42;letter-spacing:-0.045em;color:#172434;font-weight:800;margin:52px 0 19px;padding:0 0 10px;border-bottom:1px solid #d7e0ec;">01. 개발 환경 운영 원칙</h2>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">기존에는 Anaconda·venv·수동 CUDA 설치 등 다양한 방법으로 개발 환경을 구성해 사용자마다 라이브러리 버전이 달라지고, 프로젝트를 다른 서버에서 재현하기 어려웠습니다. 이를 줄이기 위해 다음 원칙을 적용합니다.</p>
+<ul style="font-size:16px;line-height:1.85;color:#334155;margin:10px 0 22px;padding-left:24px;">
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">GitHub:</strong> IMSI Lab Organization에 프로젝트별 Repository를 생성하고 소스코드와 환경 설정을 버전 관리합니다.</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">Dockerfile:</strong> CUDA, PyTorch, Python 및 추가 패키지를 포함하는 프로젝트 실행 이미지를 정의합니다.</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">Docker Compose:</strong> 컨테이너 실행, GPU 사용, 공유 메모리, 데이터 연결을 한 파일로 관리합니다.</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">사용자별 저장소:</strong> 각자 할당된 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">/home/&lt;username&gt;</code> 내부에서 프로젝트를 생성하고 운영합니다.</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">데이터 분리:</strong> 대규모 원본 데이터·모델 체크포인트는 GitHub가 아니라 승인된 서버/NAS 경로에 저장합니다.</li>
+</ul>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">원칙적으로 새 AI 연구 프로젝트에는 <strong style="color:#192d40;font-weight:750;">Conda 또는 venv를 추가로 만들지 않습니다.</strong> 프로젝트별 패키지가 다르다면 각 프로젝트의 Docker 이미지에 설치합니다. 이 정책은 호스트 서버의 Python 환경을 보호하기 위한 것이지, 모든 프로젝트가 반드시 동일한 Python 패키지 버전을 사용해야 한다는 의미는 아닙니다.</p>
+<p style="color:#64748b;font-size:14px;margin:12px 0 19px;line-height:1.8;">빠르게 진행하려면 각 장의 핵심 명령만 따라가세요. 심화 설명과 선택적 설정은 <b>▸ 접기/펼치기</b> 영역에 넣었습니다.</p><h2 id="section-02" style="font-size:25px;line-height:1.42;letter-spacing:-0.045em;color:#172434;font-weight:800;margin:52px 0 19px;padding:0 0 10px;border-bottom:1px solid #d7e0ec;">02. 권장 기술 스택 및 사전 점검</h2>
+<h3 style="font-size:20px;line-height:1.5;letter-spacing:-0.035em;color:#263545;font-weight:750;margin:31px 0 13px;">2-1. 2026년 10월 기준 권장 이미지</h3>
+<div style="max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0 28px;border-radius:9px;"><table style="border-collapse:collapse;min-width:540px;width:100%;margin:0;font-size:14px;line-height:1.65;">
+<thead style="background:#f2f6fb;">
+<tr>
+<th style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">구분</th>
+<th style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">설정</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">서버 이름</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">alphagpu</code></td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">호스트 운영체제</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">Ubuntu 26.04 LTS</td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">GPU</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">NVIDIA GeForce RTX 5090</td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">NVIDIA 기본 이미지</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">nvcr.io/nvidia/pytorch:26.09-py3</code></td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">컨테이너 내부 운영체제</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">Ubuntu 24.04</td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">CUDA</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">13.4.1</td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">Python</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">3.12</td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">PyTorch</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">NVIDIA 2.14.0a0 빌드 계열</td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">프로젝트 실행</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">Docker Compose V2 (<code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">docker compose</code>)</td>
+</tr>
+</tbody>
+</table></div>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">중요:</strong> 호스트 OS와 컨테이너 OS는 버전이 같을 필요가 없습니다. Ubuntu 26.04 호스트에서 Ubuntu 24.04 기반 이미지를 실행할 수 있습니다. NVIDIA NGC의 26.09 이미지는 2026-10-20 기준 공식 최신 태그이지만, 최신 프레임워크 빌드이므로 프로젝트별 라이브러리 호환성 검증이 필요합니다.</p>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">CUDA 13.4에 대응하는 드라이버 계열은 <strong style="color:#192d40;font-weight:750;">R615</strong>입니다. CUDA 13.x의 일부 하위 버전 호환성은 존재하지만, 최신 기능과 확실한 호환성을 위해 관리자와 R615 이상 드라이버 사용을 우선 검토합니다. 특히 <strong style="color:#192d40;font-weight:750;">컨테이너 이미지를 최신으로 바꾼다고 서버 GPU 드라이버가 자동으로 업데이트되지는 않습니다.</strong></p>
+<details style="border:1px solid #d9e2ed;border-radius:12px;padding:12px 16px;margin:16px 0;background:#f8fafc;"><summary style="cursor:pointer;font-size:15px;font-weight:750;color:#243b55;line-height:1.6;">서버 관리자를 위한 사전 점검·설치 명령 보기</summary>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">다음 명령은 서버 접속 후 버전과 GPU 상태를 확인하는 용도입니다.</p>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-bash" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">cat /etc/os-release
+nvidia-smi
+docker --version
+docker compose version
+nvidia-ctk --version
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">nvidia-smi</code>에 RTX 5090이 보이는지 확인합니다. 화면의 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">CUDA Version</code>은 주로 <strong style="color:#192d40;font-weight:750;">드라이버가 지원하는 CUDA 최대 버전</strong>을 나타내며, 호스트에 CUDA Toolkit 전체가 설치되어 있다는 뜻은 아닙니다.</p>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">공용 서버에 Docker와 NVIDIA Container Toolkit이 없거나 GPU 런타임이 정상 연결되지 않았다면 관리자가 공식 설치 문서에 따라 구성해야 합니다. 이미 여러 프로젝트가 운영 중인 서버라면 아래 명령을 연구원 개인이 임의로 실행하지 않습니다.</p>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-bash" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;"># 서버 관리자만, NVIDIA Container Toolkit 설치 완료 후 실행
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo systemctl restart docker
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">Docker가 사용 가능한지, GPU를 컨테이너에 전달할 수 있는지는 관리자가 먼저 검증합니다. Docker의 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">docker</code> 그룹 권한은 사실상 높은 호스트 권한으로 이어질 수 있으므로 사용자는 승인된 권한으로만 작업합니다.</p>
+</details><h2 id="section-03" style="font-size:25px;line-height:1.42;letter-spacing:-0.045em;color:#172434;font-weight:800;margin:52px 0 19px;padding:0 0 10px;border-bottom:1px solid #d7e0ec;">03. SSH로 alphagpu 서버 접속</h2>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">Ubuntu, macOS, Windows Terminal 또는 VS Code의 SSH 기능으로 서버에 접속합니다.</p>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-bash" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">ssh yuhan@alphagpu
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">yuhan</code>은 <strong style="color:#192d40;font-weight:750;">예시 사용자 이름</strong>입니다. 본인 계정으로 변경하세요. <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">alphagpu</code>가 내부 DNS에서 해석되지 않는 환경이라면 관리자가 안내한 IP 주소를 사용합니다.</p>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-bash" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">ssh &lt;username&gt;@&lt;server-ip&gt;
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">VS Code에서는 <strong style="color:#192d40;font-weight:750;">Remote - SSH</strong> 확장을 설치한 뒤 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">alphagpu</code>에 연결하면 원격 파일을 편집할 수 있습니다. 비밀번호와 SSH 개인키는 GitHub Repository에 업로드하지 않습니다.</p>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">접속 후 사용자 및 홈 디렉터리를 확인합니다.</p>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-bash" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">whoami
+pwd
+ls -la ~
+</code></pre>
+<h2 id="section-04" style="font-size:25px;line-height:1.42;letter-spacing:-0.045em;color:#172434;font-weight:800;margin:52px 0 19px;padding:0 0 10px;border-bottom:1px solid #d7e0ec;">04. 사용자별 작업공간과 네이밍 규칙</h2>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">이 서버는 Linux 계정마다 홈 디렉터리가 하나씩 할당되어 있습니다. 예를 들어 사용자 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">yuhan</code>의 기본 작업영역은 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">/home/yuhan</code>입니다. <strong style="color:#192d40;font-weight:750;">다른 사용자의 홈 디렉터리에 프로젝트를 만들거나, 호스트 전체를 컨테이너에 연결하지 않습니다.</strong></p>
+<h3 style="font-size:20px;line-height:1.5;letter-spacing:-0.035em;color:#263545;font-weight:750;margin:31px 0 13px;">4-1. 권장 폴더 구조</h3>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-text" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">/home/
+├── yuhan/
+│   ├── projects/
+│   │   ├── image-classification/
+│   │   │   ├── compose.yaml
+│   │   │   ├── Dockerfile
+│   │   │   ├── requirements.txt
+│   │   │   ├── train.py
+│   │   │   └── outputs/
+│   │   └── medical-vision/
+│   └── archives/
+└── other-user/
+    └── projects/
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">projects</code>에는 현재 개발 중인 GitHub Repository를, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">archives</code>에는 보관이 필요한 과거 자료를 둘 수 있습니다. 이는 <strong style="color:#192d40;font-weight:750;">권장 구성 예시</strong>이며, 기존 서버에 이미 다른 구조가 있다면 관리자의 방침을 따릅니다.</p>
+<h3 style="font-size:20px;line-height:1.5;letter-spacing:-0.035em;color:#263545;font-weight:750;margin:31px 0 13px;">4-2. 네이밍 규칙</h3>
+<div style="max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0 28px;border-radius:9px;"><table style="border-collapse:collapse;min-width:540px;width:100%;margin:0;font-size:14px;line-height:1.65;">
+<thead style="background:#f2f6fb;">
+<tr>
+<th style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">대상</th>
+<th style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">규칙</th>
+<th style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">Linux 사용자</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">서버에서 발급한 계정명 사용</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">yuhan</code></td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">GitHub Repository</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">소문자 + 하이픈(<code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">kebab-case</code>)</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">image-classification</code></td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">프로젝트 디렉터리</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">Repository 이름과 동일</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">image-classification</code></td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">Compose 프로젝트 이름</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">&lt;username&gt;-&lt;project&gt;</code></td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">yuhan-image-classification</code></td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">Compose 서비스 이름</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">역할 중심의 짧은 이름</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">dev</code>, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">train</code>, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">api</code></td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">데이터 디렉터리</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">의미가 드러나는 소문자 이름</td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">datasets</code>, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">checkpoints</code>, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">outputs</code></td>
+</tr>
+</tbody>
+</table></div>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">final2</code>, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">new_project_real</code>, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">test123</code>과 같이 의미가 모호한 이름보다, 연구 주제가 드러나는 이름을 사용합니다. <strong style="color:#192d40;font-weight:750;">Compose 프로젝트 이름에 사용자명을 포함하면 여러 연구원이 동일한 Repository 이름을 사용해도 Docker 리소스 이름 충돌을 줄일 수 있습니다.</strong></p>
+<h2 id="section-05" style="font-size:25px;line-height:1.42;letter-spacing:-0.045em;color:#172434;font-weight:800;margin:52px 0 19px;padding:0 0 10px;border-bottom:1px solid #d7e0ec;">05. GitHub Organization에 프로젝트 생성</h2>
+<h3 style="font-size:20px;line-height:1.5;letter-spacing:-0.035em;color:#263545;font-weight:750;margin:31px 0 13px;">5-1. 새로운 Repository 생성</h3>
+<ol style="font-size:16px;line-height:1.85;color:#334155;margin:10px 0 22px;padding-left:26px;">
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">GitHub에서 <strong style="color:#192d40;font-weight:750;">IMSI Lab Organization</strong>을 선택합니다.</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">New repository</strong>를 선택합니다.</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">Repository 이름을 예를 들어 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">image-classification</code>으로 설정합니다.</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">연구실 정책에 따라 <strong style="color:#192d40;font-weight:750;">Private</strong> 또는 승인된 공개 범위를 선택합니다.</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">가능하면 README와 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">.gitignore</code>를 포함해 생성합니다.</li>
+</ol>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">주의:</strong> IMSI Lab Organization의 실제 GitHub URL은 연구실에서 안내한 주소를 사용합니다. 아래의 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">IMSI_ORG</code>는 반드시 실제 Organization 식별자로 바꾸어야 합니다.</p>
+<h3 style="font-size:20px;line-height:1.5;letter-spacing:-0.035em;color:#263545;font-weight:750;margin:31px 0 13px;">5-2. 서버에서 clone</h3>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-bash" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">mkdir -p ~/projects
+cd ~/projects
+
+git clone git@github.com:IMSI_ORG/image-classification.git
+cd image-classification
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">SSH 방식은 GitHub에 <strong style="color:#192d40;font-weight:750;">본인의 공개키가 등록되어 있어야</strong> 사용할 수 있습니다. SSH가 준비되지 않았다면 Repository의 HTTPS 주소를 복사해 사용할 수도 있습니다. 인증 토큰은 코드나 커밋에 포함하지 않습니다.</p>
+<h2 id="section-06" style="font-size:25px;line-height:1.42;letter-spacing:-0.045em;color:#172434;font-weight:800;margin:52px 0 19px;padding:0 0 10px;border-bottom:1px solid #d7e0ec;">06. Docker 프로젝트 파일 구성</h2>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">프로젝트 루트는 다음과 같이 구성합니다. 이번 템플릿에서 꼭 필요한 파일은 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">Dockerfile</code>, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">compose.yaml</code>, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">requirements.txt</code>입니다.</p>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-text" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">image-classification/
+├── Dockerfile           # 컨테이너에 설치할 실행 환경
+├── compose.yaml         # 실행 옵션·GPU·볼륨 관리
+├── requirements.txt     # 프로젝트 추가 Python 패키지
+├── .dockerignore        # Docker 빌드에서 제외할 파일
+├── .gitignore           # Git에 올리지 않을 파일
+└── train.py             # 프로젝트 실행 코드
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">새 버전 Docker Compose에서는 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">compose.yaml</code>을 권장 파일 이름으로 사용하며, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">docker-compose.yml</code>도 계속 인식합니다. 아래 예시는 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">version: "3.9"</code>와 같은 최상위 버전 선언을 사용하지 않습니다.</p>
+<div style="border-left:4px solid #3367d6;background:#f7faff;padding:12px 15px;margin:12px 0 20px;line-height:1.8;"><b>이후 모든 파일 작업은 프로젝트 폴더에서 진행합니다.</b><br/>먼저 서버 터미널에서 <code>cd ~/projects/image-classification</code>을 실행하고 <code>pwd</code>로 위치를 확인하세요. VS Code Remote-SSH를 사용한다면 해당 폴더를 열어 <b>Dockerfile</b>·<b>compose.yaml</b>·<b>requirements.txt</b>를 생성하거나 제공된 템플릿을 복사합니다. <code>image-classification</code>은 예시 Repository 이름이므로 실제 프로젝트 이름으로 바꿉니다.</div><h2 id="section-07" style="font-size:25px;line-height:1.42;letter-spacing:-0.045em;color:#172434;font-weight:800;margin:52px 0 19px;padding:0 0 10px;border-bottom:1px solid #d7e0ec;">07. Dockerfile 작성 및 설명</h2>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">프로젝트 루트에 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">Dockerfile</code>을 생성합니다.</p>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-dockerfile" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">FROM nvcr.io/nvidia/pytorch:26.09-py3
+
+WORKDIR /workspace
+
+COPY requirements.txt /tmp/requirements.txt
+RUN python -m pip install --no-cache-dir -r /tmp/requirements.txt
+
+CMD ["bash"]
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">각 줄의 의미는 다음과 같습니다.</p>
+<ul style="font-size:16px;line-height:1.85;color:#334155;margin:10px 0 22px;padding-left:24px;">
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">FROM</code>:</strong> CUDA·cuDNN·PyTorch·Python이 포함된 NVIDIA NGC 이미지를 사용합니다. Ubuntu나 CUDA를 처음부터 별도로 설치하지 않습니다.</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">WORKDIR</code>:</strong> 컨테이너 내부 작업 디렉터리를 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">/workspace</code>로 정합니다.</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">COPY</code>:</strong> 추가 패키지 목록을 이미지 안으로 복사합니다.</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">RUN</code>:</strong> 이미지 빌드 시 패키지를 설치합니다. 실행할 때마다 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">pip install</code>하지 않습니다.</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">CMD</code>:</strong> 기본 실행 명령입니다. 아래 Compose의 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">command</code>가 있으면 Compose 설정이 우선합니다.</li>
+</ul>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">기존 Dockerfile에 들어 있었던 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">EXPOSE 9696</code>과 Jupyter 자동 실행 명령은 기본 템플릿에서 제거했습니다. 포트가 꼭 필요한 프로젝트에서만 설정하는 편이 안전하고 이해하기 쉽습니다.</p>
+<details style="border:1px solid #d9e2ed;border-radius:12px;padding:12px 16px;margin:16px 0;background:#f8fafc;"><summary style="cursor:pointer;font-size:15px;font-weight:750;color:#243b55;line-height:1.6;">추가 Python 패키지(requirements.txt) 설명 보기</summary>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-text" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;"># 기존 프로젝트에서 사용했던 패키지의 예시
+timm
+mmengine
+rasterio
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">기존 Dockerfile의 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">timm==0.5.4</code>는 구형 버전이므로 최신 PyTorch·Python에서의 호환성을 검증하지 않은 상태로 강제 적용하지 않습니다. 위 파일은 <strong style="color:#192d40;font-weight:750;">패키지 설치 예시이며, 모든 조합의 빌드 성공을 보장하는 고정 버전 목록은 아닙니다.</strong> 실제 실험에서 검증한 버전은 프로젝트별로 명시적으로 고정하는 것을 권장합니다.</p>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">또한 최신 NVIDIA NGC 이미지에는 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">/etc/pip/constraint.txt</code>에 기존 구성요소의 버전 제약이 포함됩니다. <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">pip</code> 의존성 충돌이 발생하면 기존 PyTorch/CUDA 구성요소를 무턱대고 업그레이드하지 말고 제약과 패키지 호환성을 먼저 확인합니다.</p>
+</details><h2 id="section-08" style="font-size:25px;line-height:1.42;letter-spacing:-0.045em;color:#172434;font-weight:800;margin:52px 0 19px;padding:0 0 10px;border-bottom:1px solid #d7e0ec;">08. compose.yaml 작성 및 설명</h2>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">compose.yaml</code>은 <strong style="color:#192d40;font-weight:750;">한 프로젝트에 개발용 서비스 하나</strong>만 생성하는 간결한 형태로 작성합니다.</p>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-yaml" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">name: yuhan-image-classification
+
+services:
+  dev:
+    build: .
+    gpus: all
+    shm_size: "8gb"
+    user: "${LOCAL_UID}:${LOCAL_GID}"
+    environment:
+      HOME: /workspace
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      # - /home/yuhan/projects/old-project:/reference/old-project:ro
+      # - /nas1/datasets:/data/datasets:ro
+    command: sleep infinity
+</code></pre>
+<div style="max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0 28px;border-radius:9px;"><table style="border-collapse:collapse;min-width:540px;width:100%;margin:0;font-size:14px;line-height:1.65;">
+<thead style="background:#f2f6fb;">
+<tr>
+<th style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">설정</th>
+<th style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">name</code></td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">사용자명 + 프로젝트명으로 Docker 리소스를 구분</td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">build: .</code></td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">현재 디렉터리의 Dockerfile로 이미지를 빌드</td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">gpus: all</code></td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">호스트에서 제공하는 NVIDIA GPU 장치 접근 활성화</td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">shm_size</code></td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">DataLoader 등에 사용할 공유 메모리 크기 지정</td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">user</code></td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">본인 계정과 동일한 UID/GID로 실행해 파일 소유권 문제 감소</td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">HOME</code></td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">작업 및 캐시의 기본 홈 위치를 쓰기 가능한 작업공간으로 지정</td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">working_dir</code></td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">컨테이너 안의 기본 작업 위치</td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">volumes</code></td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">호스트 프로젝트·필요한 데이터 경로만 연결</td>
+</tr>
+<tr>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">command</code></td>
+<td style="border:1px solid #d7e0e9;padding:11px 13px;text-align:left;vertical-align:top;color:#334155;white-space:normal;">컨테이너를 유지하고 필요할 때 명령을 실행하기 위한 기본 프로세스</td>
+</tr>
+</tbody>
+</table></div>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">gpus: all</code>은 GPU를 해당 컨테이너에 독점 할당하는 설정이 아닙니다.</strong> 다른 연구원도 같은 GPU를 사용할 수 있으므로 장시간 작업 전 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">nvidia-smi</code>로 사용량을 확인하고 연구실의 자원 배분 정책을 따릅니다.</p>
+<p style="margin:13px 0;line-height:1.85;"><b>참고:</b> Compose는 Dockerfile을 직접 실행하는 명령이 아닙니다. <code>build: .</code>를 통해 이미지를 만들고, 그 이미지로 <code>dev</code> 컨테이너를 띄웁니다. <code>docker compose exec dev ...</code>는 이미 실행 중인 그 컨테이너 안에서 명령을 수행합니다.</p><details style="border:1px solid #d9e2ed;border-radius:12px;padding:12px 16px;margin:16px 0;background:#f8fafc;"><summary style="cursor:pointer;font-size:15px;font-weight:750;color:#243b55;line-height:1.6;">처음 한 번: UID/GID와 .env 설정 펼치기</summary>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">공동 서버에서는 컨테이너가 생성한 결과 파일이 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">root</code> 소유로 남는 일이 발생할 수 있습니다. 이를 줄이기 위해 프로젝트 폴더에서 다음 명령으로 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">.env</code>를 생성합니다.</p>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-bash" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">printf 'LOCAL_UID=%s\nLOCAL_GID=%s\n' "$(id -u)" "$(id -g)" &gt; .env
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">이 명령은 <strong style="color:#192d40;font-weight:750;">새 프로젝트의 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">.env</code>를 처음 생성할 때만</strong> 사용합니다. 기존 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">.env</code>가 있다면 덮어쓰지 말고 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">LOCAL_UID</code>, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">LOCAL_GID</code> 항목을 추가하세요. 이 파일은 실행 옵션을 채우기 위한 로컬 설정이므로 Git에 올리지 않습니다. <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">user:</code> 설정을 사용하는 템플릿에서는 실행 전에 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">.env</code>가 필요합니다. 컨테이너 내부 시스템 패키지 설치처럼 관리자 권한이 필요한 작업은 Dockerfile의 빌드 단계에서 처리합니다.</p>
+<div style="border:1px solid #dce6f2;border-radius:12px;background:#fbfdff;padding:14px 17px;margin:14px 0 20px;line-height:1.85;"><b>첫 실행 직전, 명령어를 입력할 위치</b><p style="margin:6px 0">아래 명령어는 <b>서버 alphagpu의 터미널</b>에서 입력합니다. 반드시 <code>compose.yaml</code>이 있는 프로젝트 폴더로 먼저 이동하세요.</p><pre style="overflow-x:auto;white-space:pre;max-width:100%;box-sizing:border-box;background:#192330;color:#eef5ff;border-radius:8px;padding:12px;"><code>cd ~/projects/image-classification
+pwd
+ls Dockerfile compose.yaml requirements.txt</code></pre><p style="margin:5px 0">파일이 없다고 나오면 06~08장의 템플릿 파일을 먼저 생성하세요. 기존 <code>.env</code>가 있다면 덮어쓰지 않습니다.</p></div></details><h2 id="section-09" style="font-size:25px;line-height:1.42;letter-spacing:-0.045em;color:#172434;font-weight:800;margin:52px 0 19px;padding:0 0 10px;border-bottom:1px solid #d7e0ec;">09. Docker Compose 실행 및 GPU 검증</h2>
+<h3 style="font-size:20px;line-height:1.5;letter-spacing:-0.035em;color:#263545;font-weight:750;margin:31px 0 13px;">9-1. 설정 확인과 첫 실행</h3>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-bash" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">cd ~/projects/image-classification
+
+docker compose config
+docker compose up -d --build
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">최초 빌드 때는 NGC 이미지를 다운로드하므로 시간이 오래 걸릴 수 있습니다. Docker 또는 NVIDIA Container Toolkit 설정에 오류가 있다면 서버 관리자에게 문의합니다.</p>
+<h3 style="font-size:20px;line-height:1.5;letter-spacing:-0.035em;color:#263545;font-weight:750;margin:31px 0 13px;">9-2. GPU 확인</h3>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-bash" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">docker compose exec dev nvidia-smi
+
+docker compose exec dev python -c \
+  'import torch; print(torch.__version__); print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0))'
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">torch.cuda.is_available()</code>이 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">True</code>이고 GPU 이름이 표시되면 기본 CUDA 연결을 확인한 것입니다. <strong style="color:#192d40;font-weight:750;">이 단계는 GPU가 연결되었다는 검증이며, 모든 학습 코드가 호환된다는 보장은 아닙니다.</strong></p>
+<h3 style="font-size:20px;line-height:1.5;letter-spacing:-0.035em;color:#263545;font-weight:750;margin:31px 0 13px;">9-3. 연구 코드 실행</h3>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-bash" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;"># 컨테이너의 Shell 접속
+docker compose exec dev bash
+
+# 호스트 터미널에서 코드 한 번 실행
+docker compose exec dev python train.py
+
+# 로그 및 상태 확인
+docker compose ps
+docker compose logs --tail=100 dev
+
+# 작업 종료
+docker compose down
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">docker compose down</code>은 현재 프로젝트의 컨테이너와 네트워크를 정리하지만, <strong style="color:#192d40;font-weight:750;">호스트에서 bind mount한 프로젝트 파일이나 NAS 파일을 삭제하지는 않습니다.</strong> 다만 컨테이너 안에만 저장한 파일은 사라질 수 있으므로 결과는 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">/workspace</code>처럼 연결된 경로에 저장해야 합니다.</p>
+<h2 id="section-10" style="font-size:25px;line-height:1.42;letter-spacing:-0.045em;color:#172434;font-weight:800;margin:52px 0 19px;padding:0 0 10px;border-bottom:1px solid #d7e0ec;">10. 기존 프로젝트와 NAS 데이터 연결</h2>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">볼륨(Volume)은 <strong style="color:#192d40;font-weight:750;">호스트의 폴더를 컨테이너의 특정 위치에서 보이도록 연결하는 설정</strong>입니다. 기본값은 현재 프로젝트만 연결하며, 기존 자료가 필요한 경우에만 경로를 추가합니다.</p>
+<details style="border:1px solid #d9e2ed;border-radius:12px;padding:12px 16px;margin:16px 0;background:#f8fafc;"><summary style="cursor:pointer;font-size:15px;font-weight:750;color:#243b55;line-height:1.6;">이전 프로젝트를 읽기 전용으로 연결하는 예시 보기</summary>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">다음 중 프로젝트에 필요한 최소 범위만 연결합니다.</p>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-yaml" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">volumes:
+  - .:/workspace
+  - /home/yuhan/projects/old-project:/reference/old-project:ro
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">예를 들어 과거 프로젝트의 파일을 컨테이너에서 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">/reference/old-project</code>로 읽을 수 있습니다. 부득이하게 홈 디렉터리 전체가 필요하다면 다음과 같이 작성할 수 있지만 권장하지 않습니다.</p>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-yaml" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">volumes:
+  - .:/workspace
+  - /home/yuhan:/reference/yuhan:ro
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">홈 전체에는 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">.ssh</code>, 인증 정보, 개인 설정 등이 포함될 수 있습니다.</strong> <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">:ro</code>는 마운트 경로에 쓰기를 막는 옵션이지, 민감한 파일의 읽기 노출까지 막아 주지는 않습니다. 따라서 실제 운영에서는 필요한 하위 폴더만 연결하는 것이 원칙입니다.</p>
+</details><details style="border:1px solid #d9e2ed;border-radius:12px;padding:12px 16px;margin:16px 0;background:#f8fafc;"><summary style="cursor:pointer;font-size:15px;font-weight:750;color:#243b55;line-height:1.6;">NAS 데이터를 연결하는 예시 보기</summary>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-yaml" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">volumes:
+  - .:/workspace
+  - /nas1/datasets:/data/datasets:ro
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">컨테이너 안에서는 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">/data/datasets</code> 경로로 데이터를 읽습니다. 예시 경로가 실제 서버에 존재하는지, 사용자의 읽기 권한이 있는지 먼저 확인합니다. 학습 결과 저장이 필요하다면 원본 데이터 경로를 읽기 전용으로 유지하고, 별도의 쓰기 가능한 출력 디렉터리를 사용합니다.</p>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-yaml" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">volumes:
+  - .:/workspace
+  - /nas1/datasets:/data/datasets:ro
+  - /home/yuhan/projects/image-classification/outputs:/outputs
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">반대로 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">/:/host_root</code>, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">privileged: true</code>, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">ipc: host</code>와 같은 과도한 호스트 접근 설정은 기본 템플릿에 넣지 않습니다. <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">shm_size</code>가 부족한 구체적인 상황에만 별도 조정을 검토합니다.</p>
+</details><h2 id="section-11" style="font-size:25px;line-height:1.42;letter-spacing:-0.045em;color:#172434;font-weight:800;margin:52px 0 19px;padding:0 0 10px;border-bottom:1px solid #d7e0ec;">11. 라이브러리 업데이트와 코드 관리</h2>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">새 라이브러리는 실행 중인 컨테이너에서 일시적으로 설치하는 대신 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">requirements.txt</code>에 추가한 뒤 이미지를 다시 빌드합니다.</p>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-bash" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;"># requirements.txt 수정 후
+docker compose up -d --build
+
+# 코드와 설정 변경사항 확인
+git status
+git add Dockerfile compose.yaml requirements.txt train.py
+git commit -m "Add GPU Docker development template"
+git push
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">.env</code>, 데이터셋, 대용량 모델 파일, 토큰, 인증키는 Git에 포함하지 않습니다. 필요한 항목은 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">.gitignore</code> 및 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">.dockerignore</code>에서 제외합니다. 재현성이 중요한 프로젝트는 검증한 패키지 버전을 고정하고, 변경 이력을 Commit으로 남깁니다.</p>
+<h2 id="section-12" style="font-size:25px;line-height:1.42;letter-spacing:-0.045em;color:#172434;font-weight:800;margin:52px 0 19px;padding:0 0 10px;border-bottom:1px solid #d7e0ec;">12. 선택 사항: JupyterLab 접속</h2>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">NVIDIA PyTorch 이미지에는 JupyterLab이 포함되어 있습니다. 다만 공동 서버에서 Jupyter를 불필요하게 외부 공개하지 않도록 <strong style="color:#192d40;font-weight:750;">SSH 포트 포워딩</strong>을 권장합니다.</p>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">compose.yaml</code>의 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">dev</code> 서비스에 다음 포트 매핑을 <em style="font-style:italic;">필요할 때만</em> 추가합니다. <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">18888</code>은 서버 내 다른 사용자와 겹치지 않는 포트로 변경하세요.</p>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-yaml" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">ports:
+  - "127.0.0.1:18888:8888"
+</code></pre>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-bash" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;"># 서버에서 변경한 Compose 설정 적용
+docker compose up -d
+
+# 서버에서 Jupyter 실행 (터미널 유지)
+docker compose exec dev jupyter lab \
+  --ip=0.0.0.0 --port=8888 --no-browser
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">로컬 PC의 새 터미널에서 다음 명령을 실행합니다.</p>
+<pre style="max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;white-space:pre;background:#17212c;color:#ebf1f7;border-radius:10px;padding:17px 20px;margin:14px 0 24px;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:13px;line-height:1.7;tab-size:2;-webkit-overflow-scrolling:touch;"><code class="language-bash" style="background:transparent;color:inherit;padding:0;font-size:inherit;font-family:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal;">ssh -L 8888:127.0.0.1:18888 yuhan@alphagpu
+</code></pre>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;">이후 로컬 브라우저에서 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">http://127.0.0.1:8888</code>에 접속합니다. Jupyter가 출력한 토큰을 사용하며 인증을 끄지 않습니다. 사용자별 서버 포트와 로컬 포트가 충돌하지 않도록 주의합니다.</p>
+<h2 id="section-13" style="font-size:25px;line-height:1.42;letter-spacing:-0.045em;color:#172434;font-weight:800;margin:52px 0 19px;padding:0 0 10px;border-bottom:1px solid #d7e0ec;">13. 자주 발생하는 문제와 체크리스트</h2>
+<h3 style="font-size:20px;line-height:1.5;letter-spacing:-0.035em;color:#263545;font-weight:750;margin:31px 0 13px;">자주 발생하는 문제</h3>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">Q. <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">docker compose</code> 명령을 찾을 수 없습니다.</strong><br/>
+→ Docker Compose V2 플러그인이 설치되어 있는지 확인하고 관리자에게 문의합니다. 최신 문서의 명령은 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">docker-compose</code>가 아니라 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">docker compose</code>입니다.</p>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">Q. <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">torch.cuda.is_available()</code>이 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">False</code>입니다.</strong><br/>
+→ 호스트 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">nvidia-smi</code>, NVIDIA 드라이버 버전, NVIDIA Container Toolkit 설치 및 Docker GPU 런타임 설정을 확인합니다.</p>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">Q. <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">pip install</code>이 충돌하거나 빌드가 실패합니다.</strong><br/>
+→ NGC 이미지의 기본 PyTorch와 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">/etc/pip/constraint.txt</code> 제약, 프로젝트 패키지 호환성을 확인합니다. 기존 PyTorch를 임의로 덮어쓰지 않습니다.</p>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">Q. 작업 결과 파일의 소유자가 이상합니다.</strong><br/>
+→ <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">.env</code>의 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">LOCAL_UID</code>, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">LOCAL_GID</code>가 실제 계정의 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">id -u</code>, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">id -g</code>와 일치하는지 확인합니다. 이미 생성된 파일의 소유권은 관리 정책에 따라 별도로 정리해야 할 수 있습니다.</p>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">Q. NAS 폴더가 컨테이너에 보이지 않습니다.</strong><br/>
+→ NAS가 호스트에 실제로 마운트되어 있는지, 해당 경로가 존재하는지, Unix 파일 권한을 확인합니다. 마운트가 없다고 해서 임의로 시스템 경로를 생성하지 않습니다.</p>
+<h3 style="font-size:20px;line-height:1.5;letter-spacing:-0.035em;color:#263545;font-weight:750;margin:31px 0 13px;">게시 전 / 첫 실행 체크리스트</h3>
+<ul style="font-size:16px;line-height:1.85;color:#334155;margin:10px 0 22px;padding-left:24px;">
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">[ ] <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">alphagpu</code> 서버에 본인 계정으로 SSH 접속 가능</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">[ ] 호스트 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">nvidia-smi</code>에서 RTX 5090과 드라이버 확인</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">[ ] Docker Compose V2 및 NVIDIA Container Toolkit 작동 확인</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">[ ] IMSI Lab GitHub Organization에 Repository 생성 및 clone 완료</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">[ ] <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">/home/&lt;username&gt;/projects/&lt;repo&gt;</code> 구조 사용</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">[ ] <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">compose.yaml</code>의 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">name</code>을 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">&lt;username&gt;-&lt;project&gt;</code>로 변경</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">[ ] <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">.env</code>에 본인 UID/GID 입력, <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">.gitignore</code>에서 제외</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">[ ] 필요한 디렉터리만 마운트하고 민감한 경로는 연결하지 않음</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">[ ] <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">docker compose up -d --build</code> 및 CUDA 검사 성공</li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">[ ] 실험 결과 저장 위치와 Git 제외 대상 확인</li>
+</ul>
+<hr style="border:0;border-top:1px solid #dce2ea;margin:34px 0;"/>
+<h3 style="font-size:20px;line-height:1.5;letter-spacing:-0.035em;color:#263545;font-weight:750;margin:31px 0 13px;">참고 자료</h3>
+<ul style="font-size:16px;line-height:1.85;color:#334155;margin:10px 0 22px;padding-left:24px;">
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">NVIDIA PyTorch 26.09 릴리스 노트: <a href="https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/rel-26-09.html" rel="noopener noreferrer" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;" target="_blank">https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/rel-26-09.html</a></li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">NVIDIA NGC PyTorch 이미지: <a href="https://catalog.ngc.nvidia.com/orgs/nvidia/-/containers/pytorch/26.09-py3" rel="noopener noreferrer" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;" target="_blank">https://catalog.ngc.nvidia.com/orgs/nvidia/-/containers/pytorch/26.09-py3</a></li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">Docker Engine의 Ubuntu 26.04 지원: <a href="https://docs.docker.com/engine/install/ubuntu/" rel="noopener noreferrer" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;" target="_blank">https://docs.docker.com/engine/install/ubuntu/</a></li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">Docker Compose GPU 설정: <a href="https://docs.docker.com/reference/compose-file/services/#gpus" rel="noopener noreferrer" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;" target="_blank">https://docs.docker.com/reference/compose-file/services/#gpus</a></li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">NVIDIA Container Toolkit 설치: <a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html" rel="noopener noreferrer" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;" target="_blank">https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html</a></li>
+<li style="padding-left:2px;margin-bottom:7px;word-break:keep-all;overflow-wrap:break-word;">NVIDIA CUDA 13.4 드라이버 호환성: <a href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/" rel="noopener noreferrer" style="color:#245db2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;" target="_blank">https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/</a></li>
+</ul>
+<p style="font-size:16px;line-height:1.92;color:#334155;margin:11px 0 17px;word-break:keep-all;overflow-wrap:break-word;"><strong style="color:#192d40;font-weight:750;">참고:</strong> 이 문서는 <code style="font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;font-size:0.9em;color:#bf3459;background:#f2f5f9;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;">alphagpu</code> 서버에 직접 접속해 테스트한 결과가 아니라 공식 문서와 기존 템플릿을 바탕으로 작성한 <strong style="color:#192d40;font-weight:750;">표준 예시</strong>입니다. 실제 운영 반영 전에는 연구실 관리자가 서버의 드라이버·권한·데이터 경로를 확인하고 최초 빌드를 검증해야 합니다.</p>
+</div>

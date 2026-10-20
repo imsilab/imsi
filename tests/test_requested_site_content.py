@@ -45,11 +45,52 @@ class RequestedSiteContentTests(unittest.TestCase):
 
         records = json.loads((ROOT / "data" / "news-local.json").read_text(encoding="utf-8"))
         by_id = {row["News_ID"]: row for row in records}
-        self.assertEqual({"NEWS_005", "NEWS_006", "NEWS_007", "NEWS_008"}, set(by_id))
+        self.assertEqual({"NEWS_005", "NEWS_006", "NEWS_007", "NEWS_008", "NEWS_009"}, set(by_id))
         self.assertEqual("2026-09-28", by_id["NEWS_005"]["Date"])
         self.assertEqual("2026-10-01", by_id["NEWS_006"]["Date"])
         self.assertIn("NeurIPS 2026", by_id["NEWS_005"]["Title"])
         self.assertIn("2027년 1월", by_id["NEWS_006"]["Title"])
+
+    def test_alphagpu_news_preserves_the_complete_beginner_friendly_guide(self):
+        records = json.loads((ROOT / "data" / "news-local.json").read_text(encoding="utf-8"))
+        by_id = {row["News_ID"]: row for row in records}
+        news = by_id["NEWS_009"]
+
+        self.assertEqual("2026-10-20", news["Date"])
+        self.assertIn("alphagpu", news["Title"])
+        self.assertIn("Docker", news["Title"])
+        self.assertEqual("/imsi/data/news-assets/alphagpu-guide.html", news["Content_HTML_URL"])
+        self.assertIn("처음 사용하는 연구원", news["Content"])
+
+        route = ROOT / "news" / "NEWS-009" / "index.html"
+        guide_path = ROOT / "data" / "news-assets" / "alphagpu-guide.html"
+        self.assertTrue(route.is_file())
+        self.assertTrue(guide_path.is_file())
+        guide = guide_path.read_text(encoding="utf-8")
+
+        self.assertIn('data-guide="alphagpu-2026"', guide)
+        for section_number in range(1, 14):
+            self.assertIn(f'id="section-{section_number:02d}"', guide)
+        for required in [
+            "Dockerfile = 개발 환경을 만드는 레시피",
+            "docker compose up -d --build",
+            "NVIDIA GeForce RTX 5090",
+            "GitHub Organization에 프로젝트 생성",
+            "기존 프로젝트와 NAS 데이터 연결",
+            "선택 사항: JupyterLab 접속",
+            "게시 전 / 첫 실행 체크리스트",
+            "공식 문서와 기존 템플릿",
+        ]:
+            self.assertIn(required, guide)
+        self.assertGreaterEqual(guide.count("<details"), 4)
+        self.assertIn("<pre", guide)
+        self.assertIn("<table", guide)
+
+        renderer = (ROOT / "js" / "news-detail.js").read_text(encoding="utf-8")
+        self.assertIn("Content_HTML_URL", renderer)
+        self.assertIn("news-assets", renderer)
+        self.assertIn("DOMParser", renderer)
+        self.assertIn("script, iframe, object, embed", renderer)
 
     def test_niscis_and_internship_document_news_have_downloadable_attachments(self):
         records = json.loads((ROOT / "data" / "news-local.json").read_text(encoding="utf-8"))

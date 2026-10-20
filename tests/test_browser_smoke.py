@@ -137,6 +137,7 @@ class BrowserSmokeTests(unittest.TestCase):
         self.assertIn("NEWS-006", merged_ids)
         self.assertIn("NEWS-007", merged_ids)
         self.assertIn("NEWS-008", merged_ids)
+        self.assertIn("NEWS-009", merged_ids)
 
         home_result = self._execute_async(
             """
@@ -145,8 +146,8 @@ class BrowserSmokeTests(unittest.TestCase):
             (function poll() {
               const root = document.getElementById('home-news-list');
               const text = root ? root.innerText : '';
-              if (text.includes('NeurIPS 2026') && text.includes('2027년 1월') &&
-                  text.includes('NISCIS') && text.includes('근무확인서')) {
+              if (text.includes('2027년 1월') && text.includes('NISCIS') &&
+                  text.includes('근무확인서') && text.includes('alphagpu')) {
                 done({text, hrefs: [...root.querySelectorAll('a')].map(a => a.getAttribute('href'))});
               } else if (Date.now() > deadline) {
                 done({error: 'home news timed out', text});
@@ -157,10 +158,10 @@ class BrowserSmokeTests(unittest.TestCase):
             """
         )
         self.assertNotIn("error", home_result)
-        self.assertIn("/imsi/news/NEWS-005/index.html", home_result["hrefs"])
         self.assertIn("/imsi/news/NEWS-006/index.html", home_result["hrefs"])
         self.assertIn("/imsi/news/NEWS-007/index.html", home_result["hrefs"])
         self.assertIn("/imsi/news/NEWS-008/index.html", home_result["hrefs"])
+        self.assertIn("/imsi/news/NEWS-009/index.html", home_result["hrefs"])
 
         self._navigate("news/NEWS-005/")
         detail_result = self._execute_async(
@@ -241,6 +242,83 @@ class BrowserSmokeTests(unittest.TestCase):
             self.assertTrue(any(attachment_id in link for link in result["links"]))
             for href in ["/imsi/", "/imsi/publication", "/imsi/#people", "/imsi/alumni/"]:
                 self.assertIn(href, result["navLinks"])
+
+        self._navigate("news/NEWS-009/")
+        alphagpu_result = self._execute_async(
+            """
+            const done = arguments[arguments.length - 1];
+            const deadline = Date.now() + 10000;
+            (function poll() {
+              const content = document.getElementById('news-content');
+              const guide = content?.querySelector('[data-guide="alphagpu-2026"]');
+              const text = content?.innerText || '';
+              if (guide && text.includes('13. 자주 발생하는 문제와 체크리스트')) {
+                done({
+                  text,
+                  sections: guide.querySelectorAll('h2[id^="section-"]').length,
+                  toggles: guide.querySelectorAll('details').length,
+                  codeBlocks: guide.querySelectorAll('pre').length,
+                  duplicateTitle: guide.querySelectorAll('h1').length
+                });
+              } else if (Date.now() > deadline) {
+                done({error: 'alphagpu guide timed out', text});
+              } else setTimeout(poll, 50);
+            })();
+            """
+        )
+        self.assertNotIn("error", alphagpu_result)
+        self.assertEqual(13, alphagpu_result["sections"])
+        self.assertGreaterEqual(alphagpu_result["toggles"], 4)
+        self.assertGreater(alphagpu_result["codeBlocks"], 0)
+        self.assertEqual(0, alphagpu_result["duplicateTitle"])
+
+    def test_news_rich_content_sanitizer_blocks_active_content(self):
+        self._navigate("news/NEWS-009/")
+        result = self._execute_async(
+            """
+            const done = arguments[arguments.length - 1];
+            try {
+              const parsed = new DOMParser().parseFromString(`
+                <div id="fixture">
+                  <script>window.compromised = true</script>
+                  <style>body { display: none }</style>
+                  <svg onload="window.compromised = true"><circle></circle></svg>
+                  <form action="https://example.com"><input name="secret"></form>
+                  <a id="bad" href="javascript:alert(1)" onclick="alert(1)">bad</a>
+                  <img id="image" src="x" onerror="alert(1)" style="background:url(https://example.com/pixel)">
+                  <a id="overlay" href="https://evil.example" style="position:fixed;inset:0;z-index:2147483647">overlay</a>
+                  <div id="beacon" style="background-image:image-set('https://evil.example/pixel' 1x)">beacon</div>
+                  <a id="good" href="https://docs.nvidia.com/">good</a>
+                </div>`, 'text/html');
+              const root = parsed.getElementById('fixture');
+              root.setAttribute('onclick', 'alert(1)');
+              root.setAttribute('style', 'position:fixed;inset:0;background-image:image-set("https://evil.example/root" 1x)');
+              IMSI.NewsDetail.sanitizeRichContent(root);
+              done({
+                blockedElements: root.querySelectorAll('script, style, svg, form, input').length,
+                badHref: root.querySelector('#bad')?.getAttribute('href') || '',
+                hasEventHandler: [root, ...root.querySelectorAll('*')].some(node =>
+                  [...node.attributes].some(attribute => /^on/i.test(attribute.name))),
+                rootStyle: root.getAttribute('style') || '',
+                imageStyle: root.querySelector('#image')?.getAttribute('style') || '',
+                overlayStyle: root.querySelector('#overlay')?.getAttribute('style') || '',
+                beaconStyle: root.querySelector('#beacon')?.getAttribute('style') || '',
+                goodHref: root.querySelector('#good')?.getAttribute('href') || ''
+              });
+            } catch (error) {
+              done({error: String(error)});
+            }
+            """
+        )
+        self.assertNotIn("error", result)
+        self.assertEqual(0, result["blockedElements"])
+        self.assertEqual("", result["badHref"])
+        self.assertFalse(result["hasEventHandler"])
+        self.assertEqual("", result["rootStyle"])
+        self.assertEqual("", result["imageStyle"])
+        self.assertEqual("", result["overlayStyle"])
+        self.assertEqual("", result["beaconStyle"])
+        self.assertEqual("https://docs.nvidia.com/", result["goodHref"])
 
     def test_people_order_and_yului_profile_render(self):
         self._navigate("/")
