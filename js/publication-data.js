@@ -20,7 +20,8 @@
       codeUrl: text(source.Code),
       modelUrl: text(source.Model),
       posterUrl: text(source.Poster_Link),
-      slidesUrl: text(source.Slides_link),
+      slidesUrl: text(source.Slides_Link) || text(source.Slides_link),
+      presentationVideoUrl: text(source.Presentation_Video),
       cite: text(source.Cite),
       inGoogleScholar: text(source['In Google Scholar']),
       citedAtLeastOnce: text(source['Cited at Least Once']),
@@ -42,6 +43,7 @@
       {kind: 'model', label: 'Model', url: text(item.modelUrl)},
       {kind: 'poster', label: 'Poster', url: text(item.posterUrl)},
       {kind: 'slides', label: 'Slides', url: text(item.slidesUrl)},
+      {kind: 'presentation', label: 'Presentation', url: text(item.presentationVideoUrl)},
       {kind: 'cite', label: 'Cite', url: text(item.cite)}
     ].filter(action => action.url);
   }

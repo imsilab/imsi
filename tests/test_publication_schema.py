@@ -6,16 +6,17 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class PublicationSchemaTests(unittest.TestCase):
-    def test_normalizes_a_to_t_schema_and_actions(self):
+    def test_normalizes_a_to_u_schema_and_actions(self):
         source = (ROOT / "js" / "publication-data.js").read_text(encoding="utf-8")
         for header in (
             "Pub_ID", "Year", "Title", "Venue_Name", "Authors", "Spacer",
             "Project_Link", "GDrive_Link", "arXiv_Link", "Paper_Link",
-            "Venue_Link", "Code", "Model", "Poster_Link", "Slides_link",
+            "Venue_Link", "Code", "Model", "Poster_Link", "Slides_Link",
+            "Slides_link", "Presentation_Video",
             "Cite", "In Google Scholar", "Cited at Least Once", "Notes", "Remarks",
         ):
             self.assertIn(header, source)
-        for label in ("Project", "GDrive", "arXiv", "Paper", "Venue", "Code", "Model", "Poster", "Slides", "Cite"):
+        for label in ("Project", "GDrive", "arXiv", "Paper", "Venue", "Code", "Model", "Poster", "Slides", "Presentation", "Cite"):
             self.assertIn(f"label: '{label}'", source)
 
     def test_omits_empty_actions_and_filters_personal_token_only(self):

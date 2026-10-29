@@ -392,6 +392,65 @@ class BrowserSmokeTests(unittest.TestCase):
         self.assertIn(str(initial["cards"]), initial["count"])
         self.assertIn("GDrive", initial["labels"])
         self.assertIn("arXiv", initial["labels"])
+        self.assertIn("Presentation", initial["labels"])
+
+        adapter = self._execute_async(
+            """
+            const done = arguments[arguments.length - 1];
+            const modern = IMSI.Publications.normalize({
+              Slides_Link: 'https://example.test/slides',
+              Presentation_Video: 'https://example.test/presentation',
+              Cite: '@article{modern}'
+            });
+            const legacy = IMSI.Publications.normalize({
+              Slides_link: 'https://example.test/legacy-slides'
+            });
+            const empty = IMSI.Publications.normalize({Presentation_Video: '   '});
+            done({
+              modern,
+              legacy,
+              modernActions: IMSI.Publications.actions(modern),
+              emptyActions: IMSI.Publications.actions(empty)
+            });
+            """
+        )
+        self.assertEqual("https://example.test/slides", adapter["modern"]["slidesUrl"])
+        self.assertEqual("https://example.test/legacy-slides", adapter["legacy"]["slidesUrl"])
+        self.assertEqual(
+            ["Slides", "Presentation", "Cite"],
+            [action["label"] for action in adapter["modernActions"]],
+        )
+        self.assertEqual([], adapter["emptyActions"])
+
+        live_presentations = self._execute_async(
+            """
+            const done = arguments[arguments.length - 1];
+            getPublications().then(rows => {
+              const wanted = rows.filter(row =>
+                row.title.includes('WSPolypNet') || row.title.includes('SCINTILLA-SNN')
+              );
+              done(wanted.map(row => ({
+                title: row.title,
+                presentation: IMSI.Publications.actions(row).find(action => action.kind === 'presentation') || null
+              })));
+            }).catch(error => done({error: String(error)}));
+            """
+        )
+        self.assertNotIsInstance(live_presentations, dict)
+        self.assertEqual(2, len(live_presentations))
+        self.assertTrue(all(row["presentation"] for row in live_presentations))
+
+        presentation_anchors = self._execute_async(
+            """
+            const done = arguments[arguments.length - 1];
+            const anchors = [...document.querySelectorAll('#publication-dynamic-list .pub-card-actions a')]
+              .filter(anchor => anchor.innerText.trim() === 'Presentation');
+            done(anchors.map(anchor => ({target: anchor.target, rel: anchor.rel})));
+            """
+        )
+        self.assertGreaterEqual(len(presentation_anchors), 2)
+        self.assertTrue(all(anchor["target"] == "_blank" for anchor in presentation_anchors))
+        self.assertTrue(all("noopener" in anchor["rel"] for anchor in presentation_anchors))
 
         zero = self._execute_async(
             """
