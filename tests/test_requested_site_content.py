@@ -144,8 +144,13 @@ class RequestedSiteContentTests(unittest.TestCase):
         ]:
             self.assertIn(route, neurips)
 
-        self.assertIn("2026년 12월 4일", interview)
+        self.assertIn("2026년 11월 20일 금요일, 오후 7시 20분–8시", interview)
+        self.assertNotIn("2026년 12월 4일", interview)
         self.assertIn("참석 확정자에게 별도 안내", interview)
+        self.assertIn("2027년 1월 합류를 기본 일정", interview)
+        self.assertIn("2026년 12월 초·중순", interview)
+        self.assertIn("논문을 약 10편", interview)
+        self.assertIn("/imsi/publication/", interview)
         self.assertIn("70편 이상", interview)
         self.assertIn("MICCAI", interview)
         self.assertIn("ISBI", interview)
@@ -154,9 +159,12 @@ class RequestedSiteContentTests(unittest.TestCase):
             "2026년 10월 28–30일",
             "2026년 11월 18–19일",
             "2026년 11월 27–28일",
-            "2027년 3월 12–18일",
+            "2026년 12월 5–13일",
+            "2027년 1월 8–11일",
+            "2027년 3월 13–18일",
         ]:
             self.assertIn(activity, interview)
+        self.assertIn("희망자 참여. 마감됨.", interview)
         for institution in [
             "KBS",
             "NVIDIA Korea",
