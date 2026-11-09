@@ -1,9 +1,23 @@
 {
   "source": "tistory_rss",
   "rss_url": "https://lambdacourse.tistory.com/rss",
-  "updated_at": "2026-11-02T05:37:03.854857Z",
+  "updated_at": "2026-11-09T05:50:02.446252Z",
   "count": 6,
   "items": [
+    {
+      "title": "[서정우] Switch Transformers",
+      "link": "https://lambdacourse.tistory.com/104",
+      "pub_date": "Sat, 7 Nov 2026 12:01:16 +0900",
+      "iso_date": "2026-11-07T03:01:16Z",
+      "excerpt": "https://arxiv.org/abs/2101.03961 Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity In deep learning, models typically reuse the same parameters for all inputs. Mixture of Experts (MoE) defies this..."
+    },
+    {
+      "title": "[정율의] MedSAM1, MedSAM2",
+      "link": "https://lambdacourse.tistory.com/103",
+      "pub_date": "Sat, 7 Nov 2026 09:36:42 +0900",
+      "iso_date": "2026-11-07T00:36:42Z",
+      "excerpt": "논문명 : Segment Anything in Medical Images (MedSAM) 저자 : Jun Ma, Yuting He, Feifei Li, Lin Han, Chenyu You, Bo Wang 학회/학술지 : Nature Communications, Vol. 15, Article 654 발표연도 : 2024년 소속 : University Health Network (UHN), University of..."
+    },
     {
       "title": "[윤희건] Repaint : Inpainting using Denoising Diffusion Probabilistic Models",
       "link": "https://lambdacourse.tistory.com/102",
@@ -31,20 +45,6 @@
       "pub_date": "Sat, 3 Oct 2026 01:49:13 +0900",
       "iso_date": "2026-10-02T16:49:13Z",
       "excerpt": "논문명 : Single Image Super-Resolution with Diffusion Probabilistic Models 저자 : Haoying Li, Yifan Yang, Meng Chang, Shiqi Chen , Huajun Feng, Zhihai Xu, Qi Li, Yueting Chen 저널 : Neurocomputing , Volume 479, pp. 47–59 발표연도 : 2022년 논문 링크..."
-    },
-    {
-      "title": "[이택규] Generative Adversarial Nets",
-      "link": "https://lambdacourse.tistory.com/98",
-      "pub_date": "Sat, 19 Sep 2026 10:53:33 +0900",
-      "iso_date": "2026-09-19T01:53:33Z",
-      "excerpt": "•논문명: Generative Adversarial Nets • 저자: Ian J. Goodfellow et al . • 학회: NIPS 2014 • 소속: Université de Montréal . 요약 Generator는 가짜 데이터를 만들고, Discriminator는 진짜와 가짜를 구분. 두 모델을 경쟁시키면서 Generator가 실제 데이터 분포를 학습하도록 만든 모델. GAN의 핵심 구조 random noise..."
-    },
-    {
-      "title": "[김나연] CLIP",
-      "link": "https://lambdacourse.tistory.com/97",
-      "pub_date": "Wed, 16 Sep 2026 23:06:37 +0900",
-      "iso_date": "2026-09-16T14:06:37Z",
-      "excerpt": "논문 제목: Learning Transferable Visual Models From Natural Language Supervision 저자: Alec Radford, Jong Wook Kim, Chris Hallacy, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, Gretchen Krueger, Ilya Sutskever (OpenAI) 학회: ICML 2021..."
     }
   ]
 }
